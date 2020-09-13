@@ -1,0 +1,29 @@
+.signInHeader{
+    position: relative;
+    height: 231px;
+}
+.signInForm{
+    .signInBtn{
+        text-align: center;
+    }
+
+    p{
+        font-weight: 400;
+        font-size:.8rem;
+        text-align: center;
+        line-height: 1.8;
+        color: $lightBlack;
+    }
+}
+.forgotPasswordWrapper{
+    display: none;
+    
+    .forgotPasswordForm{
+        border-top:$borderLightGray;
+        padding-top:20px;
+    
+        .forgotBtn{
+            text-align: center;
+        }
+    }
+}

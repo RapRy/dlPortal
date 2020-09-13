@@ -1,0 +1,270 @@
+.manageUserSearch{
+    padding:0 30px;
+
+    .searchboxContainer{
+        background-color:$gray6;
+        padding:5px 0;
+        border-radius:$borderRadius5;
+        box-shadow:$shadowBlack;
+
+        .searchboxIcon{
+            font-size: 1.1rem;
+            color:$lightGray;
+            
+            &:hover{cursor: pointer;}
+        }
+
+        .searchboxInput{
+            border:none;
+            background-color:$gray6;
+            margin-left:2px;
+            color:$lightBlack;
+            font-size:.8rem;
+            font-weight:$r500;
+
+            &::placeholder{
+                color:$lightGray;
+                font-size:.8rem;
+                font-weight:$r400;
+            }
+        }
+    }
+}
+
+.manageUsers{
+    padding:30px 0 20px;
+
+    .usersList{
+        p{
+            font-size:.8rem;
+            text-align:center;
+
+            span{
+                font-weight:$r700;
+                color:$blue3;
+            }
+
+        }
+
+        .userContainer{
+            margin-bottom:10px;
+
+            &:last-child{
+                margin-bottom:0;
+            }
+        }
+
+        .user{
+            background-color:$gray6;
+            border-radius: $borderRadius5;
+            border:$borderGray5;
+            padding:7px 10px;
+			cursor:pointer;
+
+            .userProPic{
+                width:45px;
+                height:45px;
+
+                img{
+                    border-radius:50px;
+				    height:45px;
+                    width:45px;
+                }
+            }
+
+            .userNumberName{
+                span{
+                    display: block;
+
+                    &:nth-child(1){
+                        font-size:.8rem;
+                        color:$darkGray;
+                        font-weight: $r700;
+                    }
+
+                    &:nth-child(2){
+                        font-size:.8rem;
+                        color:$lightBlack;
+                        font-weight: $r700;
+                    }
+                }
+            }
+
+            .userSubStatus{
+                i{
+                    font-size:1.2rem;
+
+                    &.userUnsub{
+                        color:$red;
+                    }
+
+                    &.userSub{
+                        color:$blue3;
+                    }
+                }
+            }
+
+            .userChevronRight {
+                i{
+                    float: right;
+                    font-size:1.6rem;
+                    color:$lightBlack;
+                    transform: rotate(0deg);
+                    transition: transform 200ms ease-in-out;
+                }
+            }
+        }
+
+        .userAccountDetails{
+            background-color:$gray6;
+            border:$borderGray5;
+            padding:10px;
+            border-radius: 0 0 5px 5px;
+			opacity:0;
+			display:none;
+			overflow-y:hidden;
+            position:relative;
+			
+			.userDetailsContainer{
+                
+				.userDetails{
+
+                    ul{
+                        padding-bottom:10px;
+    
+                        li{
+                            font-size:.8rem;
+                            padding-bottom:3px;
+                            color:$lightBlack;
+            
+                            span{
+                                font-weight:$r700;
+                                color:$blue3;
+                            }
+            
+                            .receiveUpdate{
+                                font-weight: $r700;
+                                padding-bottom:0;
+                                color:$blue3;
+                            }
+                        }
+                    }
+
+                    .userActivityHistory{
+                        padding:1px 0;
+                        display: none;
+                        overflow-y: hidden;
+                        cursor: grab;
+                        
+                        .userActivityWrap{
+                            background:#fff;
+                            border-radius: $borderRadius5;
+                            padding:10px;
+                            margin:0 0 10px;
+        
+                            &:last-child{
+                                margin-bottom:0;
+                            }
+        
+                            .userActivityDate{
+                                background-color:$blue;
+                                border-radius:$borderRadius5;
+                                padding:10px;
+                                text-align: center;
+        
+                                span{
+                                    display: block;
+                                }
+        
+                                .userActivityDateDate{
+                                    font-size:1.6rem;
+                                    font-weight:$r900;
+                                    margin-bottom:-5px;
+                                    color:#000;
+                                }
+        
+                                .userActivityDateMonth{
+                                    font-size:.8rem;
+                                    color:$lightBlack;
+                                }
+        
+                                .userActivityDateYear{
+                                    font-size:1.3rem;
+                                    color:$lightBlack;
+                                    font-weight:$r900;
+                                    margin-top:-5px;
+                                }
+                            } 
+                            
+                            .userActivityDesc{
+                                padding-bottom:10px;
+                                padding-top:10px;
+                                border-bottom:$borderLightGray;
+        
+                                &:first-child{padding-top:0;}
+        
+                                &:last-child{
+                                    padding-bottom:0;
+                                    border-bottom:none;
+                                }
+        
+                                .userActivityTime{
+                                    color:$darkGray;
+                                    font-size:.7rem;
+                                }
+        
+                                p{
+                                    margin:0;
+                                    font-size:.8rem;
+                                    color:$lightBlack;
+                                    text-align: left;
+        
+                                    .userUnsub{
+                                        color:$red;
+                                    }
+        
+                                    .userChangedProfilePic{
+                                        color:$blue3;
+                                    }
+        
+                                    .userActivityHighlight{
+                                        color:$blue3;
+                                        font-weight:$r900;
+                                        line-height:1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+			
+				.userCtaBtnsContainer{
+					display: grid;
+					grid-template-columns: 1fr 1fr 1fr;
+                    grid-gap: 10px;
+                    background-color:$gray6;
+                    padding:10px 0 0 0;
+                    z-index:2;
+
+					.userCtaBtn{
+						font-size: .85rem;
+						padding:7px 0;
+						border-radius:$borderRadius5;
+						font-weight: $r500;
+						color:#fff;
+
+						&:last-child{
+							color:$lightBlack;
+						}
+					}
+				}
+			}
+        }
+    }
+}
+
+#noHistoryP{
+    font-size:.9rem;
+    font-weight:$r700;
+    color:$red;
+}

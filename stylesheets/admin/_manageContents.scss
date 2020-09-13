@@ -1,0 +1,295 @@
+.manageContentBG{
+    background-color:$gray6;
+    margin-bottom:20px;
+    border-radius:$borderRadius5;
+    box-shadow: $shadowBlack;
+
+    &:last-child{margin-bottom:0;}
+
+    .manageContentHead{
+        padding:10px 0;
+        border-bottom:1px solid $gray5;
+
+        h6{
+            color:$lightBlack;
+            margin-bottom:0 !important;
+            padding:0 10px;
+            font-size:1rem;
+            font-weight: $r700;
+        }
+    }
+
+    .manageContentBody{
+        padding:12px 20px;
+
+        .manageContentBlueBtn{
+            width:100%;
+            padding:7px 0;
+            border-radius:$borderRadius5;
+            background-color:$blue3;
+            box-shadow:$shadowBlue;
+            color:#fff;
+            font-weight:$r500;
+            font-size:.95rem;
+            margin-bottom:10px;
+			display:block;
+			text-align:center;
+			text-decoration:none;
+        }
+
+        .manageContentGreenBtn{
+            width:100%;
+            padding:7px 0;
+            border-radius:$borderRadius5;
+            background:$gradientBlueGreen;
+            box-shadow:$shadowGreen;
+            color:$lightBlack;
+            font-weight:$r500;
+            font-size:.95rem;
+			display:block;
+			text-align:center;
+			text-decoration:none;
+        }
+    }
+}
+
+/* start add main category */
+.addMainCatHeader{
+	min-height:175px;
+	
+	.addMainCatPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.addMainCatWrapper{
+	padding:70px 20px 20px;
+}
+
+#catAddedNotif{
+	font-size:.9rem;
+    font-weight:$r700;
+    color:$blue3;
+}
+/* end add main category */
+
+/* start view main category */
+.viewMainCatHeader{
+	min-height:175px;
+	
+	.viewMainCatPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.viewMainCatWrapper{
+    padding:10px 20px 20px;
+    
+    .viewMainCat{
+        background:$gray6;
+        border:$borderGray5;
+        border-radius:$borderRadius5;
+        box-shadow:$shadowBlack;
+
+        .viewMainCatTitle{
+            padding:10px 10px 0;
+            border-bottom:$borderGray5;
+
+            h6{
+                font-size:1.1rem;
+                color:$lightBlack;
+                font-weight:$r700;
+            }
+        }
+
+        .viwMainCatListWrapper{
+            padding:10px;
+
+            .mainCatContainer{
+                padding:7px 10px;
+                background:#fff;
+                margin:0 0 10px !important;
+                border-radius:$borderRadius5;
+
+                &:last-child{margin-bottom:0 !important;}
+
+                .catNameContainer{
+                    padding-right:0 !important;
+                    padding-left:0 !important;
+
+                    p{
+                        margin-bottom:0 !important;
+                        font-size:.9rem;
+                        color:$lightBlack;
+                        font-weight:$r700;
+                    }
+                }
+
+                .viewMainCatCta{
+                    padding-right:0 !important;
+                    padding-left:18px !important;
+
+                    .editCategoryBtn{
+                        margin-right:5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* end view main category */
+
+/* start edit main category */
+.editMainCatHeader{
+	min-height:175px;
+	
+	.editMainCatPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.editMainCatWrapper{
+	padding:70px 20px 20px;
+}
+
+#editAddedNotif{
+	font-size:.9rem;
+    font-weight:$r700;
+    color:$blue3;
+}
+/* end edit main category */
+
+/* start add sub category */
+.addSubCatHeader{
+	min-height:175px;
+	
+	.addSubCatPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.addSubCatWrapper{
+	padding:70px 20px 20px;
+}
+
+#subCatAddedNotif{
+	font-size:.9rem;
+    font-weight:$r700;
+    color:$blue3;
+}
+/* end add sub category */
+
+/* start view sub category */
+.viewSubCatHeader{
+	min-height:175px;
+	
+	.viewSubCatPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.viewSubCatWrapper{
+    padding:10px 20px 20px;
+    
+    .viewSubCat{
+        background:$gray6;
+        border:$borderGray5;
+        border-radius:$borderRadius5;
+        box-shadow:$shadowBlack;
+        margin-bottom:20px;
+
+        &:last-child{margin-bottom:0;}
+
+        .viewSubCatTitle{
+            padding:10px 10px 0;
+            border-bottom:$borderGray5;
+
+            h6{
+                font-size:1.1rem;
+                color:$lightBlack;
+                font-weight:$r700;
+            }
+        }
+
+        .viewSubCatListWrapper{
+            padding:10px;
+
+            & > p{
+                text-align: center;
+                font-size:.8rem;
+                color:$red;
+            }
+
+            .subCatContainer{
+                padding:7px 10px;
+                background:#fff;
+                margin:0 0 10px !important;
+                border-radius:$borderRadius5;
+
+                &:last-child{margin-bottom:0 !important;}
+
+                .subNameContainer{
+                    padding-right:0 !important;
+                    padding-left:0 !important;
+
+                    p{
+                        margin-bottom:0 !important;
+                        font-size:.9rem;
+                        color:$lightBlack;
+                        font-weight:$r700;
+                    }
+                }
+
+                .viewSubCatCta{
+                    padding-right:0 !important;
+                    padding-left:18px !important;
+
+                    .editSubCategoryBtn{
+                        margin-right:5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* end view sub category */
+
+/* start edit sub category */
+.editSubCatHeader{
+	min-height:175px;
+	
+	.editSubCatPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.editSubCatWrapper{
+	padding:70px 20px 20px;
+}
+
+#editAddedNotif{
+	font-size:.9rem;
+    font-weight:$r700;
+    color:$blue3;
+}
+/* end edit sub category */

@@ -1,0 +1,27 @@
+.registerHeader{
+    position: relative;
+    height: 231px;
+}
+
+.registerForm{
+    p{
+        font-weight: 400;
+        font-size:.8rem;
+        text-align: center;
+        line-height: 1.8;
+        color: $lightBlack;
+    }
+
+    .registerBtn{
+        text-align: center;
+        border-bottom:$borderLightGray;
+        padding-bottom:20px;
+    }
+
+}
+
+.signUpForm{
+    .signUpBtn{
+        text-align: center;
+    }
+}

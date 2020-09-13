@@ -1,0 +1,88 @@
+.homeHeader{
+    position: relative;
+    height: 231px;
+
+    .userIconContainer{
+        position:relative;
+		width:375px;
+        z-index: 3;
+        top:30px;
+        right:20px;
+		text-align:right;
+		
+
+		.userFirstName{
+			font-weight: $r700;
+			font-size: .9rem;
+			color:$lightBlack;
+			padding-right:5px;
+		}
+
+		.homeUserThumb{
+			display: inline-block;
+			background:#fff;
+			width:50px;
+			height:50px;
+			padding:2px;
+			border-radius: 50px;
+			box-shadow: $shadowBlack;
+			transition: background 400ms ease-in-out, box-shadow 400ms ease-in-out;
+
+			& > img{
+				// opacity:1;
+				// transition: opacity 400ms ease-in-out;
+				border-radius:50px;
+				height:46px;
+				width:46px;
+			}
+
+			&:hover{
+				background: $blue;
+				box-shadow: none;
+
+				// & > img{
+				//     opacity:.4;
+				// }
+			}
+		}
+    }
+}
+
+.menuCategoryWrapper{
+	padding-top:20px;
+	
+	.menuCategory{
+		margin-bottom:10px;
+		padding:15px 30px;
+		border-radius:10px;
+		
+		&:last-child{
+			margin-bottom:0;
+		}
+		
+		img{
+			max-width:initial;
+		}
+		
+		span{
+			font-size:1.2rem;
+			font-weight:$r900;
+			color:$lightBlack;
+		}
+		
+		i{
+			font-size:1.3rem;
+			font-weight:$r900;
+			color:$lightBlack;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+.adminProfileHeader{
+    min-height:175px;
+
+    .adminPageLogo{
+        position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+    }
+}
+
+.adminProfileWrapper{
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+
+    .menuAdminProfileDivs{
+        position: relative;
+        width: 100%;
+        /* min-height: calc(100vh - 231px); */
+        left:100%;
+        top:0;
+        // background:#fff;
+    }
+}
+
+.adminMenuWrapper{
+    width:100%;
+    // min-height: calc(100vh - 231px);
+    position: absolute;
+    top:0;
+    right:0;
+}
+
+.adminAccountMenu{
+    padding:75px 0 20px;
+}
+
+.adminAccountLogOut{
+    text-align: center;
+}
+
+@import 'manageUsers';
+@import 'manageContents';

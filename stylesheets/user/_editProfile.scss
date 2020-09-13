@@ -1,0 +1,36 @@
+.editProfile{
+    padding-top:20px;
+
+    .changeProfPic{
+        position: relative;
+        text-align: center;
+    
+        .picInput{
+            position:absolute;
+            top:0;
+            left:0;
+            opacity:0;
+            overflow:hidden;
+        }
+    
+        label{
+            display: inline-block;
+            padding:5px 15px;
+            border-radius:5px;
+            font-size:.9rem;
+            font-weight:$r700;
+            color:$lightBlack;
+            margin-bottom:10px;
+            cursor: pointer;
+        }
+
+        p{
+            font-size:.8rem;
+            color:$lightBlack;
+        }
+    }
+
+    .saveChanges{
+        text-align: center;
+    }
+}

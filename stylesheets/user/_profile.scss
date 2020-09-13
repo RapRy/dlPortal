@@ -1,0 +1,81 @@
+.profileHeader{
+    position: relative;
+    height: 231px;
+
+    .profilePic{
+        overflow: hidden;
+
+        img{
+            width: 130px;
+            height:130px;
+            object-fit: cover;
+        }
+    }
+
+}
+
+.profileWrapper{
+    overflow-x: hidden;
+    // min-height: calc(100vh - 231px);
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.menuProfileDivs{
+    position: relative;
+    width: 100%;
+    /* min-height: calc(100vh - 231px); */
+    left:100%;
+    top:0;
+    background:#fff;
+}
+
+.accountOverviewWrapper{
+    width:100%;
+    min-height: calc(100vh - 231px);
+    position: absolute;
+    top:0;
+    right:0;
+    background:#fff;
+    .accountOverview{
+        padding-top:20px;
+
+        .accountDetails{
+            margin:10px 0 20px;
+            padding:20px;
+            border-radius:$borderRadius5;
+            background:$gray6;
+    
+            li{
+                font-size:.9rem;
+                padding-bottom:5px;
+                color:$lightBlack;
+    
+                span{
+                    font-weight:$r700;
+                    color:$blue3;
+                }
+            }
+    
+            .receiveUpdate{
+                font-weight: $r700;
+                padding-bottom:0;
+                color:$blue3;
+            }
+        }
+    }
+
+    .accountMenu{
+        padding-bottom:20px;
+    }
+
+    .accountLogOut{
+        text-align: center;
+    }
+}
+
+@import 'editProfile';
+@import 'activityHistory';
+@import 'accountSecurity';
+@import 'accountSettings';
