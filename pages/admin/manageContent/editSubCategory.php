@@ -39,6 +39,7 @@
     <section class="editSubCatWrapper">
 		<h2>EDIT SUB CATEGORY</h2>
 		<form id="subCategoryForm">
+			<input type="hidden" id="subCategoryId" value="<?php echo $subCatId; ?>" />
 			<div class="form-group">
 				<label for="selectMainCat" class="formLabel">Select Main Category</label>
 				<div class="customSelectWrapper">
@@ -81,7 +82,7 @@
 				<input type="text" class="form-control formInputBlue" id="subCategoryName" name="subCategoryName" value="<?php echo $subCatName; ?>">
 			</div>
 			<div class="form-group text-center">
-				<button type="button" class="btnContentManageBlue globalBtn" id="editSubCategoryBtn">Edit</button>
+				<button type="button" class="btnContentManageBlue globalBtn" id="editSubCategoryBtn">Save</button>
 			</div>
 		</form>
 	</section>

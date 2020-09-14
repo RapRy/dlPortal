@@ -2,17 +2,9 @@ $('document').ready(function(){
     class Notification{
 		// prompt if there is error in the input fields
 		static domValidate(elem, hint, errorsArr, whichField){
-			if(whichField === "categoryIcon"){
-                $(elem).next().next().remove();
-            }else{
-                $(elem).next().remove();
-            }
+            $(elem).next().remove();
             $(elem).parent().append(`<small class="formHint errorHint">${hint}</small>`);
 
-            if(whichField === "categoryIcon"){
-                $(`${elem} ~ .errorHint`).css({position: "absolute", top: "62px", left: 0})
-                $(elem).parent().css({marginBottom: "55px"})
-            }
             $(`${elem} ~ .errorHint`).fadeIn(500);
             errorsArr.push(whichField);
 		}
@@ -124,8 +116,128 @@ $('document').ready(function(){
         }
     }
 
+	class ValidateForm{
+		constructor(){
+			this.mainCatInitial = $('#selectMainCat').val()
+			this.subCatInitial = $('#subCategoryName').val()
+			this.subCatId = $('#subCategoryId').val();
+		}
+		
+		checkErrors(){
+			let errors = [];
+			
+			if($('#subCategoryName').val() === "" || $('#subCategoryName').val() === null){
+				// empty input
+				Notification.domValidate('#subCategoryName', "Sub Category Name is required", errors, "subCategoryName");
+			}else{
+				// remove error hint if input not empty
+				$('#subCategoryName').next().remove();
+			}
+			
+			if($('#selectMainCat').val() === "" || $('#selectMainCat').val() === null){
+				// empty input
+				Notification.domValidate('.customSelectOptions', "Main Category is required", errors, "selectMainCat");
+			}else{
+				// remove error hint if input not empty
+				$('.customSelectOptions').next().remove();
+			}
+			
+			return errors;
+		}
+		
+		checkInitialValues(data){
+			let errors = [];
+			
+			if(this.mainCatInitial === $('#selectMainCat').val()){
+				if($('#subCategoryName').val() != this.subCatInitial){
+					errors = []
+				}else{
+					errors.push('mainCatInitial')
+				}
+			}else{
+				data.append('categoryName', $('#selectMainCat').val());
+				errors = [];
+			}
+			
+			if(this.subCatInitial === $('#subCategoryName').val()){
+				if($('#selectMainCat').val() != this.mainCatInitial){
+					errors = []
+				}else{
+					errors.push('subCatInitial')
+				}
+			}else{
+				data.append('subCategoryName', $('#subCategoryName').val());
+				errors = [];
+			}
+			
+			return errors;
+		}
+		
+		submitForm(){
+			const data = new FormData;
+			
+			data.append('subCatId', this.subCatId);
+			
+			const valInitials = this.checkInitialValues(data);
+			
+			$.ajax({
+				type:'POST',
+				url:'../../../backend/editSubCategoryFn.php',
+				data: data,
+				dataType: 'json',
+				contentType: false,
+				processData: false,
+				beforeSend: () => {
+					if(valInitials.length > 0){
+						// dont submit form is there is any error
+						return false;
+					}else{
+						// show save loader
+						$('.editSubCatContainer').prepend(`
+							<section class="notification">
+								<div class="notif-container">
+									<p>Saving Changes..</p>
+									<div class="saveLoader">
+										<div class="saveSpinner"></div>
+									</div>
+								</div>
+							</section>
+						`);
+						
+						$('.notification').fadeIn(400, "swing", function(){
+							$('.notif-container').css({transform:"scale(1)"})
+						}).css({display:"flex"});
+						
+						// scroll back to top
+						$('html').animate({scrollTop: 0}, 200, "swing");
+						
+					}
+				},
+				success: function(data, textStatus, xhr){
+					if(xhr.status == 200){
+						console.log(data);
+					}
+				}
+			})
+		}
+		
+		event(){
+			$('#editSubCategoryBtn').on('click', () => {
+				const inputErrors = this.checkErrors();
+				
+				if(inputErrors.length > 0){
+					return;
+				}else{
+					this.submitForm();
+				}
+			})
+		}
+	}
+	
     const customSelectMenu = new CustomSelectMenu;
-
+	const validateForm =  new ValidateForm;
+	
+	validateForm.event();
     customSelectMenu.loadCustomSelectMenu();
     customSelectMenu.events();
 })
