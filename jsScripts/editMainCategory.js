@@ -353,7 +353,7 @@ $('document').ready(function(){
 								$('.saveLoader').remove();
 								$('.notif-container').append(`<i class="fas fa-check updateSuccess"></i>`);
 								$('.updateSuccess').css({display:"none"}).fadeIn(400, "swing");
-								$('.notif-container p').text("Profile succesfully updated.");
+								$('.notif-container p').text("Category succesfully updated.");
 								// remove the notification after timeout
 								setTimeout(function(){
 									$('.notification').fadeOut(400, "swing", function(){

@@ -215,7 +215,38 @@ $('document').ready(function(){
 				},
 				success: function(data, textStatus, xhr){
 					if(xhr.status == 200){
-						console.log(data);
+						if(data[0].hasOwnProperty('error')){
+							$('.saveLoader').remove();
+							// remove the notification after timeout
+							setTimeout(function(){
+								$('.notification').fadeOut(400, "swing", function(){
+									$('.editSubCatContainer').children(".notification").remove();
+								})
+								$('.notif-container').css("transform", "scale(0)");
+							}, 1000)
+							
+							// scroll back to top
+							$('html').animate({scrollTop: 0}, 200, "swing");
+							
+							$('.notif-container').append(`<i class="fas fa-exclamation-triangle deactivateDeleteSuccess"></i>`);
+							$('.deactivateDeleteSuccess').css({display:"none"}).fadeIn(400, "swing");
+							$('.notif-container p').text("Something went wrong please try again.");
+						}else{
+							$('.saveLoader').remove();
+							$('.notif-container').append(`<i class="fas fa-check updateSuccess"></i>`);
+							$('.updateSuccess').css({display:"none"}).fadeIn(400, "swing");
+							$('.notif-container p').text("Sub Category succesfully updated.");
+							// remove the notification after timeout
+							setTimeout(function(){
+								$('.notification').fadeOut(400, "swing", function(){
+									$('.editSubCatContainer').children(".notification").remove();
+								})
+								$('.notif-container').css("transform", "scale(0)");
+							}, 1000)
+							
+							// scroll back to top
+							$('html').animate({scrollTop: 0}, 200, "swing");
+						}
 					}
 				}
 			})
