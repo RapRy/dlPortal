@@ -317,7 +317,8 @@ $('document').ready(function(){
 						
 					}
 				},
-				success: function(data, textStatus, xhr){
+				success: (data, textStatus, xhr) => {
+					
 					if(xhr.status == 200){
 						if(data.length > 0){
 							// const getDate = data.split(':');
@@ -364,6 +365,12 @@ $('document').ready(function(){
 								
 								// scroll back to top
 								$('html').animate({scrollTop: 0}, 200, "swing");
+								
+								// reassign initial values
+								this.catNameInitial = $('#categoryName').val()
+								this.catIconInitial = $('#customFileLabel').text()
+								this.contentFileExtInitial = $('#selectFileExt').val()
+								
 							}
 						}
 					}

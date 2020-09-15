@@ -213,7 +213,7 @@ $('document').ready(function(){
 						
 					}
 				},
-				success: function(data, textStatus, xhr){
+				success: (data, textStatus, xhr) => {
 					if(xhr.status == 200){
 						if(data[0].hasOwnProperty('error')){
 							$('.saveLoader').remove();
@@ -246,6 +246,10 @@ $('document').ready(function(){
 							
 							// scroll back to top
 							$('html').animate({scrollTop: 0}, 200, "swing");
+							
+							// reassign initial values
+							this.mainCatInitial = $('#selectMainCat').val()
+							this.subCatInitial = $('#subCategoryName').val()
 						}
 					}
 				}

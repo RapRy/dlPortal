@@ -7,7 +7,10 @@
 
     if(empty($_SESSION['userId'])){
         header('Location: ../../signIn.php');
-    }
+    }else if(!isset($_GET['category'])){
+		header('Location: ../adminProfile.php?mobilenumber='.$_SESSION['mobileNumber'].'');
+	}
+	
 	if(isset($_GET['category'])){
 		$stmt = mysqli_stmt_init($conn);
 		$getCategories = "SELECT mainCatId, mainCatName, mainCatIcon, mainCatExt FROM maincategories WHERE mainCatName=?";

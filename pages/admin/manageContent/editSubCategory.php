@@ -7,7 +7,9 @@
 
     if(empty($_SESSION['userId'])){
         header('Location: ../../signIn.php');
-    }
+    }else if(!isset($_GET['subcategory'])){
+		header('Location: ../adminProfile.php?mobilenumber='.$_SESSION['mobileNumber'].'');
+	}
 
     if(isset($_GET['subcategory'])){
         $stmtSubCat = mysqli_stmt_init($conn);

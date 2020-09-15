@@ -60,7 +60,7 @@
 												<p class="subCatName"><?php echo $subCatName; ?></p>
 											</div>
 											<div class="viewSubCatCta col-4">
-												<a href="./editSubCategory.php?subcategory=<?php echo $subCatName; ?>" class="btnBlueSolid btnLink editSubCategoryBtn">
+												<a href="./editSubCategory.php?category=<?php echo $mainCatName; ?>&subcategory=<?php echo $subCatName; ?>" class="btnBlueSolid btnLink editSubCategoryBtn">
 													<i class="fas fa-edit"></i>
 												</a>
 												<button type="button" class="btnRedSolid deleteSubCategoryBtn">
