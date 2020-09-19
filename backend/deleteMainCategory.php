@@ -36,17 +36,26 @@
 			$deleteDirRes = deleteDir($pathDir);
 			
 			if($deleteDirRes){
-				// update table 
-				$stmt = mysqli_stmt_init($conn);
-				$deleteCat = "DELETE FROM maincategories WHERE mainCatId=?";
-				mysqli_stmt_prepare($stmt, $deleteCat);
-				mysqli_stmt_bind_param($stmt, "i", $_POST['catId']);
-				mysqli_stmt_execute($stmt);
+				$stmtSubCat = mysqli_stmt_init($conn);
+				$deleteSubCat = "DELETE FROM subcategories WHERE mainCatId=?";
+				mysqli_stmt_prepare($stmtSubCat, $deleteSubCat);
+				mysqli_stmt_bind_param($stmtSubCat, "i", $_POST['catId']);
 				
-				mysqli_stmt_close($stmt);
+				
+				if(mysqli_stmt_execute($stmtSubCat)){
+					$stmtMainCat = mysqli_stmt_init($conn);
+					$deleteCat = "DELETE FROM maincategories WHERE mainCatId=?";
+					mysqli_stmt_prepare($stmtMainCat, $deleteCat);
+					mysqli_stmt_bind_param($stmtMainCat, "i", $_POST['catId']);
+					mysqli_stmt_execute($stmtMainCat);
+					
+					mysqli_stmt_close($stmtMainCat);
+					
+					echo "success";
+				}
+				
+				mysqli_stmt_close($stmtSubCat);
 				mysqli_close($conn);
-				
-				echo "success";
 			}
 		}
 		

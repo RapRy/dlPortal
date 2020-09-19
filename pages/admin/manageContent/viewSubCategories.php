@@ -39,6 +39,9 @@
 							<h6><?php echo $mainCatName; ?></h6>
 						</div>
 						<div class="viewSubCatListWrapper container">
+							<a href="addSubCategory.php?cat=<?php echo $mainCatName; ?>" class="addBlueBtn" id="addContent">
+								Add Sub Category
+							</a>
 							<?php
 								$stmtSubCat = mysqli_stmt_init($conn);
 								$getSubCategories = "SELECT subCatId, subCatName FROM subcategories WHERE mainCatId = ?";
@@ -56,6 +59,7 @@
 									while(mysqli_stmt_fetch($stmtSubCat)):
 							?>
 										<div class="subCatContainer row align-items-center">
+											<input type="hidden" class="subCategoryId" value="<?php echo $subCatId; ?>" />
 											<div class="subCatNameContainer col-8">
 												<p class="subCatName"><?php echo $subCatName; ?></p>
 											</div>

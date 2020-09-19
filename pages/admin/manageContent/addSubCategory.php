@@ -27,6 +27,14 @@
 					<select class="form-control formInputBlue customSelectMenu" id="selectMainCat" name="selectMainCat" value="">
 						<option value="">Select Main Category</option>
 						<?php
+
+							$currentCat = "";
+							$displayCat = "";
+
+							if(isset($_GET['cat'])){
+								$currentCat = $_GET['cat'];
+							}
+
 							$stmt = mysqli_stmt_init($conn);
 							$getCategories = "SELECT mainCatId, mainCatName FROM maincategories";
 							mysqli_stmt_prepare($stmt, $getCategories);
@@ -39,15 +47,21 @@
 							if($result > 0):
 								mysqli_stmt_bind_result($stmt, $mainCatId, $mainCatName);
 								while(mysqli_stmt_fetch($stmt)):
+									if($currentCat === $mainCatName){
+										$displayCat = $mainCatName;
+									}
 						?>
-									<option value="<?php echo $mainCatName; ?>"><?php echo $mainCatName; ?></option>
+									<option 
+										value="<?php echo $mainCatName; ?>" 
+										<?php echo ($currentCat === $mainCatName) ? "selected" : "" ?> 
+									><?php echo $mainCatName; ?></option>
 						<?php
 								endwhile;
 							endif;
 						?>
 					</select>
 					<div class="form-control formInputBlue customSelectContainer">
-						<span class="currentSelected">Select Main Category</span>
+						<span class="currentSelected"><?php echo (empty($displayCat)) ? "Select Main Category" : $currentCat ?></span>
 						<i class="fas fa-caret-down"></i>
 					</div>
 				</div>

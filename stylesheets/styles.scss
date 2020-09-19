@@ -55,7 +55,9 @@ body{
     height: 100%;
 }
 
-a{text-decoration: none;}
+a{
+    text-decoration: none;
+}
 
 img{max-width: 100%;}
 h2{
@@ -369,6 +371,27 @@ p{
 .btnLink{
     display: inline-block;
     text-align: center;
+}
+
+.addBlueBtn{
+    width:100%;
+    padding:7px 0;
+    border-radius:$borderRadius5;
+    background-color:$blue3;
+    box-shadow:$shadowBlue;
+    color:#fff;
+    font-weight:$r500;
+    font-size:.95rem;
+    margin-bottom:10px;
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    margin-bottom:20px;
+
+    &:hover{
+        color:#fff;
+        text-decoration: none;
+    }
 }
 
 // end button styles

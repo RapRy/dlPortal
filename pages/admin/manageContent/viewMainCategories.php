@@ -24,6 +24,9 @@
                 <h6>Categories</h6>
             </div>
             <div class="viwMainCatListWrapper container">
+				<a href="addMainCategory.php" class="addBlueBtn" id="addContent">
+					Add Main Category
+				</a>
 			<?php
 				$stmt = mysqli_stmt_init($conn);
 				$getCategories = "SELECT mainCatId, mainCatName FROM maincategories";
@@ -63,6 +66,6 @@
             </div>
         </div>
 	</section>
-	<script src="../../../jsscripts/deleteMainCategory.js" defer></script>
+	<script src="../../../jsscripts/viewMainCategories.js" defer></script>
 </main>
 <?php include('../../footer.php'); ?>

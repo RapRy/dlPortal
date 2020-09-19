@@ -1,4 +1,5 @@
 $('document').ready(function(){
+
 	class Notification {
         // prompt if ajax request is success
         static domNotificationSuccess(elem1, notifContent, elem2){
