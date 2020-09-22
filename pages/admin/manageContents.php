@@ -12,7 +12,7 @@
             <h6>Contents</h6>
         </section>
         <section class="contentBody manageContentBody">
-            <a href="#" class="manageContentBlueBtn" id="addContent">
+            <a href="manageContent/addContent.php" class="manageContentBlueBtn" id="addContent">
                 Add Content
             </a>
             <a href="#" class="manageContentGreenBtn" id="viewContents">

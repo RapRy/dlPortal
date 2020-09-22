@@ -1582,4 +1582,28 @@ p {
 }
 
 /* end edit sub category */
+/* start add content */
+.addContentHeader {
+  min-height: 175px;
+}
+
+.addContentHeader .addContentPageLogo {
+  position: relative;
+  top: 60px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.addContentWrapper {
+  padding: 70px 20px 20px;
+}
+
+#contentAddedNotif {
+  font-size: .9rem;
+  font-weight: 700;
+  color: #207CE8;
+}
+
+/* end add content */
 /*# sourceMappingURL=styles.css.map */

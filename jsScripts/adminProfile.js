@@ -647,8 +647,14 @@ $('document').ready(function(){
                                                         userDetails.showUserDetails(userDetailsHeight, user);
                                                         toggleUserDetails = "open";
                                                     })
-                                                    .removeAttr('data-user-details');
-                                            }
+													.removeAttr('data-user-details');
+
+													// arrow back to normal
+													$(elem).prev().find('.arrowDetails').css({transform: "rotate(0deg)"});
+
+													console.log(elem)
+											}
+
                                         })
                                     }
                                 }
