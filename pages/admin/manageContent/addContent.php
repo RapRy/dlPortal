@@ -26,7 +26,7 @@
 				<input type="text" class="form-control formInputBlue" id="contentName" name="contentName">
             </div>
             <div class="form-group">
-				<label for="selectMainCat" class="formLabel">Select Main Category</label>
+				<label for="selectMainCat" class="formLabel">Main Category</label>
 				<div class="customSelectWrapper customSelectMainCatWrapper">
 					<select class="form-control formInputBlue customSelectMainCatMenu" id="selectMainCat" name="selectMainCat" value="">
 						<option value="">Select Main Category</option>
@@ -59,7 +59,24 @@
 					</div>
 				</div>
             </div>
-
+			<div class="form-group">
+				<label for="selectSubCat" class="formLabel">Sub Category</label>
+				<div class="customSelectWrapper customSelectSubCatWrapper">
+					<select class="form-control formInputBlue customSelectSubCatMenu" id="selectSubCat" name="selectSubCat" value="">
+						<option value="">Select Sub Category</option>
+					</select>
+					<div class="form-control formInputBlue customSelectContainer customSelectSubCatContainer">
+						<span class="currentSelected currentSubCatSelected">Select Sub Category</span>
+						<i class="fas fa-caret-down"></i>
+					</div>
+				</div>
+			</div>
+			<div class="custom-file">
+				<span class="formLabel customFormLabel">Content File</span>
+				<input type="file" class="custom-file-input" id="contentFile" name="contentFile">
+				<label class="custom-file-label formInputBlue" for="contentFile" id="contentFileLabel">Only png are allowed.(Dimension 25x25px)</label>
+			</div>
+			<!-- insert here -->
         </form>
     </section>
     <script src="../../../jsscripts/addContent.js" defer></script>
