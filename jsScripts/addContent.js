@@ -279,12 +279,51 @@ $('document').ready(function(){
                             if($('.customSelectSubCatContainer').next("small")){
                                 $('.customSelectSubCatContainer').next().remove();
                             }
+
                             customSelectMenuSubCat.loadCustomSelectMenuSubCat(data);
                             customSelectMenuSubCat.events();
+
+                            if(data[0].mainCatExt === "APK"){
+                                console.log(data[0].mainCatExt)
+                                $('#contentFileLabel').text("Only apk and xapk are allowed.");
+
+                                $('#addContentBtn').parent().before(`
+                                    <div class="custom-file" id="screenshotsInput">
+                                        <span class="formLabel customFormLabel">Content Screenshots</span>
+                                        <input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
+                                        <div class="contentScreenshotsWrapper" id="contentScreenshotsWrapper">
+                                            <div class="text-center">
+                                                <label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">
+                                                    Choose Files
+                                                </label>
+                                                <p class="screenshotsReminder">Only png and jpg are allowed.</p>
+                                            </div>
+                                            <div class="screenshotsBody"></div>
+                                        </div>
+                                    </div>
+                                `).css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`})
+
+                                $('#contentScreenshots').on('change', function(){
+                                    console.log(this.files);
+                                })
+                            }else if(data[0].mainCatExt === "MP4"){
+                                $('#contentFileLabel').text("Only mp4 are allowed.");
+                            }else if(data[0].mainCatExt === "MP3"){
+                                $('#contentFileLabel').text("Only mp3 are allowed.");
+                            }
+
                         }else{
                             // send notification no sub categories
                             let errors = [];
                             Notification.domValidate('.customSelectSubCatContainer', "No Sub Categories", errors, "selectSubCat");
+
+                            $('#contentFileLabel').text("");
+
+                            if($('#screenshotsInput') != undefined){
+                                $('#screenshotsInput').remove();
+                                $('#addContentBtn').parent().css({marginTop:0})
+                            }   
+
                             return;
                         }
                     }
@@ -318,7 +357,23 @@ $('document').ready(function(){
         }
     }
 
+    class CustomFile{
+        getContentFileValue(){
+			// set name of the file onchange event
+            $('#contentFile').on('change', (e) => $(e.target).next().text(e.target.files[0].name))
+        }
+
+        getContentIconValue(){
+			// set name of the file onchange event
+            $('#contentIcon').on('change', (e) => $(e.target).next().text(e.target.files[0].name))
+        }
+    }
+
     const customSelectMenuMainCat = new CustomSelectMenuMainCat;
+    const customFile = new CustomFile;
+
+    customFile.getContentFileValue()
+    customFile.getContentIconValue()
 
     customSelectMenuMainCat.loadCustomSelectMenu();
     customSelectMenuMainCat.events();

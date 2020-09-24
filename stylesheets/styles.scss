@@ -210,7 +210,35 @@ p{
 // start modified bootstrap style
 .custom-file{
     margin-bottom:35px;
+
+    .contentScreenshots{
+        display:none;
+    }
+
+    .contentScreenshotsWrapper{
+        position: relative;
+        top: calc(.5rem + 17px) !important;
+        border:$borderBlue3;
+        background-color:$gray6;
+        border-radius:.25rem;
+        padding:10px;
+
+        .screenshotsBtnSubmit{
+            background:$blue3;
+            padding:8px $padding20;
+            border-radius: $borderRadius5;
+            font-weight: $r500;
+            color:#fff;
+            font-size:.8rem;
+        }
+
+        .screenshotsReminder{
+            font-size:.8rem;
+            color:#808080;
+        }
+    }
 }
+
 .custom-file-label{
 	top: calc(.5rem + 17px) !important;
 	color:$darkGray;

@@ -20,7 +20,7 @@
     </section>
     <section class="addContentWrapper">
         <h2>ADD CONTENT</h2>
-        <form id="contentForm">
+        <form id="contentForm" enctype='multiple/form-data' method='POST'>
             <div class="form-group">
 				<label for="contentName" class="formLabel">Category Name</label>
 				<input type="text" class="form-control formInputBlue" id="contentName" name="contentName">
@@ -74,7 +74,32 @@
 			<div class="custom-file">
 				<span class="formLabel customFormLabel">Content File</span>
 				<input type="file" class="custom-file-input" id="contentFile" name="contentFile">
-				<label class="custom-file-label formInputBlue" for="contentFile" id="contentFileLabel">Only png are allowed.(Dimension 25x25px)</label>
+				<label class="custom-file-label formInputBlue" for="contentFile" id="contentFileLabel"></label>
+			</div>
+			<div class="custom-file">
+				<span class="formLabel customFormLabel">Content Icon</span>
+				<input type="file" class="custom-file-input" id="contentIcon" name="contentIcon">
+				<label class="custom-file-label formInputBlue" for="contentIcon" id="contentIconLabel">Only png and jpg are allowed. (45x45px)</label>
+			</div>
+			<div class="form-group">
+				<label for="contentDescription" class="formLabel">Content Description</label>
+				<textarea class="form-control formInputBlue" id="contentDescription" rows="7"></textarea>
+			</div>
+			<!-- <div class="custom-file customFileMB">
+				<span class="formLabel customFormLabel">Content Screenshots</span>
+				<input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
+				<div class="contentScreenshotsWrapper">
+					<div class="text-center">
+						<label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">
+							Choose Files
+						</label>
+						<p class="screenshotsReminder">Only png and jpg are allowed.</p>
+					</div>
+					<div class="screenshotsBody"></div>
+				</div>
+			</div> -->
+			<div class="form-group text-center">
+				<button type="button" class="btnContentManageBlue globalBtn" id="addContentBtn">Add</button>
 			</div>
 			<!-- insert here -->
         </form>

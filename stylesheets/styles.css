@@ -173,6 +173,33 @@ p {
   margin-bottom: 35px;
 }
 
+.custom-file .contentScreenshots {
+  display: none;
+}
+
+.custom-file .contentScreenshotsWrapper {
+  position: relative;
+  top: calc(.5rem + 17px) !important;
+  border: 1px solid #207CE8;
+  background-color: #F2F2F2;
+  border-radius: .25rem;
+  padding: 10px;
+}
+
+.custom-file .contentScreenshotsWrapper .screenshotsBtnSubmit {
+  background: #207CE8;
+  padding: 8px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  color: #fff;
+  font-size: .8rem;
+}
+
+.custom-file .contentScreenshotsWrapper .screenshotsReminder {
+  font-size: .8rem;
+  color: #808080;
+}
+
 .custom-file-label {
   top: calc(.5rem + 17px) !important;
   color: #808080;
