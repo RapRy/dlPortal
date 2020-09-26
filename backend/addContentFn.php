@@ -52,8 +52,11 @@
         }
     }
 
-    if(isset($_FILES['file'])){
-        var_dump($_FILES['file']['name']);
+    if(isset($_FILES['screenshots'])){
+        foreach($_FILES['screenshots']['name'] as $v){
+            echo $v."<br />";
+        }
+        print_r($_FILES);
     }
 
     mysqli_close($conn);

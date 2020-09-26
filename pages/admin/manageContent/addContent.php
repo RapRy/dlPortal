@@ -22,7 +22,7 @@
         <h2>ADD CONTENT</h2>
         <form id="contentForm" enctype='multiple/form-data' method='POST'>
             <div class="form-group">
-				<label for="contentName" class="formLabel">Category Name</label>
+				<label for="contentName" class="formLabel">Content Name</label>
 				<input type="text" class="form-control formInputBlue" id="contentName" name="contentName">
             </div>
             <div class="form-group">
