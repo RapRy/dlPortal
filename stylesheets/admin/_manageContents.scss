@@ -308,6 +308,28 @@
 
 .addContentWrapper{
     padding:70px 20px 20px;
+
+    .imgContainer{
+        padding:10px;
+        border-radius: 3px;
+        background-color: $gray5;
+        margin-top:10px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-gap: 10px;
+        align-items: center;
+
+        .screenImgThumb{
+            font-size: 2rem;
+            color:$blue3;
+        }
+
+        p{
+            font-size:.8rem;
+            font-weight: $r700;
+            color:$lightBlack;
+        }
+    }
 }
 
 #contentAddedNotif{

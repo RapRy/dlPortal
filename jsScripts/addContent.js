@@ -1,6 +1,7 @@
 $('document').ready(function(){
-
+    // screenshots container, push values at CustomSelectMenuMainCat.getSubCategeories
     let screenImgArr = [];
+    // reference variable, set value at CustomSelectMenuMainCat.getSubCategories
     let catExt = "";
 
     class Notification {
@@ -31,6 +32,10 @@ $('document').ready(function(){
         static domValidate(elem, hint, errorsArr, whichField){
             if(whichField === "contentFile" || whichField === "contentIcon"){
                 $(elem).next().next().remove();
+            }else if(whichField === "contentScreenshots"){
+                $(elem).next().next().remove();
+                // set to default margin of save button
+                $('#addContentBtn').parent().css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`})
             }else{
                 $(elem).next().remove();
             }
@@ -39,6 +44,11 @@ $('document').ready(function(){
             if(whichField === "contentFile" || whichField === "contentIcon"){
                 $(`${elem} ~ .errorHint`).css({position: "absolute", top: "62px", left: 0})
                 $(elem).parent().css({marginBottom: "55px"})
+            }else if(whichField === "contentScreenshots"){
+                // set top value of errorhint to the height of contentScreenshotsWrapper
+                $(`${elem} ~ .errorHint`).css({position: "absolute", top: `${$('#contentScreenshotsWrapper').outerHeight() + 30}px`, left: 0})
+                // assign new marginTop value of save button
+                $('#addContentBtn').parent().css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight()}px`})
             }
             $(`${elem} ~ .errorHint`).fadeIn(500);
             errorsArr.push(whichField);
@@ -84,12 +94,12 @@ $('document').ready(function(){
             `)
 
             $('.customSubCatOption:first').css({display: "none"});
-
+            // assign value to the this.heightSelectMenu
             this.heightSelectMenu = $('.customSelectSubCatOptions').height();
 
             $('.customSelectSubCatOptions').css({height: 0});
         }
-
+    
         removeSubcategories(){
             if($('.customSelectSubCatMenu').children().length > 1){
 
@@ -101,8 +111,6 @@ $('document').ready(function(){
 
                 $('.customSelectSubCatOptions').remove();
                 $('.currentSubCatSelected').text("Select Sub Category");
-
-                // this.heightSelectMenu = null;
 
                 $('.customSelectSubCatContainer').unbind('click');
             }
@@ -265,7 +273,7 @@ $('document').ready(function(){
 
         getSubCategories(currentCat){
             const dataForm  = new FormData;
-            // create instance of the subcat select menu
+            // create instance of the CustomSelectMenuMainCat class
             const customSelectMenuSubCat = new CustomSelectMenuSubCat;
 
             $.ajax({
@@ -277,29 +285,38 @@ $('document').ready(function(){
                 processData:false,
                 beforeSend: () => {
                     dataForm.append('selectCat', currentCat)
-
+                    // remove the previous sub categories if there is any
                     customSelectMenuSubCat.removeSubcategories();
                 },
                 success:(data, textStatus, xhr) => {
                     if(xhr.status == 200){
                         if(data.length > 0){
+                            // remove error "no subcategories"
                             if($('.customSelectSubCatContainer').next("small")){
                                 $('.customSelectSubCatContainer').next().remove();
                             }
-
+                            // show the subcategories
                             customSelectMenuSubCat.loadCustomSelectMenuSubCat(data);
+                            // add click event on subcategory select input
                             customSelectMenuSubCat.events();
-
+                            // assign the current main category to the global variable catExt 
                             catExt = data[0].mainCatExt;
+                            // reset the content file and content icon input value
                             $('#contentFile').val("")
-                            console.log($('#contentFile').val())
+                            $('#contentIcon').val("")
 
                             if(data[0].mainCatExt === "APK"){
+                                // if main category has extension of apk add sceenshots input upload
+
+                                // change text label of content file input
                                 $('#contentFileLabel').text("Only apk and xapk are allowed.");
 
+                                // remove previous screenshot input just in case admin changed the main category and if main cat ext is not equal to apk or select another cat that has apk
                                 if($('#screenshotsInput') != undefined)
                                     $('#screenshotsInput').remove();
 
+                                // append input before save button
+                                // and add margin top value to the container of the save button
                                 $('#addContentBtn').parent().before(`
                                     <div class="custom-file" id="screenshotsInput">
                                         <span class="formLabel customFormLabel">Content Screenshots</span>
@@ -311,23 +328,46 @@ $('document').ready(function(){
                                                 </label>
                                                 <p class="screenshotsReminder">Only png and jpg are allowed.</p>
                                             </div>
-                                            <div class="screenshotsBody"></div>
+                                            <div class="screenshotsBody" id="screenshotsBody"></div>
                                         </div>
                                     </div>
-                                `).css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`})
+                                `).css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 25}px`})
 
                                 $('#contentScreenshots').on('change', (e) => {
                                     $.each(e.target.files, (i, img) => {
+                                        // push the value or values of the input to the global variable screenImgArr
                                         screenImgArr.push(img);
+
+                                        if(screenImgArr.length > 0){
+                                            $('#screenshotsBtnSubmit').text('Add Files')
+                                        }else{
+                                            $('#screenshotsBtnSubmit').text('Choose Files')
+                                        }
+
+                                        $('#screenshotsBody').append(`
+                                            <div class="imgContainer">
+                                                <i class="fas fa-file-image screenImgThumb"></i>
+                                                <p>${img.name}</p>
+                                                <button type="button" class="btnRedSolid deleteCategoryBtn">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        `)
                                     })
+
+                                    $('#contentScreenshotsWrapper').animate({height: $('#contentScreenshotsWrapper').outerHeight()}, 200, "swing");
+                                        // $('#contentScreenshotsWrapper').animate({height: "100px"}, 200, "swing");
+                                    $('#addContentBtn').parent().animate({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`}, 200, "swing");
+                                    console.log($('#contentScreenshotsWrapper').outerHeight());
                                 })
                     
                             }else if(data[0].mainCatExt === "MP4"){
+                                // change text of label
                                 $('#contentFileLabel').text("Only mp4 are allowed.");
-
+                                // remove screenshot input if its appended
                                 if($('#screenshotsInput') != undefined)
                                     $('#screenshotsInput').remove();
-
+                                // set 0 margintop to the container of the save button
                                 $('#addContentBtn').parent().css({marginTop:"0px"})
 
                             }else if(data[0].mainCatExt === "MP3"){
@@ -409,14 +449,15 @@ $('document').ready(function(){
                 const ext = $('#contentIcon')[0].files[0].name.toLowerCase().split(".");
 
                 const extCompare = ["png", "jpg"]
-                let extInd = "";
+                let extResult = "";
 
                 $.each(extCompare, (i, extC) => {
-                    if(ext.includes(extC)) extInd = ext.includes(extC)
+                    // return false is there is no match to extCompare values
+                    if(ext.includes(extC)) extResult = ext.includes(extC)
                 })
 
-                if(!extInd){
-                    // file type is not png return 0
+                if(!extResult){
+                    // file type is not png or jpg return 0
                     resolve(errors);
                 }else{
                     // input not empty
@@ -430,12 +471,12 @@ $('document').ready(function(){
                         img.src = e.target.result;
                         img.onload = function(){
                             if((this.height > 45 && this.width > 45) || (this.height < 45 && this.width < 45)){
-                                // check image if height and width is not equal to 25px
+                                // check image if height and width is not equal to 45px
                                 Notification.domValidate('#contentIcon', "Content icon dimension must be 45x45px", errors, "contentIcon");
                                 // return the error or return 1
                                 resolve(errors);
                             }else{
-                                // if image height and width is equal 25px
+                                // if image height and width is equal 45px
                                 // remove the error notif if there is any then return 0
                                 $('#contentIcon').next().next().remove();
                                 $('#contentIcon').parent().css({marginBottom: "35px"})
@@ -477,20 +518,22 @@ $('document').ready(function(){
                 const ext = $('#contentFile')[0].files[0].name.toLowerCase().split(".");
 
                 if(catExt == "APK"){
+                    // validate if file has apk or xapk extension
                     const extCompare = ["xapk", "apk"]
-                    let extInd = "";
+                    let extResult = "";
 
                     $.each(extCompare, (i, extC) => {
-                        if(ext.includes(extC)) extInd = ext.includes(extC)
+                        if(ext.includes(extC)) extResult = ext.includes(extC)
                     })
 
-                    if(!extInd){
+                    if(!extResult){
                         Notification.domValidate('#contentFile', "Content File must be apk or xapk file extension", errors, "contentFile");
                     }else{
                         $('#contentFile').next().next().remove();
                         $('#contentFile').parent().css({marginBottom: "35px"})
                     }
                 }else if(catExt == "MP3"){
+                    // validate if file has mp3 extension
                     const extInd = $.inArray("mp3", ext);
 
                     if(ext[extInd] != "mp3" || $('#contentFile')[0].files[0].type != "audio/mpeg"){
@@ -501,6 +544,7 @@ $('document').ready(function(){
                     }
 
                 }else if(catExt == "MP4"){
+                    // validate if file has mp4 extension
                     const extInd = $.inArray("mp4", ext);
 
                     if(ext[extInd] != "mp4" || $('#contentFile')[0].files[0].type != "video/mp4"){
@@ -518,21 +562,52 @@ $('document').ready(function(){
                 const ext = $('#contentIcon')[0].files[0].name.toLowerCase().split(".");
 
                 const extCompare = ["png", "jpg"]
-                let extInd = "";
+                let extResult = "";
 
                 $.each(extCompare, (i, extC) => {
-                    if(ext.includes(extC)) extInd = ext.includes(extC)
+                    if(ext.includes(extC)) extResult = ext.includes(extC)
                 })
 
-                console.log(extInd)
-
-                if(!extInd){
+                if(!extResult){
+                    // if icon is not png or jpg
                     Notification.domValidate('#contentIcon', "Content Icon must be png or jpg file extension", errors, "contentIcon");
                 }else{
                     $('#contentIcon').next().next().remove();
                     $('#contentIcon').parent().css({marginBottom: "35px"})
                 }
             }
+
+            if($('#contentDescription').val() === "" || $('#contentDescription').val() === null){
+                Notification.domValidate('#contentDescription', "Content Description is required", errors, "contentDescription");
+            }else{
+                $('#contentDescription').next().remove();
+            }
+
+            // if($('#contentScreenshots').val() === "" || $('#contentScreenshots').val() === null){
+            //     Notification.domValidate('#contentScreenshotsWrapper', "Screenshots", errors, "contentScreenshots");
+            // }else{
+            //     const extCompare = ["png", "jpg", "gif"];
+            //     let extResult = [];
+            //     let imgInd = [];
+
+            //     let imgIndUnique = [...new Set(imgInd)];
+
+            //     $(screenImgArr).each(function(ind){
+            //         const ext = this.name.toLowerCase().split(".");
+            //         $.each(extCompare, (i, extC) => {
+            //             if(!ext[ext.length - 1].includes(extC)){
+            //                 imgInd.push(ind);
+            //                 extResult.push(ext[ext.length - 1].includes(extC))
+            //             }
+            //         })
+            //     })
+
+            //     if(extResult.length > 0){
+            //         console.log(imgIndUnique);
+            //     }else{
+            //         console.log("everything ok")
+            //     }
+            // }
 
             return errors;
         }
@@ -544,8 +619,6 @@ $('document').ready(function(){
                 const iconError = new Promise((resolve) => this.checkIconDimension(resolve));
 
                 const iconResult = await iconError;
-
-                console.log(iconResult);
 
                 // const dataForm = new FormData;
                 
