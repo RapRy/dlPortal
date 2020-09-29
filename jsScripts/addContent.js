@@ -48,7 +48,7 @@ $('document').ready(function(){
                 // set top value of errorhint to the height of contentScreenshotsWrapper
                 $(`${elem} ~ .errorHint`).css({position: "absolute", top: `${$('#contentScreenshotsWrapper').outerHeight() + 30}px`, left: 0})
                 // assign new marginTop value of save button
-                $('#addContentBtn').parent().css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight()}px`})
+                $('#addContentBtn').parent().css({marginTop: `60px`})
             }
             $(`${elem} ~ .errorHint`).fadeIn(500);
             errorsArr.push(whichField);
@@ -322,43 +322,60 @@ $('document').ready(function(){
                                         <span class="formLabel customFormLabel">Content Screenshots</span>
                                         <input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
                                         <div class="contentScreenshotsWrapper" id="contentScreenshotsWrapper">
-                                            <div class="text-center">
+                                            <div class="text-center" id="screenshotsHeader">
                                                 <label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">
-                                                    Choose Files
+                                                    Choose Images
                                                 </label>
                                                 <p class="screenshotsReminder">Only png and jpg are allowed.</p>
                                             </div>
                                             <div class="screenshotsBody" id="screenshotsBody"></div>
                                         </div>
                                     </div>
-                                `).css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 25}px`})
+                                `).css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`})
+
+                                $('#contentScreenshotsWrapper').height($('#contentScreenshotsWrapper').outerHeight());
 
                                 $('#contentScreenshots').on('change', (e) => {
+
                                     $.each(e.target.files, (i, img) => {
                                         // push the value or values of the input to the global variable screenImgArr
                                         screenImgArr.push(img);
 
                                         if(screenImgArr.length > 0){
-                                            $('#screenshotsBtnSubmit').text('Add Files')
+                                            $('#screenshotsBtnSubmit').text('Add Images')
                                         }else{
-                                            $('#screenshotsBtnSubmit').text('Choose Files')
+                                            $('#screenshotsBtnSubmit').text('Choose Images')
                                         }
 
                                         $('#screenshotsBody').append(`
                                             <div class="imgContainer">
                                                 <i class="fas fa-file-image screenImgThumb"></i>
                                                 <p>${img.name}</p>
-                                                <button type="button" class="btnRedSolid deleteCategoryBtn">
+                                                <button type="button" class="btnRedSolid deleteCategoryBtn deleteScreen">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </div>
                                         `)
                                     })
 
-                                    $('#contentScreenshotsWrapper').animate({height: $('#contentScreenshotsWrapper').outerHeight()}, 200, "swing");
-                                        // $('#contentScreenshotsWrapper').animate({height: "100px"}, 200, "swing");
-                                    $('#addContentBtn').parent().animate({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`}, 200, "swing");
-                                    console.log($('#contentScreenshotsWrapper').outerHeight());
+                                    const height = $('#screenshotsBody').height() + $('#screenshotsHeader').height() + 30;
+
+                                    $('#contentScreenshotsWrapper').animate({height: height}, 200, "swing", function(){
+                                        $('.imgContainer:last').animate({opacity:1}, 200, "swing")
+                                    });
+
+                                    // remove error hint if its not undefined
+                                    if($('#contentScreenshotsWrapper').next().length > 0){
+                                        $('#contentScreenshotsWrapper').next().animate({top: `${height + 30}px`}, 200, "swing")
+                                    }
+                                    // remove previous click event from del button to avoid multiple click event
+                                    $.each($('.deleteScreen'), (i, del) => $(del).unbind('click'))
+
+                                    // add new click event
+                                    $('.deleteScreen').on('click', function(){
+                                        console.log($(this).parent().index())
+                                        console.log(screenImgArr[$(this).parent().index()].name)
+                                    })
                                 })
                     
                             }else if(data[0].mainCatExt === "MP4"){
@@ -583,31 +600,31 @@ $('document').ready(function(){
                 $('#contentDescription').next().remove();
             }
 
-            // if($('#contentScreenshots').val() === "" || $('#contentScreenshots').val() === null){
-            //     Notification.domValidate('#contentScreenshotsWrapper', "Screenshots", errors, "contentScreenshots");
-            // }else{
-            //     const extCompare = ["png", "jpg", "gif"];
-            //     let extResult = [];
-            //     let imgInd = [];
+            if($('#contentScreenshots').val() === "" || $('#contentScreenshots').val() === null){
+                Notification.domValidate('#contentScreenshotsWrapper', "Screenshots", errors, "contentScreenshots");
+            }else{
+                const extCompare = ["png", "jpg", "gif"];
+                let extResult = [];
+                let imgInd = [];
 
-            //     let imgIndUnique = [...new Set(imgInd)];
+                let imgIndUnique = [...new Set(imgInd)];
 
-            //     $(screenImgArr).each(function(ind){
-            //         const ext = this.name.toLowerCase().split(".");
-            //         $.each(extCompare, (i, extC) => {
-            //             if(!ext[ext.length - 1].includes(extC)){
-            //                 imgInd.push(ind);
-            //                 extResult.push(ext[ext.length - 1].includes(extC))
-            //             }
-            //         })
-            //     })
+                $(screenImgArr).each(function(ind){
+                    const ext = this.name.toLowerCase().split(".");
+                    $.each(extCompare, (i, extC) => {
+                        if(!ext[ext.length - 1].includes(extC)){
+                            imgInd.push(ind);
+                            extResult.push(ext[ext.length - 1].includes(extC))
+                        }
+                    })
+                })
 
-            //     if(extResult.length > 0){
-            //         console.log(imgIndUnique);
-            //     }else{
-            //         console.log("everything ok")
-            //     }
-            // }
+                if(extResult.length > 0){
+                    console.log(imgIndUnique);
+                }else{
+                    console.log("everything ok")
+                }
+            }
 
             return errors;
         }

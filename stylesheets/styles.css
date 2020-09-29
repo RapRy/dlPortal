@@ -184,6 +184,7 @@ p {
   background-color: #F2F2F2;
   border-radius: .25rem;
   padding: 10px;
+  overflow: hidden;
 }
 
 .custom-file .contentScreenshotsWrapper .screenshotsBtnSubmit {
@@ -1639,6 +1640,7 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  opacity: 0;
 }
 
 .addContentWrapper .imgContainer .screenImgThumb {
