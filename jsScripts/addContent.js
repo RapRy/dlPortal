@@ -609,20 +609,27 @@ $('document').ready(function(){
             if($('#contentScreenshots').val() === "" || $('#contentScreenshots').val() === null){
                 Notification.domValidate('#contentScreenshotsWrapper', "Content screenshots are required", errors, "contentScreenshots");
             }else{
-                // const extCompare = ["png", "jpg", "gif"];
-                // let extResult = [];
-                // let imgInd = [];
+                const extCompare = ["png", "jpg", "gif"];
+                let extResult = [];
+                let imgInds = [];
 
-                // let imgIndUnique = [...new Set(imgInd)];
 
-                // let test = null;
+                $(screenImgArr).each(function(ind){
+                    const ext = this.name.toLowerCase().split(".");
+                    if(extCompare.includes(ext[ext.length - 1])){
+                        imgInds.push(ind);
+                    }
+                })
 
-                // $(screenImgArr).each(function(ind){
-                //     const ext = this.name.toLowerCase().split(".");
-                //     $.each(extCompare, (i, extC) => {
-                //         test = $.inArray(extC, ext);
-                //     })
-                // })
+                $(screenImgArr).each(function(ind){
+                    const name = this.name
+
+                    if(!imgInds.includes(ind)){
+                        Notification.domValidate('#contentScreenshotsWrapper', "Content screenshots are required", errors, "contentScreenshots");
+                        console.log(name)
+                        return false;
+                    }
+                })
 
                 // console.log()
 
@@ -682,7 +689,7 @@ $('document').ready(function(){
                         console.log(value)
                     }
 
-                    this.submitForm(dataForm);
+                    // this.submitForm(dataForm);
                 }
             })
         }
