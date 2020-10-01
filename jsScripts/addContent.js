@@ -358,11 +358,10 @@ $('document').ready(function(){
                                         `)
                                     })
 
+                                    // height animation of the screenshot thumb container
                                     const height = $('#screenshotsBody').height() + $('#screenshotsHeader').height() + 30;
 
-                                    $('#contentScreenshotsWrapper').animate({height: height}, 200, "swing", function(){
-                                        $('.imgContainer:last').animate({opacity:1}, 200, "swing")
-                                    });
+                                    $('#contentScreenshotsWrapper').animate({height: height}, 200, "swing");
 
                                     // remove error hint if its not undefined
                                     if($('#contentScreenshotsWrapper').next().length > 0){
@@ -373,8 +372,15 @@ $('document').ready(function(){
 
                                     // add new click event
                                     $('.deleteScreen').on('click', function(){
-                                        console.log($(this).parent().index())
-                                        console.log(screenImgArr[$(this).parent().index()].name)
+                                        const ind = $(this).parent().index();
+                                        screenImgArr.splice(ind, 1);
+                                        $('.imgContainer').eq(ind).remove();
+
+                                        // height animation of the screenshot thumb container
+                                        const height = $('#screenshotsBody').height() + $('#screenshotsHeader').height() + 30;
+
+                                        $('#contentScreenshotsWrapper').animate({height: height}, 200, "swing");
+
                                     })
                                 })
                     
@@ -389,7 +395,7 @@ $('document').ready(function(){
 
                             }else if(data[0].mainCatExt === "MP3"){
                                 $('#contentFileLabel').text("Only mp3 are allowed.");
-
+                                // remove screenshot input if its appended
                                 if($('#screenshotsInput') != undefined)
                                     $('#screenshotsInput').remove();
 
@@ -402,7 +408,7 @@ $('document').ready(function(){
                             Notification.domValidate('.customSelectSubCatContainer', "No Sub Categories", errors, "selectSubCat");
 
                             $('#contentFileLabel').text("");
-
+                            
                             if($('#screenshotsInput') != undefined){
                                 $('#screenshotsInput').remove();
                                 $('#addContentBtn').parent().css({marginTop:0})
@@ -601,32 +607,49 @@ $('document').ready(function(){
             }
 
             if($('#contentScreenshots').val() === "" || $('#contentScreenshots').val() === null){
-                Notification.domValidate('#contentScreenshotsWrapper', "Screenshots", errors, "contentScreenshots");
+                Notification.domValidate('#contentScreenshotsWrapper', "Content screenshots are required", errors, "contentScreenshots");
             }else{
-                const extCompare = ["png", "jpg", "gif"];
-                let extResult = [];
-                let imgInd = [];
+                // const extCompare = ["png", "jpg", "gif"];
+                // let extResult = [];
+                // let imgInd = [];
 
-                let imgIndUnique = [...new Set(imgInd)];
+                // let imgIndUnique = [...new Set(imgInd)];
 
-                $(screenImgArr).each(function(ind){
-                    const ext = this.name.toLowerCase().split(".");
-                    $.each(extCompare, (i, extC) => {
-                        if(!ext[ext.length - 1].includes(extC)){
-                            imgInd.push(ind);
-                            extResult.push(ext[ext.length - 1].includes(extC))
-                        }
-                    })
-                })
+                // let test = null;
 
-                if(extResult.length > 0){
-                    console.log(imgIndUnique);
-                }else{
-                    console.log("everything ok")
-                }
+                // $(screenImgArr).each(function(ind){
+                //     const ext = this.name.toLowerCase().split(".");
+                //     $.each(extCompare, (i, extC) => {
+                //         test = $.inArray(extC, ext);
+                //     })
+                // })
+
+                // console.log()
+
+                // if(extResult.length > 0){
+                //     console.log(imgIndUnique);
+                // }else{
+                //     console.log("everything ok")
+                // }
+                $('#contentScreenshotsWrapper').next().remove();
             }
 
             return errors;
+        }
+
+        submitForm(dataForm){
+            $.ajax({
+                type:'POST',
+                url:'../../../backend/addContentFn.php',
+                data:dataForm,
+                dataType:'text',
+                contentType:false,
+                processData:false,
+                success: (data, textStatus, xhr) => {
+                    console.log(data);
+                },
+                error: (err) => console.log(err)
+            })
         }
         
         events(){
@@ -637,24 +660,30 @@ $('document').ready(function(){
 
                 const iconResult = await iconError;
 
-                // const dataForm = new FormData;
-                
-                // screenImgArr.forEach((img, i) =>  {
-                //     dataForm.append("screenshots[]", img)
-                // })
+                if(inputErrors.length > 0 || iconResult.length > 0){
+                    return;
+                }else{
+                    const dataForm = new FormData;
 
-                // $.ajax({
-                //     type:'POST',
-                //     url:'../../../backend/addContentFn.php',
-                //     data:dataForm,
-                //     dataType:'text',
-                //     contentType:false,
-                //     processData:false,
-                //     success: (data, textStatus, xhr) => {
-                //         console.log(data);
-                //     },
-                //     error: (err) => console.log(err)
-                // })
+                    dataForm.append("contentName", $('#contentName').val())
+                    dataForm.append("mainCategory", $('#selectMainCat').val())
+                    dataForm.append("subCategory", $('#selectSubCat').val())
+                    dataForm.append("contentFile", $('#contentFile')[0].files[0])
+                    dataForm.append("contentIcon", $('#contentIcon')[0].files[0])
+                    dataForm.append("contentDescription", $('#contentDescription').val())
+
+                    if(screenImgArr.length > 0){
+                        screenImgArr.forEach((img, i) =>  {
+                            dataForm.append("screenshots[]", img)
+                        })
+                    }
+
+                    for(var value of dataForm.values()){
+                        console.log(value)
+                    }
+
+                    this.submitForm(dataForm);
+                }
             })
         }
     }

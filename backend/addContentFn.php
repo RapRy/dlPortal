@@ -52,11 +52,17 @@
         }
     }
 
-    if(isset($_FILES['screenshots'])){
+    if(isset($_POST['contentName'])){
         foreach($_FILES['screenshots']['name'] as $v){
             echo $v."<br />";
         }
-        print_r($_FILES);
+        
+        echo $_POST['contentName']."<br />";
+        echo $_POST['mainCategory']."<br />";
+        echo $_POST['subCategory']."<br />";
+        echo $_FILES['contentFile']['name']."<br />";
+        echo $_FILES['contentIcon']['name']."<br />";
+        echo $_POST['contentDescription']."<br />";
     }
 
     mysqli_close($conn);
