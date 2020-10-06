@@ -631,13 +631,6 @@ $('document').ready(function(){
                     }
                 })
 
-                // console.log()
-
-                // if(extResult.length > 0){
-                //     console.log(imgIndUnique);
-                // }else{
-                //     console.log("everything ok")
-                // }
                 $('#contentScreenshotsWrapper').next().remove();
             }
 
@@ -689,7 +682,7 @@ $('document').ready(function(){
                         console.log(value)
                     }
 
-                    // this.submitForm(dataForm);
+                    this.submitForm(dataForm);
                 }
             })
         }
