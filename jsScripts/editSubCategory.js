@@ -177,6 +177,8 @@ $('document').ready(function(){
 			const data = new FormData;
 			
 			data.append('subCatId', this.subCatId);
+			data.append('subCatInitialName', this.subCatInitial);
+			data.append('catInitialName', this.mainCatInitial)
 			
 			const valInitials = this.checkInitialValues(data);
 			

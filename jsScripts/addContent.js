@@ -310,6 +310,7 @@ $('document').ready(function(){
 
                                 // change text label of content file input
                                 $('#contentFileLabel').text("Only apk and xapk are allowed.");
+                                $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).");
 
                                 // remove previous screenshot input just in case admin changed the main category and if main cat ext is not equal to apk or select another cat that has apk
                                 if($('#screenshotsInput') != undefined)
@@ -363,7 +364,7 @@ $('document').ready(function(){
 
                                     $('#contentScreenshotsWrapper').animate({height: height}, 200, "swing");
 
-                                    // remove error hint if its not undefined
+                                    // adjust top position error hint if its not undefined
                                     if($('#contentScreenshotsWrapper').next().length > 0){
                                         $('#contentScreenshotsWrapper').next().animate({top: `${height + 30}px`}, 200, "swing")
                                     }
@@ -376,28 +377,51 @@ $('document').ready(function(){
                                         screenImgArr.splice(ind, 1);
                                         $('.imgContainer').eq(ind).remove();
 
+                                        if(screenImgArr.length === 0){
+                                            $('#contentScreenshots').val("")
+                                        }
+
                                         // height animation of the screenshot thumb container
                                         const height = $('#screenshotsBody').height() + $('#screenshotsHeader').height() + 30;
 
                                         $('#contentScreenshotsWrapper').animate({height: height}, 200, "swing");
 
+                                        // adjust top position error hint if its not undefined
+                                        if($('#contentScreenshotsWrapper').next().length > 0){
+                                            $('#contentScreenshotsWrapper').next().animate({top: `${height + 30}px`}, 200, "swing")
+                                        }
                                     })
                                 })
                     
                             }else if(data[0].mainCatExt === "MP4"){
+                                $('#contentFile').val("")
+                                $('#contentIcon').val("")
+
                                 // change text of label
                                 $('#contentFileLabel').text("Only mp4 are allowed.");
+                                $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).");
                                 // remove screenshot input if its appended
-                                if($('#screenshotsInput') != undefined)
+                                if($('#screenshotsInput') != undefined){
                                     $('#screenshotsInput').remove();
+                                    screenImgArr = [];
+                                    $('#contentScreenshots').val("")
+                                }
                                 // set 0 margintop to the container of the save button
                                 $('#addContentBtn').parent().css({marginTop:"0px"})
 
                             }else if(data[0].mainCatExt === "MP3"){
+                                $('#contentFile').val("")
+                                $('#contentIcon').val("")
+                                $('#contentDescription').val("")
+
                                 $('#contentFileLabel').text("Only mp3 are allowed.");
+                                $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).");
                                 // remove screenshot input if its appended
-                                if($('#screenshotsInput') != undefined)
+                                if($('#screenshotsInput') != undefined){
                                     $('#screenshotsInput').remove();
+                                    screenImgArr = [];
+                                    $('#contentScreenshots').val("")
+                                }
 
                                 $('#addContentBtn').parent().css({marginTop:"0px"})
                             }
@@ -407,12 +431,19 @@ $('document').ready(function(){
                             let errors = [];
                             Notification.domValidate('.customSelectSubCatContainer', "No Sub Categories", errors, "selectSubCat");
 
-                            $('#contentFileLabel').text("");
+                            $('#contentFile').val("")
+                            $('#contentIcon').val("")
+
+                            // set default text label
+                            $('#contentFileLabel').text("Only apk and xapk are allowed.");
+                            $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).");
                             
+                            // remove screenshots if its defined 
                             if($('#screenshotsInput') != undefined){
                                 $('#screenshotsInput').remove();
-                                $('#addContentBtn').parent().css({marginTop:0})
-                            }   
+                                screenImgArr = [];
+                                $('#contentScreenshots').val("")
+                            }
 
                             return;
                         }
@@ -607,12 +638,16 @@ $('document').ready(function(){
             }
 
             if($('#contentScreenshots').val() === "" || $('#contentScreenshots').val() === null){
+                
+                if($('#contentScreenshotsWrapper').next().length > 0){
+                    $('#contentScreenshotsWrapper').next().remove();
+                }
+                
                 Notification.domValidate('#contentScreenshotsWrapper', "Content screenshots are required", errors, "contentScreenshots");
             }else{
                 const extCompare = ["png", "jpg", "gif"];
-                let extResult = [];
+                // let extResult = [];
                 let imgInds = [];
-
 
                 $(screenImgArr).each(function(ind){
                     const ext = this.name.toLowerCase().split(".");
@@ -625,13 +660,12 @@ $('document').ready(function(){
                     const name = this.name
 
                     if(!imgInds.includes(ind)){
-                        Notification.domValidate('#contentScreenshotsWrapper', "Content screenshots are required", errors, "contentScreenshots");
-                        console.log(name)
+                        Notification.domValidate('#contentScreenshotsWrapper', `${name} extension is not valid`, errors, "contentScreenshots");
                         return false;
+                    }else{
+                        $('#contentScreenshotsWrapper').next().remove();
                     }
                 })
-
-                $('#contentScreenshotsWrapper').next().remove();
             }
 
             return errors;
@@ -642,11 +676,57 @@ $('document').ready(function(){
                 type:'POST',
                 url:'../../../backend/addContentFn.php',
                 data:dataForm,
-                dataType:'text',
+                dataType:'json',
                 contentType:false,
                 processData:false,
                 success: (data, textStatus, xhr) => {
-                    console.log(data);
+                    if(xhr.status === 200){
+                        if(data.hasOwnProperty('success')){
+                            const notifContent = `
+								<p id="contentAddedNotif">${data.contentName} Added</p>
+                                <button type="button" class="btnGray5 globalBtn" id="addContentNotifCloseBtn">CLOSE</button>
+							`;
+							
+                            Notification.domNotificationSuccess('.addContentContainer', notifContent, '#addContentNotifCloseBtn');
+
+                            $.each($('.selectMainCat').children(), function(i, opt){
+                                $(opt).attr('selected', false)
+                            })
+
+                            $.each($('.customSelectMainCatOptions'), function(i, opt){
+                                $(opt).removeClass('customOptionSelected').find('i').remove();
+                            })
+
+                            $('.currentMainCatSelected').text("Select Main Category")
+
+                            $.each($('.selectSubCat').children(), function(i, opt){
+                                $(opt).attr('selected', false)
+                            })
+
+                            $.each($('.customSelectSubCatOptions'), function(i, opt){
+                                $(opt).removeClass('customOptionSelected').find('i').remove();
+                            })
+
+                            $('.currentSubCatSelected').text("Select Sub Category")
+
+                            $('#contentName').val("");
+                            $('#contentFile').val("")
+                            $('#contentIcon').val("")
+                            $('#contentDescription').val("")
+
+                            $('#contentFileLabel').text("")
+                            $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).")
+
+                            if($('#screenshotsInput') != undefined){
+                                $('#screenshotsInput').remove();
+                                screenImgArr = [];
+                                $('#contentScreenshots').val("")
+
+                                $('#addContentBtn').parent().css({marginTop:"0px"})
+                            }
+
+                        }
+                    }
                 },
                 error: (err) => console.log(err)
             })
@@ -676,10 +756,6 @@ $('document').ready(function(){
                         screenImgArr.forEach((img, i) =>  {
                             dataForm.append("screenshots[]", img)
                         })
-                    }
-
-                    for(var value of dataForm.values()){
-                        console.log(value)
                     }
 
                     this.submitForm(dataForm);

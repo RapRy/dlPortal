@@ -119,7 +119,7 @@
                 if(mysqli_stmt_execute($stmt)){
                     $contentId = mysqli_stmt_insert_id($stmt);
 
-                    return ["contentId" => $contentId, "folderName" => $folderName, "date" => $dateTime];
+                    return ["contentId" => $contentId, "folderName" => $folderName, "date" => $dateTime, "contentName" => $contentName];
                 }
             }
 
@@ -160,10 +160,6 @@
     }
 
     if(isset($_POST['contentName'])){
-        // foreach($_FILES['screenshots']['name'] as $v){
-        //     echo $v."<br />";
-        // }
-
         $subId = getSubCatId($conn);
         $catId = getIdMainCat($_POST['mainCategory'], $conn);
 
@@ -177,9 +173,9 @@
             }else{
                 if(isset($_FILES['screenshots'])){
                     insertScreenshots($conn, $data['contentId'], $data['folderName'], $data['date']);
-                    echo json_encode(['success' => 'successWithScreens']);
+                    echo json_encode(['success' => 'successWithScreens', "contentName" => $data['contentName']]);
                 }else{
-                    echo json_encode(['success' => 'successNoScreens']);
+                    echo json_encode(['success' => 'successNoScreens', "contentName" => $data['contentName']]);
                 }
             }
         }

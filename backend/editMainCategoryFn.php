@@ -8,6 +8,11 @@
 		mysqli_stmt_prepare($stmt, $insertData);
 		mysqli_stmt_bind_param($stmt, "si", $inputValue, $catId);
 		mysqli_stmt_execute($stmt);
+
+		$updateContents = "UPDATE contents SET mainCatName=? WHERE mainCatId=?";
+		mysqli_stmt_prepare($stmt, $updateContents);
+		mysqli_stmt_bind_param($stmt, "si", $inputValue, $catId);
+		mysqli_stmt_execute($stmt);
 		
 		return ['result' => "success:{$key}"];
 	}
@@ -82,9 +87,28 @@
 				// remove the previous folder and it's files then create new folder
 				$renameFolder = rename($oldPath, $newPath);
 				if($renameFolder){
-					// update database
-					$sqlResult = updateData($categoryName, "mainCatName", $conn, $stmt);
-					array_push($result, $sqlResult);
+
+					// // update database
+					// $sqlResult = updateData($categoryName, "mainCatName", $conn, $stmt);
+					// array_push($result, $sqlResult);
+
+					$stripCatName = str_replace(" ", "", $categoryName);
+					$stripInitial = str_replace(" ", "", $initialCategoryName);
+					$newPathContent  = "../uploads/contents/{$stripCatName}/";
+					$oldPathContent  = "../uploads/contents/";
+
+					if(is_dir($oldPathContent)){
+						if($dh = opendir($oldPathContent)){
+							while(($file = readdir($dh)) !== false){
+								if($file === $stripInitial){
+									rename("{$oldPathContent}/{$file}", $newPathContent);
+									// update database
+									$sqlResult = updateData($categoryName, "mainCatName", $conn, $stmt);
+									array_push($result, $sqlResult);
+								}
+							}
+						}
+					}
 				}else{
 					array_push($result, ['error' => 'rename']);
 				}
