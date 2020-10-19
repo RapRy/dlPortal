@@ -1663,4 +1663,176 @@ p {
 }
 
 /* end add content */
+/* start view contents */
+.viewContentsHeader {
+  min-height: 175px;
+}
+
+.viewContentsHeader .viewContentsPageLogo {
+  position: relative;
+  top: 60px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.viewContentsWrapper {
+  padding: 10px 20px 20px;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer {
+  background-color: #F2F2F2;
+  padding: 5px 0;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxIcon {
+  font-size: 1.1rem;
+  color: #999999;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxIcon:hover {
+  cursor: pointer;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxInput {
+  border: none;
+  background-color: #F2F2F2;
+  margin-left: 2px;
+  color: #403A3A;
+  font-size: .8rem;
+  font-weight: 500;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxInput::-webkit-input-placeholder {
+  color: #999999;
+  font-size: .8rem;
+  font-weight: 400;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxInput:-ms-input-placeholder {
+  color: #999999;
+  font-size: .8rem;
+  font-weight: 400;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxInput::-ms-input-placeholder {
+  color: #999999;
+  font-size: .8rem;
+  font-weight: 400;
+}
+
+.viewContentsWrapper .viewContentsSearch .searchboxContainer .searchboxInput::placeholder {
+  color: #999999;
+  font-size: .8rem;
+  font-weight: 400;
+}
+
+.viewContentsWrapper .contentsWrapper {
+  padding: 30px 0 20px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents {
+  background: #F2F2F2;
+  border: 1px solid #E0E0E0;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents:last-child {
+  margin-bottom: 0;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsCat {
+  padding: 10px 10px 0;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsCat h6 {
+  font-size: 1.1rem;
+  color: #403A3A;
+  font-weight: 700;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat {
+  padding: 0 10px 10px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn {
+  background: #45D9E2;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn:last-child {
+  margin-right: 0px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn:first-child {
+  background: #fff;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn p {
+  color: #403A3A;
+  font-weight: 500;
+  font-size: .9rem;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat > p {
+  text-align: center;
+  font-size: .8rem;
+  color: #E24545;
+  margin-top: 10px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent {
+  padding: 10px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer {
+  padding: 7px 10px;
+  background: #fff;
+  margin: 0 0 10px !important;
+  border-radius: 5px;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer:last-child {
+  margin: 0 !important;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentNameCont {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentNameCont .contentName {
+  color: #403A3A;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentNameCont .contentFilesize {
+  color: #999999;
+  font-size: .75rem;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentCta {
+  padding-right: 0px !important;
+  padding-left: 8px !important;
+}
+
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent > p {
+  text-align: center;
+  font-size: .8rem;
+  color: #E24545;
+}
+
+/* end view sub category */
 /*# sourceMappingURL=styles.css.map */

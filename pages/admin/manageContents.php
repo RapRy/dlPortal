@@ -15,7 +15,7 @@
             <a href="manageContent/addContent.php" class="manageContentBlueBtn" id="addContent">
                 Add Content
             </a>
-            <a href="#" class="manageContentGreenBtn" id="viewContents">
+            <a href="manageContent/viewContents.php" class="manageContentGreenBtn" id="viewContents">
                 View Contents
             </a>
         </section>

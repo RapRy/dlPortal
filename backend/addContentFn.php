@@ -81,6 +81,7 @@
         $iconExt = strtolower(pathinfo($iconName, PATHINFO_EXTENSION));
 
         $fileName = $_FILES['contentFile']['name'];
+        $fileSize = $_FILES['contentFile']['size'];
         $fileTmp = $_FILES['contentFile']['tmp_name'];
         $fileError = $_FILES['contentFile']['error'];
         $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -109,10 +110,10 @@
                 move_uploaded_file($iconTmp, $newIconPath);
 
                 $stmt = mysqli_stmt_init($conn);
-                $insertData = "INSERT INTO contents (subCatId, mainCatId, subCatName, mainCatName, contentName, folderName, contentDescription, contentThumb, contentFilename) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $insertData = "INSERT INTO contents (subCatId, mainCatId, subCatName, mainCatName, contentName, folderName, contentDescription, contentThumb, contentFilename, contentFileSize) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 mysqli_stmt_prepare($stmt, $insertData);
-                mysqli_stmt_bind_param($stmt, "iisssssss", $subId, $catId, $subCategory, $mainCategory, $contentName, $folderName, $contentDescription, $iconFinalName, $fileFinalName);
+                mysqli_stmt_bind_param($stmt, "iisssssssi", $subId, $catId, $subCategory, $mainCategory, $contentName, $folderName, $contentDescription, $iconFinalName, $fileFinalName, $fileSize);
 
                 mysqli_stmt_error($stmt);
 
