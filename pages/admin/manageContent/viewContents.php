@@ -43,9 +43,11 @@
 				
                     while(mysqli_stmt_fetch($stmtCat)):
                         $idSubCatArray = [];
+                        $nameSubCatArray = [];
             ?>
                         <div class="viewContents">
                             <div class="viewContentsCat">
+                                <input type="hidden" value="<?php echo $mainCatId; ?>">  
                                 <h6><?php echo $mainCatName; ?></h6>
                             </div>
                             <div class="viewContentsSubCat">
@@ -64,7 +66,8 @@
                                         mysqli_stmt_bind_result($stmtSubCat, $subCatId, $subCatName);
                                         
                                         while(mysqli_stmt_fetch($stmtSubCat)):
-                                            array_push($idSubCatArray, $subCatId)
+                                            array_push($idSubCatArray, $subCatId);
+                                            array_push($nameSubCatArray, $subCatName);
                                 ?>
                                             <button class="subCatBtn">
                                                 <input type="hidden" value="<?php echo $subCatId; ?>">
@@ -74,6 +77,9 @@
                                         endwhile;
                                     else:
                                 ?>
+                                        <a href="addSubCategory.php?cat=<?php echo $mainCatName; ?>" class="addBlueBtn contentAddSubCat">
+                                            Add Sub Category
+                                        </a>
                                         <p>No Sub Categories</p>
                                 <?php
                                     endif;
@@ -83,9 +89,9 @@
                                 <?php
                                     if(count($idSubCatArray) > 0):
                                         $stmtContent = mysqli_stmt_init($conn);
-                                        $getContents = "SELECT contentId, contentName, folderName, contentThumb, contentFilename, contentFileSize FROM contents WHERE subCatId = ?";
+                                        $getContents = "SELECT contentId, contentName, folderName, contentThumb, contentFilename, contentFileSize FROM contents WHERE subCatId = ? AND mainCatId = ?";
                                         mysqli_stmt_prepare($stmtContent, $getContents);
-                                        mysqli_stmt_bind_param($stmtContent, "i", $idSubCatArray[0]);
+                                        mysqli_stmt_bind_param($stmtContent, "ii", $idSubCatArray[0], $mainCatId);
                                         mysqli_stmt_execute($stmtContent);
 
                                         mysqli_stmt_store_result($stmtContent);
@@ -93,10 +99,15 @@
                                         $resultContent = mysqli_stmt_num_rows($stmtContent);
 
                                         if($resultContent > 0):
+                                ?>
+                                            <a href="addContent.php?cat=<?php echo $mainCatName; ?>&subCat=<?php echo $nameSubCatArray[0]; ?>" class="addBlueBtn">
+                                                Add Content
+                                            </a>
+                                <?php
                                             mysqli_stmt_bind_result($stmtContent, $contentId, $contentName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
 
                                             while(mysqli_stmt_fetch($stmtContent)):
-                                                $newFileSize = substr($contentFileSize, 0, 4);
+                                                $newFileSize = substr($contentFileSize, 0, 2);
                                 ?>
                                                 <div class="contentContainer row align-items-center">
                                                     <input type="hidden" value="<?php echo $contentId; ?>" />
@@ -118,6 +129,13 @@
                                                 </div>
                                 <?php
                                             endwhile;
+                                        else:
+                                ?>
+                                            <a href="addContent.php?cat=<?php echo $mainCatName; ?>&subCat=<?php echo $nameSubCatArray[0]; ?>" class="addBlueBtn">
+                                                Add Content
+                                            </a>
+                                            <p>No Contents</p>
+                                <?php
                                         endif;
                                 ?>
                                 <?php
@@ -135,6 +153,6 @@
             ?>
         </section>
 	</section>
-	<script src="../../../jsscripts/viewSubCategories.js" defer></script>
+	<script src="../../../jsscripts/viewContents.js" defer></script>
 </main>
 <?php include('../../footer.php'); ?>

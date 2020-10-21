@@ -13,7 +13,7 @@
 <main class="addSubCatContainer mainContainer">
     <section class="addSubCatHeader">
         <div class="backBtnContainer">
-            <a href="../../../pages/admin/adminProfile.php?mobilenumber=<?php echo $_SESSION['mobileNumber']; ?>" id="addSubCatBackBtn"><i class="fas fa-level-up-alt"></i></a>
+            <a href="<?php echo (isset($_GET['cat'])) ? "../../../pages/admin/manageContent/viewSubCategories.php" : "../../../pages/admin/adminProfile.php?mobilenumber={$_SESSION['mobileNumber']}" ?>" id="addSubCatBackBtn"><i class="fas fa-level-up-alt"></i></a>
         </div>
         <img src="../../../assets/downloadStoreLogo.svg" alt="Download Store" class="addSubCatPageLogo">
         <img src="../../../assets/homeBg.svg" alt="" class="bg">

@@ -1763,19 +1763,26 @@ p {
   border-bottom: 1px solid #E0E0E0;
 }
 
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .contentAddSubCat {
+  margin-top: 10px;
+}
+
 .viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn {
   background: #45D9E2;
   padding: 5px 10px;
   border-radius: 5px;
   margin-right: 5px;
   margin-top: 10px;
+  outline: none;
+  -webkit-transition: background 200ms ease-in-out;
+  transition: background 200ms ease-in-out;
 }
 
 .viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn:last-child {
   margin-right: 0px;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn:first-child {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsSubCat .subCatBtn.activeSub {
   background: #fff;
 }
 

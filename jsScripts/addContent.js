@@ -80,6 +80,8 @@ $('document').ready(function(){
             // add new div element
             $('.customSelectSubCatWrapper').append(`<div class="customSelectOptions customSelectSubCatOptions"></div>`);
 
+            // $('.currentSubCatSelected').text($('.currentSubCatSelected').prev().val())
+
             $.each(data, function(i, subCat){
                 const { subCatId, subCatName } = subCat;
                 $('.customSelectSubCatMenu').append(`
@@ -98,6 +100,17 @@ $('document').ready(function(){
             this.heightSelectMenu = $('.customSelectSubCatOptions').height();
 
             $('.customSelectSubCatOptions').css({height: 0});
+
+            // if the user click add button from view contents page
+            if($('.currentSubCatSelected').prev().length > 0){
+                $('.currentSubCatSelected').text($('.currentSubCatSelected').prev().val())
+                
+                $('#selectSubCat').children().each((i, elem) => {
+                    if($('.currentSubCatSelected').prev().val() === $(elem).text()){
+                        $(elem).attr('selected', 'true');
+                    }
+                })
+            }
         }
     
         removeSubcategories(){
@@ -477,6 +490,15 @@ $('document').ready(function(){
             }
         }
 
+        // if user click add button from view contents page
+        windowLoad(){
+            $('#selectMainCat').children().each((i, elem) => {
+                if($(elem).attr('selected')){
+                    this.getSubCategories($(elem).text());
+                }               
+            })
+        }
+
     }
 
     class CustomFile{
@@ -773,6 +795,6 @@ $('document').ready(function(){
     validateForm.events();
 
     customSelectMenuMainCat.loadCustomSelectMenu();
+    customSelectMenuMainCat.windowLoad();
     customSelectMenuMainCat.events();
-    
 })

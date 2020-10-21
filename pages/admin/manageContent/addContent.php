@@ -13,7 +13,7 @@
 <main class="addContentContainer mainContainer">
     <section class="addContentHeader">
         <div class="backBtnContainer">
-            <a href="../../../pages/admin/adminProfile.php?mobilenumber=<?php echo $_SESSION['mobileNumber']; ?>" id="addContentBackBtn"><i class="fas fa-level-up-alt"></i></a>
+            <a href="<?php echo (isset($_GET['cat'])) ? "../../../pages/admin/manageContent/viewContents.php" : "../../../pages/admin/adminProfile.php?mobilenumber={$_SESSION['mobileNumber']}" ?>" id="addContentBackBtn"><i class="fas fa-level-up-alt"></i></a>
         </div>
         <img src="../../../assets/downloadStoreLogo.svg" alt="Download Store" class="addContentPageLogo">
         <img src="../../../assets/homeBg.svg" alt="" class="bg">
@@ -32,6 +32,13 @@
 						<option value="">Select Main Category</option>
 						<?php
 
+							$currentCat = "";
+							$displayCat = "";
+
+							if(isset($_GET['cat'])){
+								$currentCat = str_replace("+", " ", $_GET['cat']);
+							}
+
 							$stmt = mysqli_stmt_init($conn);
 							$getCategories = "SELECT mainCatId, mainCatName, mainCatExt FROM maincategories";
 							mysqli_stmt_prepare($stmt, $getCategories);
@@ -43,11 +50,13 @@
 
 							if($result > 0):
 								mysqli_stmt_bind_result($stmt, $mainCatId, $mainCatName, $mainCatExt);
-                                while(mysqli_stmt_fetch($stmt)):
+								while(mysqli_stmt_fetch($stmt)):
+									if($currentCat === $mainCatName){
+										$displayCat = $mainCatName;
+									}
 						?>
 									<option 
-										value="<?php echo $mainCatName; ?>" 
-									><?php echo $mainCatName; ?></option>
+										value="<?php echo $mainCatName; ?>" <?php echo ($currentCat === $mainCatName) ? "selected" : "" ?> ><?php echo $mainCatName; ?></option>
 						<?php
 								endwhile;
 							endif;
@@ -66,6 +75,7 @@
 						<option value="">Select Sub Category</option>
 					</select>
 					<div class="form-control formInputBlue customSelectContainer customSelectSubCatContainer">
+						<?php echo (isset($_GET['subCat'])) ? "<input type='hidden' value='{$_GET['subCat']}' />" : "" ?>
 						<span class="currentSelected currentSubCatSelected">Select Sub Category</span>
 						<i class="fas fa-caret-down"></i>
 					</div>

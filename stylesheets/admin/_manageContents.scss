@@ -416,18 +416,24 @@
                 padding:0 10px 10px;
                 border-bottom:$borderGray5;
 
+                .contentAddSubCat{
+                    margin-top:10px;
+                }
+
                 .subCatBtn{
                     background:$blue;
                     padding:5px 10px;
                     border-radius: 5px;
                     margin-right: 5px;
                     margin-top:10px;
+                    outline: none;
+                    transition: background 200ms ease-in-out;
 
                     &:last-child{
                         margin-right:0px;
                     }
 
-                    &:first-child{
+                    &.activeSub{
                         background:#fff;
                     }
 
