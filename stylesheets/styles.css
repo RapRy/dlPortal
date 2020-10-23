@@ -253,6 +253,7 @@ p {
 .notif-container p {
   font-size: .8rem;
   color: #403A3A;
+  margin-bottom: 20px !important;
 }
 
 .errorHint {
@@ -1732,6 +1733,12 @@ p {
 
 .viewContentsWrapper .contentsWrapper {
   padding: 30px 0 20px;
+}
+
+.viewContentsWrapper .contentsWrapper .noResult {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #E24545;
 }
 
 .viewContentsWrapper .contentsWrapper .viewContents {

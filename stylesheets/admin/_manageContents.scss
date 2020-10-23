@@ -392,6 +392,12 @@
     .contentsWrapper{
         padding:30px 0 20px;
 
+        .noResult{
+            text-align: center;
+            font-size:1.3rem;
+            color:$red;
+        }
+
         .viewContents{
             background:$gray6;
             border:$borderGray5;

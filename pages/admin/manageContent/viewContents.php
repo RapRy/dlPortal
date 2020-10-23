@@ -22,7 +22,7 @@
 		<section class="viewContentsSearch">
             <section class="searchboxContainer">
                 <form class="form-inline d-flex justify-content-center md-form form-sm mt-0 searchContentForm" id="searchContentForm">
-                    <i class="fas fa-search searchboxIcon" aria-hidden="true" id="userSearchBtn"></i>
+                    <i class="fas fa-search searchboxIcon" aria-hidden="true" id="contentSearchBtn"></i>
                     <input class="form-control form-control-sm w-75 searchboxInput" type="text" placeholder="Search Content Name" aria-label="Search" id="contentSearchInput">
                 </form>
             </section>
