@@ -21,6 +21,7 @@ $blue3: #207CE8;
 $gray6: #F2F2F2;
 $red: #E24545;
 $gray7: #3b3939;
+$yellow: #ffd166;
 
 $shadowRed: 2px 2px 4px rgba(226, 69, 69, 0.25);
 $shadowGreen: 2px 2px 4px rgba(0, 250, 85, 0.25);
@@ -282,6 +283,17 @@ p{
         font-size: .8rem;
         color: $lightBlack;
         margin-bottom:20px !important;
+        font-weight:$r500;
+    }
+
+    .confirmCaution{
+        color:$red;
+        margin-bottom:10px !important;
+        font-weight:$r700;
+
+        i{
+            margin-right:5px;
+        }
     }
 }
 .errorHint{

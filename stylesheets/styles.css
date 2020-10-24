@@ -254,6 +254,17 @@ p {
   font-size: .8rem;
   color: #403A3A;
   margin-bottom: 20px !important;
+  font-weight: 500;
+}
+
+.notif-container .confirmCaution {
+  color: #E24545;
+  margin-bottom: 10px !important;
+  font-weight: 700;
+}
+
+.notif-container .confirmCaution i {
+  margin-right: 5px;
 }
 
 .errorHint {
