@@ -54,6 +54,7 @@
 		$subCatInitial = str_replace(" ", "", $_POST['subCatInitialName']);
 
 		if(isset($_POST['categoryName']) && isset($_POST['subCategoryName'])){
+			// if both fields changed values change
 			$newSubCatName = str_replace(" ", "", $_POST['subCategoryName']);
 			$newPath = "../uploads/contents/{$_POST['categoryName']}/{$newSubCatName}";
 			$oldPath = "../uploads/contents/{$_POST['catInitialName']}";
@@ -62,6 +63,7 @@
 				if($dh = opendir($oldPath)){
 					while(($file = readdir($dh)) !== false){
 						if($file === $subCatInitial){
+							// transfer the subcategory and contents
 							rename("{$oldPath}/{$file}", $newPath);
 							array_push($result, ["result" => "success:moveFolder"]);
 						}
@@ -76,9 +78,11 @@
 
 			if($catId){
 				if(isset($_POST['categoryName']) && isset($_POST['subCategoryName'])){
+					// if both fields changed values change update only the database
 					$sqlResult = updateData($catId, "mainCatId", "i", $stmt);
 					array_push($result, $sqlResult);
 				}else{
+					// rename folder and update database
 					$newPath = "../uploads/contents/{$_POST['categoryName']}/{$_POST['subCatInitialName']}";
 					$oldPath = "../uploads/contents/{$_POST['catInitialName']}/{$_POST['subCatInitialName']}";
 
@@ -96,9 +100,11 @@
 			$subCategoryName = filter_var($_POST['subCategoryName'], FILTER_SANITIZE_SPECIAL_CHARS);
 
 			if(isset($_POST['categoryName']) && isset($_POST['subCategoryName'])){
+				// if both fields changed values change update only the database
 				$sqlResult = updateData($subCategoryName, "subCatName", "s", $stmt);
 				array_push($result, $sqlResult);
 			}else{
+				// rename folder and update database
 				$newPath = "../uploads/contents/{$_POST['catInitialName']}/{$subCategoryName}";
 				$oldPath = "../uploads/contents/{$_POST['catInitialName']}/{$_POST['subCatInitialName']}";
 

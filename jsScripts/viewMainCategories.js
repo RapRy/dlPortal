@@ -1,10 +1,11 @@
 $('document').ready(function(){
 	class Notification{
-		static confirmNotification(msg){
+		static confirmNotification(msg1, msg2){
 			$('.viewMainCatContainer').prepend(`
 				<section class="notification">
 					<div class="notif-container">
-						<p>${msg}</p>
+						<p class="confirmCaution"><i class="fas fa-exclamation-triangle"></i>${msg1}</p>
+						<p>${msg2}</p>
 						<div class="twoBtnContainer container">
 							<div class="row">
 							<button type="button" class="btnRedConfirm twoBtnGlobal col mr-3" id="confirmBtn">
@@ -67,7 +68,7 @@ $('document').ready(function(){
 	class DeleteMainCat{
 		deleteCat(catId, currentCat, currentCatName){
 			// show confirmation box
-			Notification.confirmNotification("Please tap or click on the Confirm Button to delete the category.");
+			Notification.confirmNotification("This will delete all the sub categories and contents that are in this category.", "Tap or click on the Confirm Button to delete the category.");
 			
 			$('#confirmBtn').on('click', function(){
 				const dataForm = new FormData();

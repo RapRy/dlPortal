@@ -27,6 +27,8 @@ $('document').ready(function(){
                 })
                 $('.notif-container').css("transform", "scale(0)");
             })
+			
+			$('html').animate({scrollTop: 0}, 200, "swing");
         }
         // prompt if there is error in the input fields
         static domValidate(elem, hint, errorsArr, whichField){

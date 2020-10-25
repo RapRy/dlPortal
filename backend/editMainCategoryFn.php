@@ -81,7 +81,7 @@
 			$initialCategoryName = filter_var($_POST['initialCategoryName'], FILTER_SANITIZE_SPECIAL_CHARS);
 			
 			$newPath = "../uploads/categoryIcons/".str_replace(" ", "", $categoryName)."/";
-			$oldPath = "../uploads/categoryIcons/".$initialCategoryName."/";
+			$oldPath = "../uploads/categoryIcons/".str_replace(" ", "", $initialCategoryName)."/";
 			
 			if(is_dir($oldPath)){
 				// remove the previous folder and it's files then create new folder
@@ -96,19 +96,25 @@
 					$stripInitial = str_replace(" ", "", $initialCategoryName);
 					$newPathContent  = "../uploads/contents/{$stripCatName}/";
 					$oldPathContent  = "../uploads/contents/";
-
-					if(is_dir($oldPathContent)){
-						if($dh = opendir($oldPathContent)){
-							while(($file = readdir($dh)) !== false){
-								if($file === $stripInitial){
-									rename("{$oldPathContent}/{$file}", $newPathContent);
-									// update database
-									$sqlResult = updateData($categoryName, "mainCatName", $conn, $stmt);
-									array_push($result, $sqlResult);
-								}
-							}
-						}
+					
+					if(rename("{$oldPathContent}/{$stripInitial}", $newPathContent)){
+						$sqlResult = updateData($categoryName, "mainCatName", $conn, $stmt);
+						array_push($result, $sqlResult);
 					}
+					
+					// transfer all subcategories and contents to the renamed folder
+					// if(is_dir($oldPathContent)){
+						// if($dh = opendir($oldPathContent)){
+							// while(($file = readdir($dh)) !== false){
+								// if($file === $stripInitial){
+									// rename("{$oldPathContent}/{$file}", $newPathContent);
+									// update database
+									// $sqlResult = updateData($categoryName, "mainCatName", $conn, $stmt);
+									// array_push($result, $sqlResult);
+								// }
+							// }
+						// }
+					// }
 				}else{
 					array_push($result, ['error' => 'rename']);
 				}

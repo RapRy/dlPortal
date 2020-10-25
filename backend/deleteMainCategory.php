@@ -191,8 +191,12 @@
 				unlink($icon);
 			}
 		}
+		
+		if(is_dir($mainCatPath)){
+			rmdir($mainCatPath);
+		}
 
-		if(rmdir($pathIcons) && rmdir($mainCatPath)){
+		if(rmdir($pathIcons)){
 			$deleteCat = "DELETE FROM maincategories WHERE mainCatId=?";
 			mysqli_stmt_prepare($stmt, $deleteCat);
 			mysqli_stmt_bind_param($stmt, "i", $mainCatId);
