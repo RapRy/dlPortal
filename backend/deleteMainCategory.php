@@ -131,9 +131,11 @@
 			$subCatName = str_replace(" ", "", $content['subCatName']);
 
 			if($ext === 'apk' || $ext === 'xapk'){
+				// delete screenshots
 				$delScreens = deleteScreenshots($stmt, $contentId, $ext, $folderName, $mainCatName, $subCatName);
 
 				if($delScreens){
+					// then delete content
 					deleteContents($stmt, $contentId, $ext, $folderName, $mainCatName, $subCatName);
 				}
 			}else{
@@ -166,6 +168,7 @@
 			if($contents){
 				$contentFnGroup = contentGroupFn($stmt, $contents);
 				if($contentFnGroup){
+					// delete sub category once all the contents had been deleted
 					deleteSubCategory($stmt, $subCatId, $subCatName, $mainCatName);
 				}
 			}else{
@@ -220,9 +223,12 @@
 			$subCategoriesFnGroup = subCategoryGroupFn($stmt, $subCategories);
 
 			if($subCategoriesFnGroup){
+				// delete category once all of sub categories and contents had been deleted
+
 				deleteMainCategory($stmt, $mainCatId, $categoryName, "success with subcat and content");
 			}
 		}else{
+			// if there are no sub categories
 			$pathIcons = "../uploads/categoryIcons/{$categoryName}";
 
 			$icons = glob("{$pathIcons}/*");

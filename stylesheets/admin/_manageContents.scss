@@ -501,67 +501,30 @@
             }
         }
     }
-    
-    // .viewSubCat{
-    //     background:$gray6;
-    //     border:$borderGray5;
-    //     border-radius:$borderRadius5;
-    //     box-shadow:$shadowBlack;
-    //     margin-bottom:20px;
-
-    //     &:last-child{margin-bottom:0;}
-
-    //     .viewSubCatTitle{
-    //         padding:10px 10px 0;
-    //         border-bottom:$borderGray5;
-
-    //         h6{
-    //             font-size:1.1rem;
-    //             color:$lightBlack;
-    //             font-weight:$r700;
-    //         }
-    //     }
-
-    //     .viewSubCatListWrapper{
-    //         padding:10px;
-
-    //         & > p{
-    //             text-align: center;
-    //             font-size:.8rem;
-    //             color:$red;
-    //         }
-
-    //         .subCatContainer{
-    //             padding:7px 10px;
-    //             background:#fff;
-    //             margin:0 0 10px !important;
-    //             border-radius:$borderRadius5;
-
-    //             &:last-child{margin-bottom:0 !important;}
-
-    //             .subNameContainer{
-    //                 padding-right:0 !important;
-    //                 padding-left:0 !important;
-
-    //                 p{
-    //                     margin-bottom:0 !important;
-    //                     font-size:.9rem;
-    //                     color:$lightBlack;
-    //                     font-weight:$r700;
-    //                 }
-    //             }
-
-    //             .viewSubCatCta{
-    //                 padding-right:0 !important;
-    //                 padding-left:18px !important;
-
-    //                 .editSubCategoryBtn{
-    //                     margin-right:5px;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 }
 
 /* end view sub category */
+
+/* start edit sub category */
+.editContentHeader{
+	min-height:175px;
+	
+	.editContentPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.editContentWrapper{
+	padding:70px 20px 20px;
+}
+
+#editAddedNotif{
+	font-size:.9rem;
+    font-weight:$r700;
+    color:$blue3;
+    padding-bottom:10px;
+}
+/* end edit sub category */

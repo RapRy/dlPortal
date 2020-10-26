@@ -1,7 +1,8 @@
 <?php require('connection/dbConnection.php'); ?>
 <?php
     session_start();
-
+    
+    // fetch main cat id and ext
     function getIdMainCat($catname, $conn){
         $cat = filter_var($catname, FILTER_SANITIZE_SPECIAL_CHARS);
         $stmt = mysqli_stmt_init($conn);
@@ -25,6 +26,7 @@
         mysqli_stmt_close($stmt);
     }
 
+    // fetch sub cat id, sub cat name, main cat ext 
     function getSubCategories($selectCatId, $conn){
         $stmt = mysqli_stmt_init($conn);
         $getSubCats = "SELECT subCatId, subCatName FROM subcategories WHERE mainCatId = ?";
@@ -46,6 +48,7 @@
 
     }
 
+    // fetch sub cat id
     function getSubCatId($conn){
         $subCatName = filter_var($_POST['subCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
         $stmt = mysqli_stmt_init($conn);
@@ -68,7 +71,7 @@
         }
         mysqli_stmt_close($stmt);
     }
-
+    // insert data then return the id of the newly inserted data
     function insertContentData($conn, $subId, $catId){
         $contentName = filter_var($_POST['contentName'], FILTER_SANITIZE_SPECIAL_CHARS);
         $mainCategory = filter_var($_POST['mainCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -87,26 +90,31 @@
         $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
         if($iconError > 0 || $fileError > 0){
+            // return error icon or file
             return ['error' => 'iconOrFile'];
         }else{
+            // create folder name
             $folderName = rand(111111111,999999999);
-
+            // set content folder
             $folderPath = "../uploads/contents/".str_replace(' ', '', $mainCategory)."/".str_replace(' ', '', $subCategory)."/".$folderName."/";
 
             if(!is_dir($folderPath)){
+                // create directory is it doesnt exist
                 mkdir($folderPath, 0777, true);
             }
 
             date_default_timezone_set("Asia/Brunei");
             $dateTime = date("YmdHis");
             
+            // generate filename
             $fileFinalName = $folderName."_".$dateTime.".".$fileExt;
             $newFilePath = $folderPath.$fileFinalName;
-
+            // save file in the folder path
             if(move_uploaded_file($fileTmp, $newFilePath)){
+                // generate icon name
                 $iconFinalName = $folderName."_".$dateTime.".".$iconExt;
                 $newIconPath = $folderPath.$iconFinalName;
-
+                // save icon in the folder path
                 move_uploaded_file($iconTmp, $newIconPath);
 
                 $stmt = mysqli_stmt_init($conn);
@@ -132,13 +140,15 @@
 
         $mainCategory = filter_var($_POST['mainCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
         $subCategory = filter_var($_POST['subCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
-
+        // set screenshots folder
         $folderPath = "../uploads/contents/".str_replace(' ', '', $mainCategory)."/".str_replace(' ', '', $subCategory)."/".$folderName."/screenshots"."/";
 
         if(!is_dir($folderPath)){
+            // create directory is it doesnt exist
             mkdir($folderPath, 0777, true);
         }
 
+        // save each screenshots in the folder and in the database
         for($i = 0; count($_FILES['screenshots']['tmp_name']) > $i; $i++){
             $imageExt = strtolower(pathinfo($_FILES['screenshots']['name'][$i], PATHINFO_EXTENSION));
             $screenName = rand(111111111,999999999);
@@ -154,8 +164,10 @@
     }
 
     if(isset($_POST['selectCat'])){
+        // select input main category
         $selectCatId = getIdMainCat($_POST['selectCat'], $conn);
         if($selectCatId["catId"]){
+            // fetch sub categorie of the selected main category
             getSubCategories($selectCatId, $conn);
         }
     }
@@ -165,14 +177,17 @@
         $catId = getIdMainCat($_POST['mainCategory'], $conn);
 
         if(!$subId && !$catId){
+            // dsiplay error
             echo json_encode(['error' => "catIorSubId"]);
         }else{
+            // insert content details first
             $data = insertContentData($conn, $subId, $catId['catId']);
 
             if(!$data['contentId']){
                 echo json_encode(['error' => "contentIdError"]);
             }else{
                 if(isset($_FILES['screenshots'])){
+                    // then insert screenshots
                     insertScreenshots($conn, $data['contentId'], $data['folderName'], $data['date']);
                     echo json_encode(['success' => 'successWithScreens', "contentName" => $data['contentName']]);
                 }else{

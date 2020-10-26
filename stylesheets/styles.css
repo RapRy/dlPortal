@@ -1860,4 +1860,29 @@ p {
 }
 
 /* end view sub category */
+/* start edit sub category */
+.editContentHeader {
+  min-height: 175px;
+}
+
+.editContentHeader .editContentPageLogo {
+  position: relative;
+  top: 60px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.editContentWrapper {
+  padding: 70px 20px 20px;
+}
+
+#editAddedNotif {
+  font-size: .9rem;
+  font-weight: 700;
+  color: #207CE8;
+  padding-bottom: 10px;
+}
+
+/* end edit sub category */
 /*# sourceMappingURL=styles.css.map */

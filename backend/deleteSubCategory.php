@@ -94,9 +94,11 @@
 			$subCatName = str_replace(" ", "", $content['subCatName']);
 
 			if($ext === 'apk' || $ext === 'xapk'){
+				// delete content screenshots first
 				$delScreens = deleteScreenshots($stmt, $contentId, $ext, $folderName, $mainCatName, $subCatName);
 
 				if($delScreens){
+					// then delete the content
 					deleteContents($stmt, $contentId, $ext, $folderName, $mainCatName, $subCatName);
 				}
 			}else{
@@ -116,50 +118,15 @@
 		$contents = getContents($stmt, $subCatId);
 
 		if($contents){
+			// delete all contents first before deleting sub category
 			$contentFnGroup = contentGroupFn($stmt, $contents);
 			if($contentFnGroup){
 				$mainCatName = str_replace(" ", "", $contents[0]['mainCatName']);
 				$subCatName = str_replace(" ", "", $contents[0]['subCatName']);
-
 				deleteSubCategory($stmt, $subCatId, $subCatName, $mainCatName, "success with content");
 			}
 		}else{
-			// $getDetails = "SELECT mainCatId, subCatName FROM subcategories WHERE subCatId=?";
-			// mysqli_stmt_prepare($stmt, $getDetails);
-			// mysqli_stmt_bind_param($stmt, "i", $subCatId);
-
-			// if(mysqli_stmt_execute($stmt)){
-			// 	mysqli_stmt_store_result($stmt);
-
-			// 	$resultDetails = mysqli_stmt_num_rows($stmt);
-
-			// 	if($resultDetails > 0){
-			// 		mysqli_stmt_bind_result($stmt, $mainCatId, $subCatName);
-
-            //     	while(mysqli_stmt_fetch($stmt)){
-			// 			$getMainCatName = "SELECT mainCatName FROM maincategories WHERE mainCatId=?";
-			// 			mysqli_stmt_prepare($stmt, $getMainCatName);
-			// 			mysqli_stmt_bind_param($stmt, "i", $mainCatId);
-
-			// 			if(mysqli_stmt_execute($stmt)){
-			// 				mysqli_stmt_store_result($stmt);
-
-			// 				$resultMainCatName = mysqli_stmt_num_rows($stmt);
-
-			// 				if($resultMainCatName > 0){
-			// 					mysqli_stmt_bind_result($stmt, $mainCatName);
-
-			// 					while(mysqli_stmt_fetch($stmt)){
-			// 						$subCat = str_replace(" ", "", $subCatName);
-			// 						$mainCat = str_replace(" ", "", $mainCatName);
-
-			// 						deleteSubCategory($stmt, $subCatId, $subCat, $mainCat, "success no content");
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// }
+			// delete sub category if there are no contents
 
 			$deleteSubCat = "DELETE FROM subcategories WHERE subCatId=?";
 			mysqli_stmt_prepare($stmt, $deleteSubCat);

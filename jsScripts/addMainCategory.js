@@ -3,18 +3,8 @@ $('document').ready(function(){
         // prompt if ajax request is success
         static domNotificationSuccess(elem1, notifContent, elem2){
 			// append to the parent
-            $(elem1).prepend(`<section class="notification">
-                                                <div class="notif-container">
-                                                    ${notifContent}
-                                                </div>
-                                            </section>`);
-			// show notification
-            $('.notification').fadeIn(400, "swing", () => {
-                $('.notification').css("display", "flex");
-                $('.notif-container').css("transform", "scale(1)");
-            })
-			// button click event
-			// hide notification onclick
+            $(elem1).html(`${notifContent}`);
+		
             $(elem2).on('click', () => {
                 $('.notification').fadeOut(400, "swing", () => {
                     $('.notification').css("display", "none");
@@ -22,6 +12,8 @@ $('document').ready(function(){
                 })
                 $('.notif-container').css("transform", "scale(0)");
             })
+			
+			// $('html').animate({scrollTop: 0}, 200, "swing");
         }
         // prompt if there is error in the input fields
         static domValidate(elem, hint, errorsArr, whichField){
@@ -246,9 +238,32 @@ $('document').ready(function(){
                 dataType: 'json',
                 contentType:false,
                 processData:false,
+                beforeSend: () => {
+                    // show loader
+                    $('.addMainCatContainer').prepend(`
+                        <section class="notification">
+                            <div class="notif-container">
+                                <p>Adding Main Category..</p>
+                                <div class="saveLoader">
+                                    <div class="saveSpinner"></div>
+                                </div>
+                            </div>
+                        </section>
+                    `);
+                    
+                    $('.notification').fadeIn(400, "swing", function(){
+                        $('.notif-container').css({transform:"scale(1)"})
+                    }).css({display:"flex"});
+                    
+                    // scroll back to top
+                    $('html').animate({scrollTop: 0}, 200, "swing");
+                },
                 success: function(data, textStatus, xhr){
                     if(xhr.status == 200){
                         if(data.hasOwnProperty('error')){
+                            // remove loader
+                            $('.notification').remove()
+
 							if(data.error == "icon"){
 								// show error if there is other problem on the image icon
 								Notification.domValidateAjax('#customFileIcon', "Something went wrong, please try a different icon", "categoryIcon");
@@ -261,7 +276,7 @@ $('document').ready(function(){
                                 <p id="catAddedNotif">Category Added</p>
                                 <button type="button" class="btnGray5 globalBtn" id="catAddedNotifCloseBtn">CLOSE</button>
                             `
-                            Notification.domNotificationSuccess('.addMainCatContainer', notifContent, '#catAddedNotifCloseBtn');
+                            Notification.domNotificationSuccess('.notif-container', notifContent, '#catAddedNotifCloseBtn');
 							// remove selected attrib on the original option
                             $.each($('.customSelectMenu').children(), function(i, opt){
                                 $(opt).attr('selected', false)

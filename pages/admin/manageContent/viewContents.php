@@ -119,7 +119,7 @@
                                                         <a href="" class="btnBlueSolid btnLink contentPreviewBtn">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a href="" class="btnBlueSolid btnLink editContentBtn">
+                                                        <a href="./editContent.php?cat=<?php echo $mainCatName; ?>&subCat=<?php echo $subCatName; ?>&contId=<?php echo $contentId; ?>" class="btnBlueSolid btnLink editContentBtn">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                         <button type="button" class="btnRedSolid deleteContentBtn">
