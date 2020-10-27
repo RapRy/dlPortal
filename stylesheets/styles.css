@@ -1877,6 +1877,33 @@ p {
   padding: 70px 20px 20px;
 }
 
+.editContentWrapper .imgContainer {
+  padding: 10px;
+  border-radius: 3px;
+  background-color: #E0E0E0;
+  margin-top: 10px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto 1fr auto;
+      grid-template-columns: auto 1fr auto;
+  grid-gap: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.editContentWrapper .imgContainer .screenImgThumb {
+  font-size: 2rem;
+  color: #207CE8;
+}
+
+.editContentWrapper .imgContainer p {
+  font-size: .8rem;
+  font-weight: 700;
+  color: #403A3A;
+  word-break: break-all;
+}
+
 #editAddedNotif {
   font-size: .9rem;
   font-weight: 700;

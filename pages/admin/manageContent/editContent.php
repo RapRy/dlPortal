@@ -97,8 +97,7 @@
 						<option value="">Select Sub Category</option>
 					</select>
 					<div class="form-control formInputBlue customSelectContainer customSelectSubCatContainer">
-						<?php echo (isset($_GET['subCat'])) ? "<input type='hidden' value='{$_GET['subCat']}' />" : "" ?>
-						<span class="currentSelected currentSubCatSelected">Select Sub Category</span>
+						<span class="currentSelected currentSubCatSelected"><?php echo (isset($_GET['subCat'])) ? str_replace("+", " ", $_GET['subCat']) : "Select Sub Category"?></span>
 						<i class="fas fa-caret-down"></i>
 					</div>
 				</div>
@@ -106,7 +105,7 @@
 			<div class="custom-file">
 				<span class="formLabel customFormLabel">Content File</span>
 				<input type="file" class="custom-file-input" id="contentFile" name="contentFile" value="<?php echo $contentFilename; ?>">
-				<label class="custom-file-label formInputBlue" for="contentFile" id="contentFileLabel"></label>
+				<label class="custom-file-label formInputBlue" for="contentFile" id="contentFileLabel"><?php echo $contentFilename; ?></label>
 			</div>
 			<div class="custom-file">
 				<span class="formLabel customFormLabel">Content Icon</span>
@@ -115,7 +114,7 @@
 			</div>
 			<div class="form-group">
 				<label for="contentDescription" class="formLabel">Content Description</label>
-				<textarea class="form-control formInputBlue" id="contentDescription" rows="7" value="<?php echo $contentDescription; ?>"></textarea>
+				<textarea class="form-control formInputBlue" id="contentDescription" rows="7" value="<?php echo $contentDescription; ?>"><?php echo $contentDescription; ?></textarea>
 			</div>
 			<!-- <div class="custom-file customFileMB">
 				<span class="formLabel customFormLabel">Content Screenshots</span>
@@ -130,63 +129,69 @@
 					<div class="screenshotsBody"></div>
 				</div>
 			</div> -->
-			<div class="custom-file customFileMB">
-				<span class="formLabel customFormLabel">Content Screenshots</span>
-				<input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
-				<div class="contentScreenshotsWrapper">
-					<div class="text-center">
-						<label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">Add Images</label>
-						<p class="screenshotsReminder">Only png and jpg are allowed.</p>
-					</div>
-					<div class="screenshotsBody">
-						<?php
-							$cat = filter_var($_GET['cat'], FILTER_SANITIZE_SPECIAL_CHARS);
-							$stmtExtScreen = mysqli_stmt_init($conn);
-							$getExt = "SELECT mainCatExt FROM maincategories WHERE mainCatName = ?";
+			<?php
+				$cat = filter_var($_GET['cat'], FILTER_SANITIZE_SPECIAL_CHARS);
+				$stmtExtScreen = mysqli_stmt_init($conn);
+				$getExt = "SELECT mainCatExt FROM maincategories WHERE mainCatName = ?";
 
-							mysqli_stmt_prepare($stmtExtScreen, $getExt);
-							mysqli_stmt_bind_param($stmtExtScreen, "i", $cat);
-							mysqli_stmt_execute($stmtExtScreen);
+				mysqli_stmt_prepare($stmtExtScreen, $getExt);
+				mysqli_stmt_bind_param($stmtExtScreen, "s", $cat);
+				mysqli_stmt_execute($stmtExtScreen);
 
-							mysqli_stmt_store_result($stmtExtScreen);
+				mysqli_stmt_store_result($stmtExtScreen);
 
-							mysqli_stmt_num_rows($stmtExtScreen);
+				mysqli_stmt_num_rows($stmtExtScreen);
 
-							mysqli_stmt_bind_result($stmtExtScreen, $mainCatExt);
+				mysqli_stmt_bind_result($stmtExtScreen, $mainCatExt);
 
-							mysqli_stmt_fetch($stmtExtScreen);
+				mysqli_stmt_fetch($stmtExtScreen);
 
-							if($mainCatExt === "APK" || $mainCatExt === "XAPK"):
-								$getScreens = "SELECT screenshotName FROM screenshots WHERE contentId = ?";
-								mysqli_stmt_prepare($stmtExtScreen, $getScreens);
-								mysqli_stmt_bind_param($stmtExtScreen, "i", $contId);
-								mysqli_stmt_execute($stmtExtScreen);
+				if($mainCatExt === "APK" || $mainCatExt === "XAPK"):
+			?>
+				<div class="custom-file">
+					<span class="formLabel customFormLabel">Content Screenshots</span>
+					<input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
+					<div class="contentScreenshotsWrapper" id="contentScreenshotsWrapper">
+						<div class="text-center">
+							<label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">Add Images</label>
+							<p class="screenshotsReminder">Only png and jpg are allowed.</p>
+						</div>
+						<div class="screenshotsBody" id="screenshotsBody">
+							<?php
+								
+									$getScreens = "SELECT screenshotId, screenshotName FROM screenshots WHERE contentId = ?";
+									mysqli_stmt_prepare($stmtExtScreen, $getScreens);
+									mysqli_stmt_bind_param($stmtExtScreen, "i", $contId);
+									mysqli_stmt_execute($stmtExtScreen);
 
-								mysqli_stmt_store_result($stmtExtScreen);
+									mysqli_stmt_store_result($stmtExtScreen);
 
-								mysqli_stmt_num_rows($stmtExtScreen);
+									mysqli_stmt_num_rows($stmtExtScreen);
 
-								mysqli_stmt_bind_result($stmtExtScreen, $screenshot);
+									mysqli_stmt_bind_result($stmtExtScreen, $screenshotId, $screenshot);
 
-								while(mysqli_stmt_fetch($stmtExtScreen)):
-						?>
-									<div class="imgContainer">
-										<i class="fas fa-file-image screenImgThumb"></i>
-										<p><?php echo $screenshot; ?></p>
-										<button type="button" class="btnRedSolid deleteCategoryBtn deleteScreen">
-											<i class="fas fa-trash-alt"></i>
-										</button>
-									</div>
-						<?php
-								endwhile;
-								mysqli_stmt_close($stmtExtScreen);
-							endif;
-						?>
+									while(mysqli_stmt_fetch($stmtExtScreen)):
+							?>
+										<div class="imgContainer">
+											<input type="hidden" value="<?php echo $screenshotId; ?>" />
+											<i class="fas fa-file-image screenImgThumb"></i>
+											<p><?php echo $screenshot; ?></p>
+											<button type="button" class="btnRedSolid deleteCategoryBtn deleteScreen">
+												<i class="fas fa-trash-alt"></i>
+											</button>
+										</div>
+							<?php
+									endwhile;
+									mysqli_stmt_close($stmtExtScreen);
+							?>
+						</div>
 					</div>
 				</div>
-			</div>
+			<?php
+				endif;
+			?>
 			<div class="form-group text-center">
-				<button type="button" class="btnContentManageBlue globalBtn" id="editContentBtn">Add</button>
+				<button type="button" class="btnContentManageBlue globalBtn" id="editContentBtn">Save</button>
 			</div>
 			<!-- insert here -->
         </form>
