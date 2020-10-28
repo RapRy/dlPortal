@@ -1,4 +1,7 @@
 $('document').ready(function(){
+
+    let catExt = "";
+
     class Notification {
         // prompt if ajax request is success
         static domNotificationSuccess(elem1, notifContent, elem2){
@@ -58,6 +61,306 @@ $('document').ready(function(){
         }
     }
 
+    class CustomSelectMenuSubCat{
+        constructor(){
+            this.heightSelectMenu = null;
+        }
+
+        loadCustomSelectMenuSubCat(data){
+            // add new div element
+            $('.customSelectSubCatWrapper').append(`<div class="customSelectOptions customSelectSubCatOptions"></div>`);
+
+            // $('.currentSubCatSelected').text($('.currentSubCatSelected').prev().val())
+
+            $.each(data, function(i, subCat){
+                const { subCatId, subCatName } = subCat;
+                $('.customSelectSubCatMenu').append(`
+                    <option value="${subCatName}">${subCatName}</option>
+                `)
+
+                $('.customSelectSubCatOptions').append(`<span class="customOption customSubCatOption">${subCatName}</span>`)
+            })
+
+            $('.customSelectSubCatOptions').prepend(`
+                <span class="customOption customSubCatOption">Select Sub Category</span>
+            `)
+
+            $('.customSubCatOption:first').css({display: "none"});
+            // assign value to the this.heightSelectMenu
+            this.heightSelectMenu = $('.customSelectSubCatOptions').height();
+
+            $('.customSelectSubCatOptions').css({height: 0});
+
+            // if the user click add button from view contents page
+            if($('.currentSubCatSelected').prev().length > 0){
+                $('.currentSubCatSelected').text($('.currentSubCatSelected').prev().val())
+                
+                $('#selectSubCat').children().each((i, elem) => {
+                    if($('.currentSubCatSelected').prev().val() === $(elem).text()){
+                        $(elem).attr('selected', 'true');
+                    }
+                })
+            }
+        }
+    
+        removeSubcategories(){
+            if($('.customSelectSubCatMenu').children().length > 1){
+
+                this.hideCustomSelectMenu($('.customSelectSubCatContainer'));
+
+                $('.customSelectSubCatMenu').empty().append(`
+                        <option value="">Select Sub Category</option>
+                `);
+
+                $('.customSelectSubCatOptions').remove();
+                $('.currentSubCatSelected').text("Select Sub Category");
+
+                $('.customSelectSubCatContainer').unbind('click');
+            }
+        }
+
+        hideCustomSelectMenu(currentElem){
+			// hide dropdown
+            const borderStyle = "1px solid #207CE8";
+			// return styles to initial styles
+            $('.customSelectSubCatOptions').animate({height: 0}, 200, "swing", function(){
+                $(this).css({border: "none"})
+                $(currentElem).css({border: borderStyle, borderRadius: ".25rem"});
+            });
+        }
+
+        showCustomSelectMenu(heightSelect, currentElem){
+			// show dropdown
+            const borderStyle = "1px solid #207CE8";
+            // add css styling then set and animate height of customSelectOptions
+            $('.customSelectSubCatOptions').css({
+                borderLeft: borderStyle,
+                borderRight: borderStyle,
+                borderBottom: borderStyle
+            }).animate({height: `${heightSelect}px`}, 200, "swing");
+			
+			// change css style of the customSelectContainer
+            $(currentElem).css({
+                borderRadius: ".25rem .25rem 0 0",
+                borderLeft: borderStyle,
+                borderRight: borderStyle,
+                borderTop: borderStyle,
+                borderBottom: "1px solid #E0E0E0"
+            })
+        }
+
+        selectCustomOption(currentElem, selectMenuChildren){
+			// get the index of the clicked option
+            const ind = $(currentElem).index();
+			// remove class and check mark of all the options
+            $.each($('.customSubCatOption'), function(i, opt){
+                $(opt).removeClass('customOptionSelected').find('i').remove();
+            })
+			// assign class and check mark to the clicked option
+            $(currentElem).addClass('customOptionSelected').append(`<i class="fas fa-check"></i>`);
+			// remove selected attribute to all the original option
+            $.each(selectMenuChildren, function(i, opt){
+                $(opt).attr('selected', false)
+            })
+			// add selected attribute to the original option based from the index of the clicked custom option
+            $(selectMenuChildren[ind]).attr('selected', true)
+			// get the text of the clicked custom option then assig it to the currentSelected
+            $('.currentSubCatSelected').text($(currentElem).text());
+			// hide dropdown
+            this.hideCustomSelectMenu('.customSelectSubCatContainer')
+
+            // this.getSubCategories($(currentElem).text());
+            
+        }
+
+        events(){
+            $('.customSelectSubCatContainer').on('click', (e) => {
+                const selectMenuHeight = $('.customSelectSubCatOptions').height();
+                if(selectMenuHeight == 0){
+                    // show dropdown
+                    this.showCustomSelectMenu(this.heightSelectMenu, e.currentTarget)
+                }else{
+					// hide dropdown
+                    this.hideCustomSelectMenu(e.currentTarget);
+                }
+            })
+
+            if($('.customSubCatOption').length > 0){
+				// check if the custom options already loaded
+				// add click event to each custom option
+                $('.customSubCatOption').on('click', (e) => {
+					// assign value to the original select menu
+                    this.selectCustomOption(e.currentTarget, $('.customSelectSubCatMenu').children());
+                })
+            }
+        }
+    }
+
+    class CustomSelectMenuMainCat{
+        constructor(){
+			// get options
+            this.selectOptions = $('.customSelectMainCatMenu').children();
+			// container for the height value of select
+            this.heightSelectMenu = null;
+        }
+
+        loadCustomSelectMenu(){
+			// add new div element
+            $('.customSelectMainCatWrapper').append(`<div class="customSelectOptions customSelectMainCatOptions"></div>`);
+			
+            $.each(this.selectOptions, function(i, opt){
+				// get the text of the options then assign it to the new span element
+                $('.customSelectMainCatOptions').append(`<span class="customOption customMainCatOption">${$(opt).text()}</span>`)
+            })
+			// hide select file extension text
+            $('.customMainCatOption:first').css({display: "none"});
+			// get height of customSelectOptions container then assign it to heightSelectMenu, we will use this for the dropdown animation of the custom select menu
+            this.heightSelectMenu = $('.customSelectMainCatOptions').height();
+			// set customSelectOptions height to 0 after getting initial height 
+            $('.customSelectMainCatOptions').css({height: 0});
+        }
+
+        showCustomSelectMenu(heightSelect, currentElem){
+			// show dropdown
+            const borderStyle = "1px solid #207CE8";
+            // add css styling then set and animate height of customSelectOptions
+            $('.customSelectMainCatOptions').css({
+                borderLeft: borderStyle,
+                borderRight: borderStyle,
+                borderBottom: borderStyle
+            }).animate({height: `${heightSelect}px`}, 200, "swing");
+			
+			// change css style of the customSelectContainer
+            $(currentElem).css({
+                borderRadius: ".25rem .25rem 0 0",
+                borderLeft: borderStyle,
+                borderRight: borderStyle,
+                borderTop: borderStyle,
+                borderBottom: "1px solid #E0E0E0"
+            })
+        }
+
+        hideCustomSelectMenu(currentElem){
+			// hide dropdown
+            const borderStyle = "1px solid #207CE8";
+			// return styles to initial styles
+            $('.customSelectMainCatOptions').animate({height: 0}, 200, "swing", function(){
+                $(this).css({border: "none"})
+                $(currentElem).css({border: borderStyle, borderRadius: ".25rem"});
+            });
+        }
+
+        selectCustomOption(currentElem, selectMenuChildren){
+			// get the index of the clicked option
+            const ind = $(currentElem).index();
+			// remove class and check mark of all the options
+            $.each($('.customMainCatOption'), function(i, opt){
+                $(opt).removeClass('customOptionSelected').find('i').remove();
+            })
+			// assign class and check mark to the clicked option
+            $(currentElem).addClass('customOptionSelected').append(`<i class="fas fa-check"></i>`);
+			// remove selected attribute to all the original option
+            $.each(selectMenuChildren, function(i, opt){
+                $(opt).attr('selected', false)
+            })
+			// add selected attribute to the original option based from the index of the clicked custom option
+            $(selectMenuChildren[ind]).attr('selected', true)
+			// get the text of the clicked custom option then assig it to the currentSelected
+            $('.currentMainCatSelected').text($(currentElem).text());
+			// hide dropdown
+            this.hideCustomSelectMenu('.customSelectMainCatContainer')
+
+            this.getSubCategories($(currentElem).text());
+
+            // reset values
+            $('#contentFile').attr('value', "");
+            $('#contentIcon').attr('value', "");
+            $('#contentName').attr('value', "");
+            $('#contentDescription').attr('value', "");
+            
+            console.log(catExt)
+        }
+
+        getSubCategories(currentCat){
+            const dataForm  = new FormData;
+            // create instance of the CustomSelectMenuMainCat class
+            const customSelectMenuSubCat = new CustomSelectMenuSubCat;
+
+            $.ajax({
+                type:'POST',
+                url:'../../../backend/addContentFn.php',
+                data:dataForm,
+                dataType:'json',
+                contentType:false,
+                processData:false,
+                beforeSend: () => {
+                    dataForm.append('selectCat', currentCat)
+                    // remove the previous sub categories if there is any
+                    customSelectMenuSubCat.removeSubcategories();
+                },
+                success: (data, textStatus, xhr) => {
+                    if(xhr.status == 200){
+                        if(data.length > 0){
+                            console.log(data)
+                            // remove error "no subcategories"
+                            if($('.customSelectSubCatContainer').next("small")){
+                                $('.customSelectSubCatContainer').next().remove();
+                            }
+                            // show the subcategories
+                            customSelectMenuSubCat.loadCustomSelectMenuSubCat(data);
+                            // add click event on subcategory select input
+                            customSelectMenuSubCat.events();
+                            // assign the current main category to the global variable catExt 
+                            catExt = data[0].mainCatExt;
+                            // reset the content file and content icon input value
+
+                            if(data[0].mainCatExt === "APK"){
+
+                            }
+                        }
+                    }
+                },
+                error: (err) => console.log(err)
+            })
+        }
+
+        events(){
+            $('.customSelectMainCatContainer').on('click', (e) => {
+				// get height of customSlectOptions afte we set the height to 0
+				// we use this as toggle between showing and hiding the dropdown
+                const selectMenuHeight = $('.customSelectMainCatOptions').height();
+                if(selectMenuHeight == 0){
+					// show dropdown
+                    this.showCustomSelectMenu(this.heightSelectMenu, e.currentTarget)
+                }else{
+					// hide dropdown
+                    this.hideCustomSelectMenu(e.currentTarget);
+                }
+            });
+
+            if($('.customMainCatOption').length > 0){
+				// check if the custom options already loaded
+				// add click event to each custom option
+                $('.customMainCatOption').on('click', (e) => {
+					// assign value to the original select menu
+                    this.selectCustomOption(e.currentTarget, this.selectOptions);
+                })
+            }
+        }
+    }
+
+    class CustomFile{
+        getContentFileValue(){
+			// set name of the file onchange event
+            $('#contentFile').on('change', (e) => $(e.target).next().text(e.target.files[0].name))
+        }
+
+        getContentIconValue(){
+			// set name of the file onchange event
+            $('#contentIcon').on('change', (e) => $(e.target).next().text(e.target.files[0].name))
+        }
+    }
+
     class ValidateForm{
         constructor(){
             this.contNameInitial = $('#contentName').val()
@@ -70,14 +373,208 @@ $('document').ready(function(){
             this.contScreensInitial = []
         }
 
-        checkVals(){
-            console.log(this.contNameInitial)
-            console.log(this.contId)
-            console.log(this.mainCatInitial)
-            console.log(this.subCatInitial)
-            console.log(this.contFileInitial)
-            console.log(this.contIconInitial)
-            console.log(this.contDescInitial)
+        checkIconDimension(resolve){
+            let errors = [];
+
+            if($('#contentIcon').attr('value') === "" || $('#contentIcon').attr('value') === null){
+				// empty input return 0
+                resolve(errors);
+            }else if($('#contentIcon').attr('value') != "" || $('#contentIcon').attr('value') != null){
+                if($('#contentIcon')[0].files[0] != undefined){
+                    const ext = $('#contentIcon')[0].files[0].name.toLowerCase().split(".");
+
+                    const extCompare = ["png", "jpg"]
+                    let extResult = "";
+
+                    $.each(extCompare, (i, extC) => {
+                        // return false is there is no match to extCompare values
+                        if(ext.includes(extC)) extResult = ext.includes(extC)
+                    })
+
+                    if(!extResult){
+                        // file type is not png or jpg return 0
+                        resolve(errors);
+                    }else{
+                        // input not empty
+                        const rd = new FileReader();
+                        // read the file ad based64 or blob
+                        rd.readAsDataURL($('#contentIcon')[0].files[0]);
+                        rd.onload = function(e){
+                            // create image tag
+                            const img = new Image();
+                            // add blob file as src attribute of the image 
+                            img.src = e.target.result;
+                            img.onload = function(){
+                                if((this.height > 45 && this.width > 45) || (this.height < 45 && this.width < 45)){
+                                    // check image if height and width is not equal to 45px
+                                    Notification.domValidate('#contentIcon', "Content icon dimension must be 45x45px", errors, "contentIcon");
+                                    // return the error or return 1
+                                    resolve(errors);
+                                }else{
+                                    // if image height and width is equal 45px
+                                    // remove the error notif if there is any then return 0
+                                    $('#contentIcon').next().next().remove();
+                                    $('#contentIcon').parent().css({marginBottom: "35px"})
+                                    resolve(errors);
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    // other error return 0
+                    resolve(errors);
+                }
+            }else{
+				// other error return 0
+                resolve(errors);
+            }
+        }
+
+        checkErrors(){
+            let errors = [];
+
+            if($('#contentName').val() === "" || $('#contentName').val() === null){
+                Notification.domValidate('#contentName', "Content Name is required", errors, "contentName");
+            }else{
+                $('#contentName').next().remove();
+            }
+
+            if($('#selectMainCat').val() === "" || $('#selectMainCat').val() === null){
+                Notification.domValidate('.customSelectMainCatOptions', "Main Category is required", errors, "selectMainCat");
+            }else{
+                $('.customSelectMainCatOptions').next().remove();
+            }
+
+            if($('#selectSubCat').attr('value') === "" || $('#selectSubCat').attr('value') === null){
+                Notification.domValidate('.customSelectSubCatOptions', "Sub Category is required", errors, "selectSubCat");
+            }else{
+                $('.customSelectSubCatOptions').next().remove();
+            }
+
+            if($('#contentFile').attr('value') === "" || $('#contentFile').attr('value') === null){
+                Notification.domValidate('#contentFile', "Content File is required", errors, "contentFile");
+            }else{
+                if($('#contentFile')[0].files[0] != undefined){
+                    const ext = $('#contentFile')[0].files[0].name.toLowerCase().split(".");
+
+                    if(catExt == "APK"){
+                        // validate if file has apk or xapk extension
+                        const extCompare = ["xapk", "apk"]
+                        let extResult = "";
+
+                        $.each(extCompare, (i, extC) => {
+                            if(ext.includes(extC)) extResult = ext.includes(extC)
+                        })
+
+                        if(!extResult){
+                            Notification.domValidate('#contentFile', "Content File must be apk or xapk file extension", errors, "contentFile");
+                        }else{
+                            $('#contentFile').next().next().remove();
+                            $('#contentFile').parent().css({marginBottom: "35px"})
+                        }
+                    }else if(catExt == "MP3"){
+                        // validate if file has mp3 extension
+                        const extInd = $.inArray("mp3", ext);
+
+                        if(ext[extInd] != "mp3" || $('#contentFile')[0].files[0].type != "audio/mpeg"){
+                            Notification.domValidate('#contentFile', "Content File must be mp3 file extension", errors, "contentFile");
+                        }else{
+                            $('#contentFile').next().next().remove();
+                            $('#contentFile').parent().css({marginBottom: "35px"})
+                        }
+
+                    }else if(catExt == "MP4"){
+                        // validate if file has mp4 extension
+                        const extInd = $.inArray("mp4", ext);
+
+                        if(ext[extInd] != "mp4" || $('#contentFile')[0].files[0].type != "video/mp4"){
+                            Notification.domValidate('#contentFile', "Content File must be mp4 file extension", errors, "contentFile");
+                        }else{
+                            $('#contentFile').next().next().remove();
+                            $('#contentFile').parent().css({marginBottom: "35px"})
+                        }
+                    }
+                }
+            }
+
+            if($('#contentIcon').attr('value') === "" || $('#contentIcon').attr('value') === null){
+                Notification.domValidate('#contentIcon', "Content Icon is required", errors, "contentIcon");
+            }else{
+                if($('#contentIcon')[0].files[0] != undefined){
+                    const ext = $('#contentIcon')[0].files[0].name.toLowerCase().split(".");
+
+                    const extCompare = ["png", "jpg"]
+                    let extResult = "";
+
+                    $.each(extCompare, (i, extC) => {
+                        if(ext.includes(extC)) extResult = ext.includes(extC)
+                    })
+
+                    if(!extResult){
+                        // if icon is not png or jpg
+                        Notification.domValidate('#contentIcon', "Content Icon must be png or jpg file extension", errors, "contentIcon");
+                    }else{
+                        $('#contentIcon').next().next().remove();
+                        $('#contentIcon').parent().css({marginBottom: "35px"})
+                    }
+                }
+            }
+
+            if($('#contentDescription').val() === "" || $('#contentDescription').val() === null){
+                Notification.domValidate('#contentDescription', "Content Description is required", errors, "contentDescription");
+            }else{
+                $('#contentDescription').next().remove();
+            }
+
+            if($('.imgContainer').length === 0){
+
+                if($('#contentScreenshotsWrapper').next().length > 0){
+                    $('#contentScreenshotsWrapper').next().remove();
+                }
+                
+                Notification.domValidate('#contentScreenshotsWrapper', "Content screenshots are required", errors, "contentScreenshots");
+            }else{
+                
+                if($('#contentScreenshots')[0].files[0]){
+                    const extCompare = ["png", "jpg", "gif"];
+                    // let extResult = [];
+                    let imgInds = [];
+
+                    $(screenImgArr).each(function(ind){
+                        const ext = this.name.toLowerCase().split(".");
+                        if(extCompare.includes(ext[ext.length - 1])){
+                            imgInds.push(ind);
+                        }
+                    })
+
+                    $(screenImgArr).each(function(ind){
+                        const name = this.name
+
+                        if(!imgInds.includes(ind)){
+                            Notification.domValidate('#contentScreenshotsWrapper', `${name} extension is not valid`, errors, "contentScreenshots");
+                            return false;
+                        }else{
+                            $('#contentScreenshotsWrapper').next().remove();
+                        }
+                    })
+                }
+            }
+
+            return errors;
+        }
+
+        events(){
+            $('#editContentBtn').on('click', async () => {
+                const inputErrors = this.checkErrors();
+                const iconError = new Promise((resolve) => this.checkIconDimension(resolve))
+
+                const iconResult = await iconError;
+
+                console.log(inputErrors)
+                console.log(iconResult)
+
+                console.log($('#selectSubCat').attr('value'))
+            })
         }
     }
 
@@ -97,10 +594,17 @@ $('document').ready(function(){
         }
     }
 
+    const customSelectMenuMainCat = new CustomSelectMenuMainCat();
     const validateForm = new ValidateForm;
     const screenshots = new Screenshots;
+    const customFile = new CustomFile;
 
-    validateForm.checkVals();
+    customFile.getContentFileValue()
+    customFile.getContentIconValue()
     screenshots.getScreenshots();
+    validateForm.events();
 
+    customSelectMenuMainCat.getSubCategories($('.currentMainCatSelected').text());
+    customSelectMenuMainCat.loadCustomSelectMenu();
+    customSelectMenuMainCat.events();
 })

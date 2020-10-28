@@ -50,7 +50,7 @@
             <div class="form-group">
 				<label for="selectMainCat" class="formLabel">Main Category</label>
 				<div class="customSelectWrapper customSelectMainCatWrapper">
-					<select class="form-control formInputBlue customSelectMainCatMenu" id="selectMainCat" name="selectMainCat" value="">
+					<select class="form-control formInputBlue customSelectMainCatMenu" id="selectMainCat" name="selectMainCat" value="<?php echo str_replace("+", " ", $_GET['cat']); ?>">
 						<option value="">Select Main Category</option>
 						<?php
 
@@ -85,7 +85,7 @@
 						?>
 					</select>
 					<div class="form-control formInputBlue customSelectContainer customSelectMainCatContainer">
-						<span class="currentSelected currentMainCatSelected"><?php echo (empty($displayCat)) ? "Select Main Category" : $currentCat ?></span>
+						<span class="currentSelected currentMainCatSelected"><?php echo (empty($displayCat)) ? "Select Main Category" : str_replace("+", " ", $_GET['cat']); ?></span>
 						<i class="fas fa-caret-down"></i>
 					</div>
 				</div>
@@ -93,7 +93,7 @@
 			<div class="form-group">
 				<label for="selectSubCat" class="formLabel">Sub Category</label>
 				<div class="customSelectWrapper customSelectSubCatWrapper">
-					<select class="form-control formInputBlue customSelectSubCatMenu" id="selectSubCat" name="selectSubCat" value="">
+					<select class="form-control formInputBlue customSelectSubCatMenu" id="selectSubCat" name="selectSubCat" value="<?php echo str_replace("+", " ", $_GET['subCat']); ?>">
 						<option value="">Select Sub Category</option>
 					</select>
 					<div class="form-control formInputBlue customSelectContainer customSelectSubCatContainer">
