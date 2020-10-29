@@ -1,5 +1,7 @@
 $('document').ready(function(){
 
+    let screenImgArr = [];
+
     let catExt = "";
 
     class Notification {
@@ -250,7 +252,36 @@ $('document').ready(function(){
             });
         }
 
-        selectCustomOption(currentElem, selectMenuChildren){
+        resetFormValues(catExt){
+            // reset values
+            $('#contentFile').attr('value', "");
+            $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).");
+            $('#contentIcon').attr('value', "");
+            $('#contentName').attr('value', "");
+            $('#contentDescription').attr('value', "").text("");
+            
+            if(catExt === "APK"){
+                $('#contentFileLabel').text("Only apk and xapk are allowed.");
+            }else if(catExt === "MP4"){
+                $('#contentFileLabel').text("Only mp4 are allowed.");
+
+                if($('#screenshotsInput') != undefined){
+                    $('#screenshotsInput').remove();
+                    screenImgArr = [];
+                    $('#contentScreenshots').val("")
+                }
+            }else if(catExt === "MP3"){
+                $('#contentFileLabel').text("Only mp3 are allowed.");
+
+                if($('#screenshotsInput') != undefined){
+                    $('#screenshotsInput').remove();
+                    screenImgArr = [];
+                    $('#contentScreenshots').val("")
+                }
+            }
+        }
+
+        async selectCustomOption(currentElem, selectMenuChildren){
 			// get the index of the clicked option
             const ind = $(currentElem).index();
 			// remove class and check mark of all the options
@@ -270,18 +301,13 @@ $('document').ready(function(){
 			// hide dropdown
             this.hideCustomSelectMenu('.customSelectMainCatContainer')
 
-            this.getSubCategories($(currentElem).text());
+            let promise = new Promise((resolve) => this.getSubCategories($(currentElem).text(), resolve));
+            await promise;
 
-            // reset values
-            $('#contentFile').attr('value', "");
-            $('#contentIcon').attr('value', "");
-            $('#contentName').attr('value', "");
-            $('#contentDescription').attr('value', "");
-            
-            console.log(catExt)
+            this.resetFormValues(catExt)
         }
 
-        getSubCategories(currentCat){
+        getSubCategories(currentCat, resolve){
             const dataForm  = new FormData;
             // create instance of the CustomSelectMenuMainCat class
             const customSelectMenuSubCat = new CustomSelectMenuSubCat;
@@ -315,7 +341,14 @@ $('document').ready(function(){
                             // reset the content file and content icon input value
 
                             if(data[0].mainCatExt === "APK"){
-
+                                if(resolve != undefined)
+                                    resolve(catExt);
+                            }else if(data[0].mainCatExt === "MP4"){
+                                if(resolve != undefined)
+                                    resolve(catExt);
+                            }else if(data[0].mainCatExt === "MP3"){
+                                if(resolve != undefined)
+                                    resolve(catExt);
                             }
                         }
                     }
