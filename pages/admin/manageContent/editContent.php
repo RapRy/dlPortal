@@ -43,6 +43,7 @@
         <h2>EDIT CONTENT</h2>
 		<form id="contentForm" enctype='multiple/form-data' method='POST'>
 			<input type="hidden" id="contentId" value="<?php echo $contId; ?>" />
+			<input type="hidden" id="folderName" value="<?php echo $folderName; ?>" />
             <div class="form-group">
 				<label for="contentName" class="formLabel">Content Name</label>
 				<input type="text" class="form-control formInputBlue" id="contentName" name="contentName" value="<?php echo $contentName; ?>">
@@ -148,11 +149,11 @@
 
 				if($mainCatExt === "APK" || $mainCatExt === "XAPK"):
 			?>
-				<div class="custom-file">
+				<div class="custom-file" id="screenshotsInput">
 					<span class="formLabel customFormLabel">Content Screenshots</span>
 					<input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
 					<div class="contentScreenshotsWrapper" id="contentScreenshotsWrapper">
-						<div class="text-center">
+						<div class="text-center" id="screenshotsHeader">
 							<label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">Add Images</label>
 							<p class="screenshotsReminder">Only png and jpg are allowed.</p>
 						</div>
@@ -176,7 +177,7 @@
 											<input type="hidden" value="<?php echo $screenshotId; ?>" />
 											<i class="fas fa-file-image screenImgThumb"></i>
 											<p><?php echo $screenshot; ?></p>
-											<button type="button" class="btnRedSolid deleteCategoryBtn deleteScreen">
+											<button type="button" class="btnRedSolid deleteCategoryBtn deleteScreenInitial">
 												<i class="fas fa-trash-alt"></i>
 											</button>
 										</div>

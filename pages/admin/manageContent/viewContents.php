@@ -89,7 +89,7 @@
                                 <?php
                                     if(count($idSubCatArray) > 0):
                                         $stmtContent = mysqli_stmt_init($conn);
-                                        $getContents = "SELECT contentId, contentName, folderName, contentThumb, contentFilename, contentFileSize FROM contents WHERE subCatId = ? AND mainCatId = ?";
+                                        $getContents = "SELECT contentId, contentName, subCatName, folderName, contentThumb, contentFilename, contentFileSize FROM contents WHERE subCatId = ? AND mainCatId = ?";
                                         mysqli_stmt_prepare($stmtContent, $getContents);
                                         mysqli_stmt_bind_param($stmtContent, "ii", $idSubCatArray[0], $mainCatId);
                                         mysqli_stmt_execute($stmtContent);
@@ -104,7 +104,7 @@
                                                 Add Content
                                             </a>
                                 <?php
-                                            mysqli_stmt_bind_result($stmtContent, $contentId, $contentName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
+                                            mysqli_stmt_bind_result($stmtContent, $contentId, $contentName, $contentSubCatName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
 
                                             while(mysqli_stmt_fetch($stmtContent)):
                                                 $newFileSize = substr($contentFileSize, 0, 2);
@@ -119,7 +119,7 @@
                                                         <a href="" class="btnBlueSolid btnLink contentPreviewBtn">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a href="./editContent.php?cat=<?php echo $mainCatName; ?>&subCat=<?php echo $subCatName; ?>&contId=<?php echo $contentId; ?>" class="btnBlueSolid btnLink editContentBtn">
+                                                        <a href="./editContent.php?cat=<?php echo $mainCatName; ?>&subCat=<?php echo $contentSubCatName; ?>&contId=<?php echo $contentId; ?>" class="btnBlueSolid btnLink editContentBtn">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                         <button type="button" class="btnRedSolid deleteContentBtn">

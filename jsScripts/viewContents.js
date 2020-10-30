@@ -161,7 +161,7 @@ $('document').ready(function(){
                                             <a href="" class="btnBlueSolid btnLink contentPreviewBtn">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="" class="btnBlueSolid btnLink editContentBtn">
+                                            <a href="./editContent.php?cat=${catName}&subCat=${subCatName}&contId=${contentId}" class="btnBlueSolid btnLink editContentBtn">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button type="button" class="btnRedSolid deleteContentBtn">
@@ -251,7 +251,7 @@ $('document').ready(function(){
                             `);
 
                             $(data).each(function(){
-                                const { contentId, contentName, folderName, contentThumb, contentFilename, contentFileSize } = this
+                                const { contentId, contentName, catName, subCatName, folderName, contentThumb, contentFilename, contentFileSize } = this
 
                                 $('.viewContentsContent').append(`
                                     <div class="contentContainer row align-items-center">
@@ -264,7 +264,7 @@ $('document').ready(function(){
                                             <a href="" class="btnBlueSolid btnLink contentPreviewBtn">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="" class="btnBlueSolid btnLink editContentBtn">
+                                            <a href="./editContent.php?cat=${catName}&subCat=${subCatName}&contId=${contentId}" class="btnBlueSolid btnLink editContentBtn">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button type="button" class="btnRedSolid deleteContentBtn">

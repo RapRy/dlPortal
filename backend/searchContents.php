@@ -6,7 +6,7 @@
         $value = "%{$searchValue}%";
 
         $stmt = mysqli_stmt_init($conn);
-        $fetchContents = "SELECT contentId, contentName, folderName, contentThumb, contentFilename, contentFileSize FROM contents WHERE contentName LIKE ?";
+        $fetchContents = "SELECT contentId, contentName, subCatName, mainCatName, folderName, contentThumb, contentFilename, contentFileSize FROM contents WHERE contentName LIKE ?";
 
         mysqli_stmt_prepare($stmt, $fetchContents);
         mysqli_stmt_bind_param($stmt, "s", $value);
@@ -17,7 +17,7 @@
         $resultData = mysqli_stmt_num_rows($stmt);
 
         if($resultData > 0){
-            mysqli_stmt_bind_result($stmt, $contentId, $contentName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
+            mysqli_stmt_bind_result($stmt, $contentId, $contentName, $subCatName, $mainCatName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
 
             $dataContainer = [];
 
@@ -26,6 +26,8 @@
                     [
                         "contentId" => $contentId,
                         "contentName" => $contentName,
+                        "catName" => $mainCatName,
+                        "subCatName" => $subCatName,
                         "folderName" => $folderName,
                         "contentThumb" => $contentThumb,
                         "contentFilename" => $contentFilename,
