@@ -67,6 +67,7 @@
                     mysqli_stmt_bind_param($stmt, "s", $screenshot);
                     if(mysqli_stmt_execute($stmt)){
                         echo json_encode(['result' => "success"]);
+                        mysqli_stmt_close($stmt);
                     }
                 }
             }
@@ -84,4 +85,6 @@
     }else if(isset($_POST['screenshotName'])){
         deleteScreenshot($conn);
     }
+
+    mysqli_close($conn);
 ?>

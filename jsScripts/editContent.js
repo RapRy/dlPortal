@@ -168,11 +168,47 @@ $('document').ready(function(){
             $(selectMenuChildren[ind]).attr('selected', true)
 			// get the text of the clicked custom option then assig it to the currentSelected
             $('.currentSubCatSelected').text($(currentElem).text());
+            $('#selectSubCat').attr('value', $(currentElem).text())
 			// hide dropdown
             this.hideCustomSelectMenu('.customSelectSubCatContainer')
 
             // this.getSubCategories($(currentElem).text());
             
+        }
+
+        getSubCategories(currentCat, resolve){
+            const dataForm  = new FormData;
+
+            $.ajax({
+                type:'POST',
+                url:'../../../backend/editContentFn.php',
+                data:dataForm,
+                dataType:'json',
+                contentType:false,
+                processData:false,
+                beforeSend: () => {
+                    dataForm.append('selectCat', currentCat)
+                    // remove the previous sub categories if there is any
+                    this.removeSubcategories();
+                },
+                success: (data, textStatus, xhr) => {
+                    if(xhr.status == 200){
+                        if(data.length > 0){
+                            // remove error "no subcategories"
+                            if($('.customSelectSubCatContainer').next("small")){
+                                $('.customSelectSubCatContainer').next().remove();
+                            }
+                            // show the subcategories
+                            this.loadCustomSelectMenuSubCat(data);
+                            // add click event on subcategory select input
+                            this.events();
+                            // assign the current main category to the global variable catExt 
+                            catExt = data[0].mainCatExt;
+                        }
+                    }
+                },
+                error: (err) => console.log(err)
+            })
         }
 
         events(){
@@ -199,14 +235,12 @@ $('document').ready(function(){
     }
 
     class CustomFile{
-        getContentFileValue(){
+        setValue(selector){
 			// set name of the file onchange event
-            $('#contentFile').on('change', (e) => $(e.target).next().text(e.target.files[0].name))
-        }
-
-        getContentIconValue(){
-			// set name of the file onchange event
-            $('#contentIcon').on('change', (e) => $(e.target).next().text(e.target.files[0].name))
+            $(selector).on('change', (e) => {
+                $(e.target).next().text(e.target.files[0].name)
+                $(e.target).attr('value', e.target.files[0].name);
+            })
         }
     }
 
@@ -281,6 +315,79 @@ $('document').ready(function(){
             }
         }
 
+        checkInitialValues(data){
+            let errors = [];
+
+            if(this.contNameInitial === $('#contentName').val()){
+                if(this.subCatInitial != $('.currentSubCatSelected').text() && this.contFileInitial != $('#contentFileLabel').text() && this.contIconInitial != $('#contentIconLabel').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                    errors = [];
+                }else{
+                    errors.push('contNameInitial');
+                }
+            }else{
+                data.append('contentName', $('#contentName').val());
+                errors = [];
+            }
+
+            if(this.subCatInitial === $('#selectSubCat').attr('value')){
+                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.contIconInitial != $('#contentIconLabel').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                    errors = [];
+                }else{
+                    errors.push('subCatInitial');
+                }
+            }else{
+                data.append('subCategory', $('#selectSubCat').val());
+                errors = [];
+            }
+
+            if(this.contFileInitial === $('#contentFile').attr('value')){
+                if(this.contNameInitial != $('#contentName').val() && this.subCatInitial != $('.currentSubCatSelected').text() && this.contIconInitial != $('#contentIconLabel').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                    errors = [];
+                }else{
+                    errors.push('contFileInitial');
+                }
+            }else{
+                data.append('contentFile', $('#contentFile').val());
+                errors = [];
+            }
+
+            if(this.contIconInitial === $('#contentIcon').attr('value')){
+                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.subCatInitial != $('.currentSubCatSelected').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                    errors = [];
+                }else{
+                    errors.push('contIconInitial');
+                }
+            }else{
+                data.append('contentIcon', $('#contentIcon').val());
+                errors = [];
+            }
+
+            if(this.contDescInitial === $('#contentDescription').val()){
+                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.contIconInitial != $('#contentIconLabel').text() && this.subCatInitial != $('.currentSubCatSelected').text() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                    errors = [];
+                }else{
+                    errors.push('contDescInitial');
+                }
+            }else{
+                data.append('contentDescription', $('#contentDescription').val());
+                errors = [];
+            }
+
+            if(screenImgArr.length === 0){
+                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.subCatInitial != $('.currentSubCatSelected').text() && this.contDescInitial != $('#contentDescription').val() && this.contIconInitial != $('#contentIconLabel').text() && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                    errors = [];
+                }else{
+                    errors.push('screenImgArr');
+                }
+            }else{
+                screenImgArr.forEach((img, i) =>  {
+                    data.append("screenshots[]", img)
+                })
+            }
+
+            return errors;
+        }
+
         checkErrors(){
             let errors = [];
 
@@ -290,11 +397,11 @@ $('document').ready(function(){
                 $('#contentName').next().remove();
             }
 
-            if($('#selectMainCat').val() === "" || $('#selectMainCat').val() === null){
-                Notification.domValidate('.customSelectMainCatOptions', "Main Category is required", errors, "selectMainCat");
-            }else{
-                $('.customSelectMainCatOptions').next().remove();
-            }
+            // if($('#selectMainCat').val() === "" || $('#selectMainCat').val() === null){
+            //     Notification.domValidate('.customSelectMainCatOptions', "Main Category is required", errors, "selectMainCat");
+            // }else{
+            //     $('.customSelectMainCatOptions').next().remove();
+            // }
 
             if($('#selectSubCat').attr('value') === "" || $('#selectSubCat').attr('value') === null){
                 Notification.domValidate('.customSelectSubCatOptions', "Sub Category is required", errors, "selectSubCat");
@@ -414,6 +521,20 @@ $('document').ready(function(){
             return errors;
         }
 
+        submitForm(){
+            const data = new FormData;
+
+            data.append('contentId', this.contId)
+            data.append('folderName', this.folderName)
+            data.append('mainCatInitial', this.mainCatInitial)
+
+            const valInitials = this.checkInitialValues(data)
+
+            for(var pair of data.entries()){
+                console.log(pair[0]+":"+pair[1]);
+            }
+        }
+
         events(){
             $('#editContentBtn').on('click', async () => {
                 const inputErrors = this.checkErrors();
@@ -421,10 +542,7 @@ $('document').ready(function(){
 
                 const iconResult = await iconError;
 
-                console.log(inputErrors)
-                console.log(iconResult)
-
-                console.log($('#selectSubCat').attr('value'))
+                this.submitForm();
             })
         }
     }
@@ -546,247 +664,19 @@ $('document').ready(function(){
                 this.deleteAddedScreenshot()
             })
         }
-    }
+    }  
 
-    class CustomSelectMenuMainCat extends Screenshots{
-        constructor(){
-            super()
-			// get options
-            this.selectOptions = $('.customSelectMainCatMenu').children();
-			// container for the height value of select
-            this.heightSelectMenu = null;
-        }
-
-        loadCustomSelectMenu(){
-			// add new div element
-            $('.customSelectMainCatWrapper').append(`<div class="customSelectOptions customSelectMainCatOptions"></div>`);
-			
-            $.each(this.selectOptions, function(i, opt){
-				// get the text of the options then assign it to the new span element
-                $('.customSelectMainCatOptions').append(`<span class="customOption customMainCatOption">${$(opt).text()}</span>`)
-            })
-			// hide select file extension text
-            $('.customMainCatOption:first').css({display: "none"});
-			// get height of customSelectOptions container then assign it to heightSelectMenu, we will use this for the dropdown animation of the custom select menu
-            this.heightSelectMenu = $('.customSelectMainCatOptions').height();
-			// set customSelectOptions height to 0 after getting initial height 
-            $('.customSelectMainCatOptions').css({height: 0});
-        }
-
-        showCustomSelectMenu(heightSelect, currentElem){
-			// show dropdown
-            const borderStyle = "1px solid #207CE8";
-            // add css styling then set and animate height of customSelectOptions
-            $('.customSelectMainCatOptions').css({
-                borderLeft: borderStyle,
-                borderRight: borderStyle,
-                borderBottom: borderStyle
-            }).animate({height: `${heightSelect}px`}, 200, "swing");
-			
-			// change css style of the customSelectContainer
-            $(currentElem).css({
-                borderRadius: ".25rem .25rem 0 0",
-                borderLeft: borderStyle,
-                borderRight: borderStyle,
-                borderTop: borderStyle,
-                borderBottom: "1px solid #E0E0E0"
-            })
-        }
-
-        hideCustomSelectMenu(currentElem){
-			// hide dropdown
-            const borderStyle = "1px solid #207CE8";
-			// return styles to initial styles
-            $('.customSelectMainCatOptions').animate({height: 0}, 200, "swing", function(){
-                $(this).css({border: "none"})
-                $(currentElem).css({border: borderStyle, borderRadius: ".25rem"});
-            });
-        }
-
-        resetFormValues(catExt){
-            // reset values
-            $('#contentFile').attr('value', "");
-            $('#contentIconLabel').text("Only png and jpg are allowed. (45x45px).");
-            $('#contentIcon').attr('value', "");
-            $('#contentName').attr('value', "");
-            $('#contentDescription').attr('value', "").text("");
-            
-            if(catExt === "APK"){
-                // change inner text
-                $('#contentFileLabel').text("Only apk and xapk are allowed.");
-
-                console.log($('#screenshotsInput'))
-
-                // append input before save button
-                // and add margin top value to the container of the save button
-                //if screenshot container is not defined
-                if($('#screenshotsInput').length === 0){
-                    $('#editContentBtn').parent().before(`
-                        <div class="custom-file" id="screenshotsInput">
-                            <span class="formLabel customFormLabel">Content Screenshots</span>
-                            <input type="file" id="contentScreenshots" class="contentScreenshots" name="contentScreenshots" multiple>
-                            <div class="contentScreenshotsWrapper" id="contentScreenshotsWrapper">
-                                <div class="text-center" id="screenshotsHeader">
-                                    <label type="button" class="screenshotsBtnSubmit" id="screenshotsBtnSubmit" for="contentScreenshots">
-                                        Choose Images
-                                    </label>
-                                    <p class="screenshotsReminder">Only png and jpg are allowed.</p>
-                                </div>
-                                <div class="screenshotsBody" id="screenshotsBody"></div>
-                            </div>
-                        </div>
-                    `).css({marginTop: `${$('#contentScreenshotsWrapper').outerHeight() - 35}px`})
-
-                    $('#contentScreenshotsWrapper').height($('#contentScreenshotsWrapper').outerHeight());
-                    // screenshot input onchange event
-                    this.eventsScreenshots()
-
-                } 
-            }else if(catExt === "MP4"){
-                // change inner text
-                $('#contentFileLabel').text("Only mp4 are allowed.");
-
-                if($('#screenshotsInput') != undefined){
-                    // remove dom element
-                    $('#screenshotsInput').remove();
-                    // reset the screenImgArr
-                    screenImgArr = [];
-                    // reset value property
-                    $('#contentScreenshots').val("")
-                    // set margin top 0
-                    $('#editContentBtn').parent().css({marginTop: 0})
-                }
-            }else if(catExt === "MP3"){
-                // change inner text
-                $('#contentFileLabel').text("Only mp3 are allowed.");
-
-                if($('#screenshotsInput') != undefined){
-                    // remove dom element
-                    $('#screenshotsInput').remove();
-                    // reset the screenImgArr
-                    screenImgArr = [];
-                    // reset value property
-                    $('#contentScreenshots').val("")
-                    // set margin top 0
-                    $('#editContentBtn').parent().css({marginTop: 0})
-                }
-            }
-        }
-
-        async selectCustomOption(currentElem, selectMenuChildren){
-			// get the index of the clicked option
-            const ind = $(currentElem).index();
-			// remove class and check mark of all the options
-            $.each($('.customMainCatOption'), function(i, opt){
-                $(opt).removeClass('customOptionSelected').find('i').remove();
-            })
-			// assign class and check mark to the clicked option
-            $(currentElem).addClass('customOptionSelected').append(`<i class="fas fa-check"></i>`);
-			// remove selected attribute to all the original option
-            $.each(selectMenuChildren, function(i, opt){
-                $(opt).attr('selected', false)
-            })
-			// add selected attribute to the original option based from the index of the clicked custom option
-            $(selectMenuChildren[ind]).attr('selected', true)
-			// get the text of the clicked custom option then assig it to the currentSelected
-            $('.currentMainCatSelected').text($(currentElem).text());
-			// hide dropdown
-            this.hideCustomSelectMenu('.customSelectMainCatContainer')
-
-            let promise = new Promise((resolve) => this.getSubCategories($(currentElem).text(), resolve));
-            await promise;
-
-            this.resetFormValues(catExt)
-        }
-
-        getSubCategories(currentCat, resolve){
-            const dataForm  = new FormData;
-            // create instance of the CustomSelectMenuMainCat class
-            const customSelectMenuSubCat = new CustomSelectMenuSubCat;
-
-            $.ajax({
-                type:'POST',
-                url:'../../../backend/editContentFn.php',
-                data:dataForm,
-                dataType:'json',
-                contentType:false,
-                processData:false,
-                beforeSend: () => {
-                    dataForm.append('selectCat', currentCat)
-                    // remove the previous sub categories if there is any
-                    customSelectMenuSubCat.removeSubcategories();
-                },
-                success: (data, textStatus, xhr) => {
-                    if(xhr.status == 200){
-                        if(data.length > 0){
-                            console.log(data)
-                            // remove error "no subcategories"
-                            if($('.customSelectSubCatContainer').next("small")){
-                                $('.customSelectSubCatContainer').next().remove();
-                            }
-                            // show the subcategories
-                            customSelectMenuSubCat.loadCustomSelectMenuSubCat(data);
-                            // add click event on subcategory select input
-                            customSelectMenuSubCat.events();
-                            // assign the current main category to the global variable catExt 
-                            catExt = data[0].mainCatExt;
-                            // return the value of catExt if promise if defined
-                            if(resolve != undefined){
-                                resolve(catExt)
-                            };
-
-                            // if(data[0].mainCatExt === "APK"){
-                            //     if(resolve != undefined) resolve(catExt);
-                            // }else if(data[0].mainCatExt === "MP4"){
-                            //     if(resolve != undefined) resolve(catExt);
-                            // }else if(data[0].mainCatExt === "MP3"){
-                            //     if(resolve != undefined) resolve(catExt);
-                            // }
-                        }
-                    }
-                },
-                error: (err) => console.log(err)
-            })
-        }
-
-        events(){
-            $('.customSelectMainCatContainer').on('click', (e) => {
-				// get height of customSlectOptions afte we set the height to 0
-				// we use this as toggle between showing and hiding the dropdown
-                const selectMenuHeight = $('.customSelectMainCatOptions').height();
-                if(selectMenuHeight == 0){
-					// show dropdown
-                    this.showCustomSelectMenu(this.heightSelectMenu, e.currentTarget)
-                }else{
-					// hide dropdown
-                    this.hideCustomSelectMenu(e.currentTarget);
-                }
-            });
-
-            if($('.customMainCatOption').length > 0){
-				// check if the custom options already loaded
-				// add click event to each custom option
-                $('.customMainCatOption').on('click', (e) => {
-					// assign value to the original select menu
-                    this.selectCustomOption(e.currentTarget, this.selectOptions);
-                })
-            }
-        }
-    }
-
-    const customSelectMenuMainCat = new CustomSelectMenuMainCat();
+    const customSelectMenuSubCat = new CustomSelectMenuSubCat();
     const validateForm = new ValidateForm;
     const screenshots = new Screenshots;
     const customFile = new CustomFile;
 
-    customFile.getContentFileValue()
-    customFile.getContentIconValue()
+    customFile.setValue('#contentFile')
+    customFile.setValue('#contentIcon')
     screenshots.getScreenshots();
     screenshots.deleteInitialScreenshot()
     screenshots.eventsScreenshots();
     validateForm.events();
 
-    customSelectMenuMainCat.getSubCategories($('.currentMainCatSelected').text());
-    customSelectMenuMainCat.loadCustomSelectMenu();
-    customSelectMenuMainCat.events();
+    customSelectMenuSubCat.getSubCategories($('.currentMainCatSelected').text());
 })
