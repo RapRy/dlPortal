@@ -255,7 +255,7 @@ $('document').ready(function(){
             this.contIconInitial = $('#contentIconLabel').text()
             this.contDescInitial = $('#contentDescription').val()
             this.contScreensInitial = []
-            this.screenshotsInitialLength = this.contScreensInitial.length
+            this.screenshotsInitialLength = $('.screenInitial').length
         }
 
         checkIconDimension(resolve){
@@ -527,12 +527,87 @@ $('document').ready(function(){
             data.append('contentId', this.contId)
             data.append('folderName', this.folderName)
             data.append('mainCatInitial', this.mainCatInitial)
+            data.append('subCatInitial', this.subCatInitial)
 
             const valInitials = this.checkInitialValues(data)
 
-            for(var pair of data.entries()){
-                console.log(pair[0]+":"+pair[1]);
-            }
+            $.ajax({
+                type:'POST',
+                url:'../../../backend/editContentFn.php',
+                data:data,
+                dataType:'json',
+                contentType:false,
+                processData:false,
+                beforeSend:() => {
+                    if($('#screenshotsInput').length > 0){
+                        if(this.screenshotsInitialLength > $('.screenInitial').length && this.contNameInitial === $('#contentName').val() && this.subCatInitial === $('.currentSubCatSelected').text() && this.contFileInitial === $('#contentFileLabel').text() && this.contIconInitial === $('#contentIconLabel').text() && this.contDescInitial === $('#contentDescription').val()){
+                            // show save loader
+                            $('.editContentContainer').prepend(`
+                                <section class="notification">
+                                    <div class="notif-container">
+                                        <p>Saving Changes..</p>
+                                        <div class="saveLoader">
+                                            <div class="saveSpinner"></div>
+                                        </div>
+                                    </div>
+                                </section>
+                            `);
+                            
+                            $('.notification').fadeIn(400, "swing", function(){
+                                $('.notif-container').css({transform:"scale(1)"})
+                            }).css({display:"flex"});
+                            
+                            // scroll back to top
+                            $('html').animate({scrollTop: 0}, 200, "swing");
+
+                            // remove the loader then show the success message after the timeout
+                            setTimeout(() => {
+                                $('.saveLoader').remove();
+                                $('.notif-container').append(`<i class="fas fa-check updateSuccess"></i>`);
+                                $('.updateSuccess').css({display:"none"}).fadeIn(400, "swing");
+                                $('.notif-container p').text(`${this.contNameInitial} succesfully updated.`);
+                            }, 500);
+                            // remove the notification after timeout
+                            setTimeout(function(){
+                                $('.notification').fadeOut(400, "swing", function(){
+                                    $('.profileContainer').children(".notification").remove();
+                                })
+                                $('.notif-container').css("transform", "scale(0)");
+                            }, 2000);
+
+                            return false
+                        }
+                    }else if(valInitials.length > 0){
+                        // cancel update content
+                        return false
+                    }else{
+                        // show save loader
+						$('.editContentContainer').prepend(`
+                            <section class="notification">
+                                <div class="notif-container">
+                                    <p>Saving Changes..</p>
+                                    <div class="saveLoader">
+                                        <div class="saveSpinner"></div>
+                                    </div>
+                                </div>
+                            </section>
+                        `);
+                        
+                        $('.notification').fadeIn(400, "swing", function(){
+                            $('.notif-container').css({transform:"scale(1)"})
+                        }).css({display:"flex"});
+                        
+                        // scroll back to top
+                        $('html').animate({scrollTop: 0}, 200, "swing");
+                    }
+                },
+                success:(data, textStatus, xhr) => {
+                    if(xhr.status === 200){
+                        console.log(data)
+                    }
+                },
+                error:() => console.log(err)
+            })
         }
 
         events(){
@@ -548,7 +623,7 @@ $('document').ready(function(){
     }
 
     class Screenshots extends ValidateForm{
-
+        
         getScreenshots(){
             if($('#screenshotsBody').length > 0){
                 // get initial values
@@ -557,6 +632,7 @@ $('document').ready(function(){
                 $('#editContentBtn').parent().css({marginTop: "40px"})
                 // add height
                 $('#contentScreenshotsWrapper').height($('#contentScreenshotsWrapper').height())
+
             }
         }
 
@@ -638,7 +714,7 @@ $('document').ready(function(){
                     screenImgArr.push(img);
                     // add dom element
                     $('#screenshotsBody').append(`
-                        <div class="imgContainer">
+                        <div class="imgContainer screenNew">
                             <i class="fas fa-file-image screenImgThumb"></i>
                             <p>${img.name}</p>
                             <button type="button" class="btnRedSolid deleteCategoryBtn deleteScreen">
@@ -673,10 +749,14 @@ $('document').ready(function(){
 
     customFile.setValue('#contentFile')
     customFile.setValue('#contentIcon')
-    screenshots.getScreenshots();
-    screenshots.deleteInitialScreenshot()
-    screenshots.eventsScreenshots();
+
     validateForm.events();
+
+    if($('#screenshotsInput').length > 0){
+        screenshots.getScreenshots();
+        screenshots.deleteInitialScreenshot()
+        screenshots.eventsScreenshots();
+    }
 
     customSelectMenuSubCat.getSubCategories($('.currentMainCatSelected').text());
 })

@@ -173,7 +173,7 @@
 
 									while(mysqli_stmt_fetch($stmtExtScreen)):
 							?>
-										<div class="imgContainer">
+										<div class="imgContainer screenInitial">
 											<input type="hidden" value="<?php echo $screenshotId; ?>" />
 											<i class="fas fa-file-image screenImgThumb"></i>
 											<p><?php echo $screenshot; ?></p>

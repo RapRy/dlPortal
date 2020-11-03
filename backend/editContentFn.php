@@ -75,6 +75,18 @@
 
     }
 
+    function updateDatabase($contentId, $conn, $key, $inputVal){
+        $stmt = mysqli_stmt_init($conn);
+        $insertData = "UPDATE contents SET $key = ? WHERE contentId = ?";
+        mysqli_stmt_prepare($stmt, $insertData);
+        mysqli_stmt_bind_param($stmt, "si", $inputVal, $contentId);
+        mysqli_stmt_execute($stmt);
+    }
+
+    function getSubIdAndCatId(){
+
+    }
+
     if(isset($_POST['selectCat'])){
         // select input main category
         $selectCatId = getIdMainCat($_POST['selectCat'], $conn);
@@ -84,6 +96,40 @@
         }
     }else if(isset($_POST['screenshotName'])){
         deleteScreenshot($conn);
+    }else if(isset($_POST['contentId'])){
+        $contentId = filter_var($_POST['contentId'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $folderName = filter_var($_POST['folderName'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $mainCatInitial = filter_var(str_replace(" ", "", $_POST['mainCatInitial']), FILTER_SANITIZE_SPECIAL_CHARS);
+        $subCatInitial = filter_var(str_replace(" ", "", $_POST['subCatInitial']), FILTER_SANITIZE_SPECIAL_CHARS);
+
+        // if(isset($_POST['contentName'])){
+        //     $contentName = filter_var($_POST['contentName'], FILTER_SANITIZE_SPECIAL_CHARS);
+        //     updateDatabase($contentId, $conn, "contentName", $contentName);
+        // }
+
+        // if(isset($_POST['contentDescription'])){
+        //     updateDatabase($contentId, $conn, "contentName", $contentName);
+        // }
+
+        if(isset($_POST['subCategory'])){
+            $subCategory = filter_var($_POST['subCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $noWhiteSpaces = str_replace(" ", "", $subCategory);
+            $oldPath = "../uploads/contents/{$mainCatInitial}/{$subCatInitial}";
+            $newpath = "../uploads/contents/{$mainCatInitial}/{$noWhiteSpaces}";
+            
+            if(is_dir($newpath)){
+                $dir = opendir($oldPath);
+                while(false !== ($file = readdir($dir))){
+                    if(($file != '.') && ($file != '..')){
+                        if($file === $folderName){
+                            echo $folderName;
+                        }
+                    }
+                }
+            }
+        }else{
+            echo 'no sub';
+        }
     }
 
     mysqli_close($conn);
