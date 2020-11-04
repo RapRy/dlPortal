@@ -83,8 +83,78 @@
         mysqli_stmt_execute($stmt);
     }
 
-    function getSubIdAndCatId(){
+    function getSubId($subCategory, $conn){
+        $stmt = mysqli_stmt_init($conn);
+        $getId = "SELECT subCatId FROM subcategories WHERE subCatName = ?";
+        mysqli_stmt_prepare($stmt, $getId);
+        mysqli_stmt_bind_param($stmt, "s", $subCategory);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $subId);
 
+        mysqli_stmt_fetch($stmt);
+
+        return $subId;
+    }
+
+    function recurseCopy($oldPath, $newpath){
+        $dir = opendir($oldPath);
+
+        if(!is_dir($newpath)){
+            mkdir($newpath);
+        }
+
+        while(false !== ($file = readdir($dir))){
+            if(($file != '.') && ($file != '..')){
+                if(is_dir("{$oldPath}/{$file}")){
+                    recurseCopy("{$oldPath}/{$file}", "{$newpath}/{$file}");
+                }else{
+                    copy("{$oldPath}/{$file}", "{$newpath}/{$file}");
+                }
+            }
+        }
+
+        closedir($dir);
+
+        return true;
+    }
+
+    function deleteFile($path, $oldFile){
+
+        $file = glob("{$path}/{$oldFile}");
+
+        if(is_file($file[0])){
+            unlink($file[0]);
+        }
+    }
+
+    function updateFile($contentId, $conn, $newFile, $oldFile, $newpath, $folderName, $key){
+        $name = $newFile['name'];
+        $size = $newFile['size'];
+        $tmp = $newFile['tmp_name'];
+        $error = $newFile['error'];
+        $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+
+        if($error > 0){
+            return;
+        }else{
+            date_default_timezone_set("Asia/Brunei");
+            $dateTime = date("YmdHis");
+
+            // generate name
+            $finalName = "{$folderName}_{$dateTime}.{$ext}";
+            $newFilePath = "{$newpath}/{$finalName}";
+
+            move_uploaded_file($tmp, $newFilePath);
+
+            if($key === "contentFilename"){
+                // update file size
+                updateDatabase($contentId, $conn, 'contentFileSize', $size);
+            }
+
+            updateDatabase($contentId, $conn, $key, $finalName);
+
+            deleteFile($newpath, $oldFile);
+        }
     }
 
     if(isset($_POST['selectCat'])){
@@ -102,33 +172,56 @@
         $mainCatInitial = filter_var(str_replace(" ", "", $_POST['mainCatInitial']), FILTER_SANITIZE_SPECIAL_CHARS);
         $subCatInitial = filter_var(str_replace(" ", "", $_POST['subCatInitial']), FILTER_SANITIZE_SPECIAL_CHARS);
 
-        // if(isset($_POST['contentName'])){
-        //     $contentName = filter_var($_POST['contentName'], FILTER_SANITIZE_SPECIAL_CHARS);
-        //     updateDatabase($contentId, $conn, "contentName", $contentName);
-        // }
+        if(isset($_POST['contentName'])){
+            $contentName = filter_var($_POST['contentName'], FILTER_SANITIZE_SPECIAL_CHARS);
+            updateDatabase($contentId, $conn, "contentName", $contentName);
+        }
 
-        // if(isset($_POST['contentDescription'])){
-        //     updateDatabase($contentId, $conn, "contentName", $contentName);
-        // }
+        if(isset($_POST['contentDescription'])){
+            $contentDescription = filter_var($_POST['contentDescription'], FILTER_SANITIZE_SPECIAL_CHARS);
+            updateDatabase($contentId, $conn, "contentDescription", $contentDescription);
+        }
 
         if(isset($_POST['subCategory'])){
             $subCategory = filter_var($_POST['subCategory'], FILTER_SANITIZE_SPECIAL_CHARS);
             $noWhiteSpaces = str_replace(" ", "", $subCategory);
-            $oldPath = "../uploads/contents/{$mainCatInitial}/{$subCatInitial}";
-            $newpath = "../uploads/contents/{$mainCatInitial}/{$noWhiteSpaces}";
+            $oldPath = "../uploads/contents/{$mainCatInitial}/{$subCatInitial}/{$folderName}";
+            $newpath = "../uploads/contents/{$mainCatInitial}/{$noWhiteSpaces}/{$folderName}";
             
-            if(is_dir($newpath)){
-                $dir = opendir($oldPath);
-                while(false !== ($file = readdir($dir))){
-                    if(($file != '.') && ($file != '..')){
-                        if($file === $folderName){
-                            echo $folderName;
-                        }
+            if(is_dir($oldPath)){
+                if(!is_dir("../uploads/contents/{$mainCatInitial}/{$noWhiteSpaces}")){
+                    mkdir("../uploads/contents/{$mainCatInitial}/{$noWhiteSpaces}");
+                }
+                // copy files and directory
+                if(recurseCopy($oldPath, $newpath)){
+                    $subId = getSubId($subCategory, $conn);
+
+                    updateDatabase($contentId, $conn, "subCatId", $subId);
+                    updateDatabase($contentId, $conn, "subCatName", $subCategory);
+
+                    if(isset($_FILES['contentFile'])){
+                        updateFile($contentId, $conn, $_FILES['contentFile'], $_POST['contentFileInitial'], $newpath, $folderName, "contentFilename");
                     }
+
+                    if(isset($_FILES['contentIcon'])){
+                        updateFile($contentId, $conn, $_FILES['contentIcon'], $_POST['contentIconInitial'], $newpath, $folderName, "contentThumb");
+                    }
+
+                    
                 }
             }
         }else{
-            echo 'no sub';
+            $oldPath = "../uploads/contents/{$mainCatInitial}/{$subCatInitial}/{$folderName}";
+
+            if(is_dir($oldPath)){
+                if(isset($_FILES['contentFile'])){
+                    updateFile($contentId, $conn, $_FILES['contentFile'], $_POST['contentFileInitial'], $oldPath, $folderName, "contentFilename");
+                }
+
+                if(isset($_FILES['contentIcon'])){
+                    updateFile($contentId, $conn, $_FILES['contentIcon'], $_POST['contentIconInitial'], $oldPath, $folderName, "contentThumb");
+                }
+            }
         }
     }
 

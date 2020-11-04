@@ -319,7 +319,7 @@ $('document').ready(function(){
             let errors = [];
 
             if(this.contNameInitial === $('#contentName').val()){
-                if(this.subCatInitial != $('.currentSubCatSelected').text() && this.contFileInitial != $('#contentFileLabel').text() && this.contIconInitial != $('#contentIconLabel').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                if(this.subCatInitial != $('.currentSubCatSelected').text() || this.contFileInitial != $('#contentFileLabel').text() || this.contIconInitial != $('#contentIconLabel').text() || this.contDescInitial != $('#contentDescription').val() || screenImgArr.length > 0 || this.screenshotsInitialLength > $('.deleteScreenInitial').length){
                     errors = [];
                 }else{
                     errors.push('contNameInitial');
@@ -330,7 +330,7 @@ $('document').ready(function(){
             }
 
             if(this.subCatInitial === $('#selectSubCat').attr('value')){
-                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.contIconInitial != $('#contentIconLabel').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                if(this.contNameInitial != $('#contentName').val() || this.contFileInitial != $('#contentFileLabel').text() || this.contIconInitial != $('#contentIconLabel').text() || this.contDescInitial != $('#contentDescription').val() || screenImgArr.length > 0 || this.screenshotsInitialLength > $('.deleteScreenInitial').length){
                     errors = [];
                 }else{
                     errors.push('subCatInitial');
@@ -341,29 +341,31 @@ $('document').ready(function(){
             }
 
             if(this.contFileInitial === $('#contentFile').attr('value')){
-                if(this.contNameInitial != $('#contentName').val() && this.subCatInitial != $('.currentSubCatSelected').text() && this.contIconInitial != $('#contentIconLabel').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                if(this.contNameInitial != $('#contentName').val() || this.subCatInitial != $('.currentSubCatSelected').text() || this.contIconInitial != $('#contentIconLabel').text() || this.contDescInitial != $('#contentDescription').val() || screenImgArr.length > 0 || this.screenshotsInitialLength > $('.deleteScreenInitial').length){
                     errors = [];
                 }else{
                     errors.push('contFileInitial');
                 }
             }else{
-                data.append('contentFile', $('#contentFile').val());
+                data.append('contentFile', $('#contentFile')[0].files[0]);
+                data.append('contentFileInitial', this.contFileInitial);
                 errors = [];
             }
 
             if(this.contIconInitial === $('#contentIcon').attr('value')){
-                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.subCatInitial != $('.currentSubCatSelected').text() && this.contDescInitial != $('#contentDescription').val() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                if(this.contNameInitial != $('#contentName').val() || this.contFileInitial != $('#contentFileLabel').text() || this.subCatInitial != $('.currentSubCatSelected').text() || this.contDescInitial != $('#contentDescription').val() || screenImgArr.length > 0 || this.screenshotsInitialLength > $('.deleteScreenInitial').length){
                     errors = [];
                 }else{
                     errors.push('contIconInitial');
                 }
             }else{
-                data.append('contentIcon', $('#contentIcon').val());
+                data.append('contentIcon', $('#contentIcon')[0].files[0]);
+                data.append('contentIconInitial', this.contIconInitial)
                 errors = [];
             }
 
             if(this.contDescInitial === $('#contentDescription').val()){
-                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.contIconInitial != $('#contentIconLabel').text() && this.subCatInitial != $('.currentSubCatSelected').text() && screenImgArr.length > 0 && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                if(this.contNameInitial != $('#contentName').val() || this.contFileInitial != $('#contentFileLabel').text() || this.contIconInitial != $('#contentIconLabel').text() || this.subCatInitial != $('.currentSubCatSelected').text() || screenImgArr.length > 0 || this.screenshotsInitialLength > $('.deleteScreenInitial').length){
                     errors = [];
                 }else{
                     errors.push('contDescInitial');
@@ -374,7 +376,7 @@ $('document').ready(function(){
             }
 
             if(screenImgArr.length === 0){
-                if(this.contNameInitial != $('#contentName').val() && this.contFileInitial != $('#contentFileLabel').text() && this.subCatInitial != $('.currentSubCatSelected').text() && this.contDescInitial != $('#contentDescription').val() && this.contIconInitial != $('#contentIconLabel').text() && this.screenshotsInitialLength > $('.deleteScreenInitial').length){
+                if(this.contNameInitial != $('#contentName').val() || this.contFileInitial != $('#contentFileLabel').text() || this.subCatInitial != $('.currentSubCatSelected').text() || this.contDescInitial != $('#contentDescription').val() || this.contIconInitial != $('#contentIconLabel').text() || this.screenshotsInitialLength > $('.deleteScreenInitial').length){
                     errors = [];
                 }else{
                     errors.push('screenImgArr');
@@ -531,6 +533,8 @@ $('document').ready(function(){
 
             const valInitials = this.checkInitialValues(data)
 
+            console.log(valInitials)
+
             $.ajax({
                 type:'POST',
                 url:'../../../backend/editContentFn.php',
@@ -541,6 +545,7 @@ $('document').ready(function(){
                 beforeSend:() => {
                     if($('#screenshotsInput').length > 0){
                         if(this.screenshotsInitialLength > $('.screenInitial').length && this.contNameInitial === $('#contentName').val() && this.subCatInitial === $('.currentSubCatSelected').text() && this.contFileInitial === $('#contentFileLabel').text() && this.contIconInitial === $('#contentIconLabel').text() && this.contDescInitial === $('#contentDescription').val()){
+
                             // show save loader
                             $('.editContentContainer').prepend(`
                                 <section class="notification">
@@ -576,6 +581,27 @@ $('document').ready(function(){
                             }, 2000);
 
                             return false
+                        }else if(valInitials.length > 0){
+                            return false;
+                        }else{
+                           // show save loader
+                            $('.editContentContainer').prepend(`
+                                <section class="notification">
+                                    <div class="notif-container">
+                                        <p>Saving Changes..</p>
+                                        <div class="saveLoader">
+                                            <div class="saveSpinner"></div>
+                                        </div>
+                                    </div>
+                                </section>
+                            `);
+                            
+                            $('.notification').fadeIn(400, "swing", function(){
+                                $('.notif-container').css({transform:"scale(1)"})
+                            }).css({display:"flex"});
+                            
+                            // scroll back to top
+                            $('html').animate({scrollTop: 0}, 200, "swing"); 
                         }
                     }else if(valInitials.length > 0){
                         // cancel update content
@@ -606,7 +632,7 @@ $('document').ready(function(){
                         console.log(data)
                     }
                 },
-                error:() => console.log(err)
+                error:(err) => console.log(err)
             })
         }
 
