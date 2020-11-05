@@ -543,7 +543,7 @@ $('document').ready(function(){
                 contentType:false,
                 processData:false,
                 beforeSend:() => {
-                    if($('#screenshotsInput').length > 0){
+                    if($('#screenshotsInput').length > 0 && screenImgArr.length === 0){
                         if(this.screenshotsInitialLength > $('.screenInitial').length && this.contNameInitial === $('#contentName').val() && this.subCatInitial === $('.currentSubCatSelected').text() && this.contFileInitial === $('#contentFileLabel').text() && this.contIconInitial === $('#contentIconLabel').text() && this.contDescInitial === $('#contentDescription').val()){
 
                             // show save loader
@@ -575,7 +575,7 @@ $('document').ready(function(){
                             // remove the notification after timeout
                             setTimeout(function(){
                                 $('.notification').fadeOut(400, "swing", function(){
-                                    $('.profileContainer').children(".notification").remove();
+                                    $('.editContentContainer').children(".notification").remove();
                                 })
                                 $('.notif-container').css("transform", "scale(0)");
                             }, 2000);
@@ -629,7 +629,20 @@ $('document').ready(function(){
                 },
                 success:(data, textStatus, xhr) => {
                     if(xhr.status === 200){
-                        console.log(data)
+                        // remove the loader then show the success message after the timeout
+                        setTimeout(() => {
+                            $('.saveLoader').remove();
+                            $('.notif-container').append(`<i class="fas fa-check updateSuccess"></i>`);
+                            $('.updateSuccess').css({display:"none"}).fadeIn(400, "swing");
+                            $('.notif-container p').text(`${this.contNameInitial} succesfully updated.`);
+                        }, 500);
+                        // remove the notification after timeout
+                        setTimeout(function(){
+                            $('.notification').fadeOut(400, "swing", function(){
+                                $('.editContentContainer').children(".notification").remove();
+                            })
+                            $('.notif-container').css("transform", "scale(0)");
+                        }, 2000);
                     }
                 },
                 error:(err) => console.log(err)
@@ -643,7 +656,11 @@ $('document').ready(function(){
 
                 const iconResult = await iconError;
 
-                this.submitForm();
+                if(inputErrors.length > 0 || iconResult.length > 0){
+                    return;
+                }else{
+                    this.submitForm();
+                }
             })
         }
     }

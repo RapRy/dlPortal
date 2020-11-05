@@ -157,6 +157,29 @@
         }
     }
 
+    function insertScreens($contentId, $conn, $newpath, $folderName){
+        $stmt = mysqli_stmt_init($conn);
+        date_default_timezone_set("Asia/Brunei");
+        $dateTime = date("YmdHis");
+
+        $folderPath = "{$newpath}/screenshots/";
+
+        if(is_dir($newpath)){
+            for($i = 0; count($_FILES['screenshots']['tmp_name']) > $i; $i++){
+                $imageExt = strtolower(pathinfo($_FILES['screenshots']['name'][$i], PATHINFO_EXTENSION));
+                $screenName = rand(111111111,999999999);
+                $newImageName = "{$folderName}_{$screenName}_{$dateTime}.{$imageExt}";
+                $newImageFilePath = $folderPath.$newImageName;
+                move_uploaded_file($_FILES['screenshots']['tmp_name'][$i], $newImageFilePath);
+
+                $insertImage = "INSERT INTO screenshots (contentId, screenshotName) VALUES (?, ?)";
+                mysqli_stmt_prepare($stmt, $insertImage);
+                mysqli_stmt_bind_param($stmt, "is", $contentId, $newImageName);
+                mysqli_stmt_execute($stmt);
+            }
+        }
+    }
+
     if(isset($_POST['selectCat'])){
         // select input main category
         $selectCatId = getIdMainCat($_POST['selectCat'], $conn);
@@ -207,8 +230,13 @@
                         updateFile($contentId, $conn, $_FILES['contentIcon'], $_POST['contentIconInitial'], $newpath, $folderName, "contentThumb");
                     }
 
-                    
+                    if(isset($_FILES['screenshots'])){
+                        insertScreens($contentId, $conn, $newpath, $folderName);
+                    }
                 }
+
+                echo json_encode(['result' => "success"]);
+
             }
         }else{
             $oldPath = "../uploads/contents/{$mainCatInitial}/{$subCatInitial}/{$folderName}";
@@ -221,6 +249,12 @@
                 if(isset($_FILES['contentIcon'])){
                     updateFile($contentId, $conn, $_FILES['contentIcon'], $_POST['contentIconInitial'], $oldPath, $folderName, "contentThumb");
                 }
+
+                if(isset($_FILES['screenshots'])){
+                    insertScreens($contentId, $conn, $oldPath, $folderName);
+                }
+
+                echo json_encode(['result' => "success"]);
             }
         }
     }

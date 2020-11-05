@@ -53,3 +53,4 @@
 		</section>
     </section>
 </main>
+<script src="jsScripts/home.js" defer></script>
