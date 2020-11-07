@@ -689,31 +689,55 @@ p {
   padding-top: 20px;
 }
 
-.menuCategoryWrapper .menuCategory {
+.menuCategoryWrapper .catWrapper {
   margin-bottom: 10px;
+  border-radius: 10px;
+  background: #fff;
+  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.menuCategoryWrapper .catWrapper .noData {
+  padding: 20px 0;
+}
+
+.menuCategoryWrapper .catWrapper .noData p {
+  text-align: center;
+  font-size: .8rem;
+  color: #E24545;
+}
+
+.menuCategoryWrapper .catWrapper .menuCategory {
   padding: 15px 30px;
   border-radius: 10px;
   cursor: pointer;
 }
 
-.menuCategoryWrapper .menuCategory:last-child {
+.menuCategoryWrapper .catWrapper .menuCategory:last-child {
   margin-bottom: 0;
 }
 
-.menuCategoryWrapper .menuCategory img {
+.menuCategoryWrapper .catWrapper .menuCategory img {
   max-width: initial;
 }
 
-.menuCategoryWrapper .menuCategory span {
+.menuCategoryWrapper .catWrapper .menuCategory span {
   font-size: 1.2rem;
   font-weight: 900;
   color: #403A3A;
 }
 
-.menuCategoryWrapper .menuCategory i {
+.menuCategoryWrapper .catWrapper .menuCategory i {
   font-size: 1.3rem;
   font-weight: 900;
   color: #403A3A;
+}
+
+.menuCategoryWrapper .catWrapper .menuCategory .catArrowWrapper i {
+  -webkit-transition: -webkit-transform 200ms ease-in-out;
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
 }
 
 .profileHeader {

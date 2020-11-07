@@ -31,17 +31,19 @@
 					while(mysqli_stmt_fetch($stmt)):
 
 			?>
-			<div class="menuCategory btnGreenGradient row no-gutters align-items-center">
-				<input type="hidden" name="catId" value="<?php echo $mainCatId; ?>" />
-				<input type="hidden" name="catExt" value="<?php echo $mainCatExt; ?>" />
-				<div class="catIconWrapper col-1">
-					<img src="uploads/categoryIcons/<?php echo str_replace(" ", "", $mainCatName)."/".$mainCatIcon ?>" alt="icon" />
-				</div>
-				<div class="catNameWrapper col-10">
-					<span class="col-2"><?php echo strtoupper($mainCatName); ?></span>
-				</div>
-				<div class="catArrowWrapper col-1">
-					<i class="fas fa-chevron-right col-1"></i>
+			<div class="catWrapper">
+				<div class="menuCategory btnGreenGradient row no-gutters align-items-center">
+					<input type="hidden" name="catId" value="<?php echo $mainCatId; ?>" />
+					<input type="hidden" name="catExt" value="<?php echo $mainCatExt; ?>" />
+					<div class="catIconWrapper col-1">
+						<img src="uploads/categoryIcons/<?php echo str_replace(" ", "", $mainCatName)."/".$mainCatIcon ?>" alt="icon" />
+					</div>
+					<div class="catNameWrapper col-10">
+						<span class="col-2"><?php echo strtoupper($mainCatName); ?></span>
+					</div>
+					<div class="catArrowWrapper col-1">
+						<i class="fas fa-chevron-right col-1"></i>
+					</div>
 				</div>
 			</div>
 			<?php
