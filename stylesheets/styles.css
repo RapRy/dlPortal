@@ -740,6 +740,88 @@ p {
   transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
 }
 
+.menuCategoryWrapper .catWrapper .catWrapOuter {
+  padding: 20px;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner {
+  margin-bottom: 20px;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner:last-child {
+  margin-bottom: 0px;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .subCatWrap {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  border-bottom: 1px solid #403A3A;
+  padding-bottom: 2px;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .subCatWrap div {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .subCatWrap .subCatTitle {
+  color: #403A3A;
+  font-size: .9rem;
+  font-weight: 500;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .subCatWrap .viewAll {
+  display: block;
+  text-align: right;
+  font-size: .8rem;
+  font-weight: 500;
+  color: #403A3A;
+  cursor: pointer;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap {
+  padding-top: 20px;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content {
+  display: inline-block;
+  margin-right: 15px;
+  width: 75px;
+  height: 75px;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content:last-child {
+  margin-right: 0;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content .contThumbWrap img {
+  width: 75px;
+  height: 75px;
+  border-radius: 10px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content .contNameWrap {
+  padding-top: 5px;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content .contNameWrap p {
+  font-size: .8rem;
+  color: #403A3A;
+  font-weight: 400;
+}
+
+.menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content .contNameWrap span {
+  display: block;
+  font-size: .75rem;
+  color: #999999;
+}
+
 .profileHeader {
   position: relative;
   height: 231px;

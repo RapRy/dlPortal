@@ -538,7 +538,7 @@ $('document').ready(function(){
                         // add blob file as src attribute of the image 
                         img.src = e.target.result;
                         img.onload = function(){
-                            if((this.height > 45 && this.width > 45) || (this.height < 45 && this.width < 45)){
+                            if((this.height > 75 && this.width > 75) || (this.height < 75 && this.width < 75)){
                                 // check image if height and width is not equal to 45px
                                 Notification.domValidate('#contentIcon', "Content icon dimension must be 45x45px", errors, "contentIcon");
                                 // return the error or return 1
