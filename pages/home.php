@@ -13,6 +13,9 @@
         </div>
     </section>
     <section class="homeWrapper">
+		<section class="featuredWrapper">
+
+		</section>
 		<section class="menuCategoryWrapper container">
 			<?php
 				$stmt = mysqli_stmt_init($conn);
