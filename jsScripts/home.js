@@ -44,6 +44,13 @@ $('document').ready(function(){
             })
         }
 
+        viewAllClick(){
+            $('.viewAll').on('click', (e) => {
+                const contentsWrap = $(e.currentTarget).parent().parent().parent().find('.contentsWrap');
+                contentsWrap.css({whiteSpace:"normal"})
+            })
+        }
+
         scrollXEvents(){
             let mousedown = [];
             let divPosX = [];
@@ -186,6 +193,8 @@ $('document').ready(function(){
                                 this.scrollXEvents()
 
                                 this.contentClickEvent();
+
+                                this.viewAllClick();
                             }
                         }else{
                             const notifContent = `
