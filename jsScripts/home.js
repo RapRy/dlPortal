@@ -36,6 +36,7 @@ $('document').ready(function(){
     class Categories{
         constructor(){
             this.toggleCat = false
+            this.viewAllToggle = false
         }
 
         contentClickEvent(){
@@ -48,6 +49,27 @@ $('document').ready(function(){
             $('.viewAll').on('click', (e) => {
                 const contentsWrap = $(e.currentTarget).parent().parent().parent().find('.contentsWrap');
                 contentsWrap.css({whiteSpace:"normal"})
+
+                let contents = $(e.currentTarget).parent().parent().next().children();
+                let contentThumb = contents.find('img');
+                let catWrapInner = $(e.currentTarget).parent().parent().parent();
+
+                contents.css({width:"85px"})
+                contentThumb.css({height:"85px", width:"85px"})
+                catWrapInner.attr('data-view', 'active');
+
+                $.each($('.catWrapInner'), (i, catWrap) => {
+                    if(!$(catWrap).attr('data-view')){
+                        $(catWrap).css({display:"none"});
+                    }
+                    
+                })
+
+                $(contents).css({marginBottom: "10px"})
+
+                for(let i = 2; i < contents.length; i++){
+                    $(contents).eq(i).css({marginRight: 0});
+                }
             })
         }
 
