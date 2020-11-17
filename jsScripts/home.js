@@ -48,27 +48,78 @@ $('document').ready(function(){
         viewAllClick(){
             $('.viewAll').on('click', (e) => {
                 const contentsWrap = $(e.currentTarget).parent().parent().parent().find('.contentsWrap');
-                contentsWrap.css({whiteSpace:"normal"})
-
                 let contents = $(e.currentTarget).parent().parent().next().children();
                 let contentThumb = contents.find('img');
                 let catWrapInner = $(e.currentTarget).parent().parent().parent();
+                let catWrap = catWrapInner.parent().parent()
 
-                contents.css({width:"85px"})
-                contentThumb.css({height:"85px", width:"85px"})
-                catWrapInner.attr('data-view', 'active');
+                if(!this.viewAllToggle){
+                    // change text
+                    $(e.currentTarget).text("minimize")
 
-                $.each($('.catWrapInner'), (i, catWrap) => {
-                    if(!$(catWrap).attr('data-view')){
-                        $(catWrap).css({display:"none"});
+                    // set white space
+                    contentsWrap.css({whiteSpace:"normal"})
+
+                    // set width and margin bottom
+                    contents.css({width:"85px", marginBottom: "10px"})
+                    // set height and width
+                    contentThumb.css({height:"85px", width:"85px"})
+                    // add data attrib
+                    catWrapInner.attr('data-view', 'active').css({marginBottom: 0});
+
+                    // hide sub cat and its contents that has no data attrib
+                    $.each($('.catWrapInner'), (i, catWrap) => {
+                        if(!$(catWrap).attr('data-view')){
+                            $(catWrap).css({display:"none"});
+                        }
+                        
+                    })
+
+                    // set margin right to each content
+                    for(let i = 2; i < contents.length; i++){
+                        $(contents).eq(i).css({marginRight: 0});
                     }
-                    
-                })
 
-                $(contents).css({marginBottom: "10px"})
+                    catWrap.animate({height: `${catWrapInner.parent().prev().outerHeight() + catWrapInner.parent().outerHeight()}px`}, 250, "swing")
 
-                for(let i = 2; i < contents.length; i++){
-                    $(contents).eq(i).css({marginRight: 0});
+                    this.viewAllToggle = true;
+
+                }else{
+                    // change text
+                    $(e.currentTarget).text("view all")
+                    // set white space
+                    contentsWrap.css({whiteSpace:"nowrap"})
+
+                    // set width and margin bottom
+                    contents.css({width:"75px", marginBottom: 0})
+                    // set height and width
+                    contentThumb.css({height:"75px", width:"75px"})
+                    // set remove data attrib
+                    catWrapInner.removeAttr('data-view');
+
+                    // set margin bottom
+                    $.each(catWrapInner.parent().children('.catWrapInner'), (i, catInner) => {
+                        $(catInner).css({marginBottom: "20px"})
+                    })
+                    // set margin bottom 0 of the last catWrapInner element
+                    catWrapInner.parent().children('.catWrapInner').eq(catWrapInner.parent().children('.catWrapInner').length -1).css({marginBottom: 0})
+
+                    // hide sub cat and its contents that has no data attrib
+                    $.each($('.catWrapInner'), (i, catWrap) => {
+                        $(catWrap).css({display:"block"});
+                    })
+
+                    // set margin right to each content
+                    $.each(contents, (i, conts) => {
+                        $(conts).css({marginRight: "15px"});
+                    })
+
+                    // set margin right 0 of the last content element
+                    contents.eq(contents.length - 1).css({marginRight: 0})
+
+                    catWrap.animate({height: `${catWrapInner.parent().prev().outerHeight() + catWrapInner.parent().outerHeight()}px`}, 250, "swing")
+
+                    this.viewAllToggle = false;
                 }
             })
         }
@@ -236,6 +287,11 @@ $('document').ready(function(){
                 const catId = $(e.currentTarget).children("input:first").val();
                 const currentElem = $(e.currentTarget);
                 const catArrow = $(e.currentTarget).find('.fa-chevron-right');
+
+                // set to false
+                if(this.viewAllToggle){
+                    this.viewAllToggle = false
+                }
 
                 if(!this.toggleCat){
                     // show content
