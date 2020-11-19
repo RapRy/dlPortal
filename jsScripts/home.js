@@ -39,12 +39,6 @@ $('document').ready(function(){
             this.viewAllToggle = false
         }
 
-        contentClickEvent(){
-            $('.contThumbWrap').on('click', (e) => {
-                console.log(e.currentTarget);
-            })
-        }
-
         viewAllClick(){
             $('.viewAll').on('click', (e) => {
                 const contentsWrap = $(e.currentTarget).parent().parent().parent().find('.contentsWrap');
@@ -237,9 +231,9 @@ $('document').ready(function(){
                                                 $('.contentsWrap').eq(iSub).append(`
                                                     <div class="content">
                                                         <input type="hidden" value="${contentId}" />
-                                                        <div class="contThumbWrap">
+                                                        <a href="pages/preview.php?content=${folderName}_${contentId}" class="contThumbWrap">
                                                             <img draggable="false" src="uploads/contents/${contMainCatName.replace(" ", "")}/${subCatName.replace(" ", "")}/${folderName}/${contentThumb}" />
-                                                        </div>
+                                                        </a>
                                                         <div class="contNameWrap">
                                                             <p>${contentName}</p>
                                                             <span>${String(contentFileSize).substring(0, 2)} mb</span>
@@ -264,8 +258,6 @@ $('document').ready(function(){
                                 currentElem.parent().animate({height: `${result + currentElem.outerHeight()}px`}, 250, "swing")
 
                                 this.scrollXEvents()
-
-                                this.contentClickEvent();
 
                                 this.viewAllClick();
                             }

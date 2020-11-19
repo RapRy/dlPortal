@@ -813,6 +813,7 @@ p {
 
 .menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content .contThumbWrap {
   cursor: pointer;
+  display: block;
 }
 
 .menuCategoryWrapper .catWrapper .catWrapOuter .catWrapInner .contentsWrap .content .contThumbWrap img {
