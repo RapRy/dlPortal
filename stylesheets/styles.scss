@@ -437,6 +437,11 @@ p{
     }
 }
 
+.reviewBtn{
+    font-weight: $r500;
+    font-size:.85rem;
+}
+
 // end button styles
 
 // hyperlink styles
@@ -604,3 +609,4 @@ p{
 @import 'home/home';
 @import 'user/profile';
 @import 'admin/adminProfile';
+@import 'preview/preview';

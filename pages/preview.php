@@ -12,10 +12,12 @@
         header('Location: ../signIn.php');
     }
 ?>
-<main class="previewContainer mainContainer">
+<main class="previewContainer mainContainer container">
     <img src="../assets/homeBg.svg" alt="" class="bg">
     <section class="contentContainer">
-        <a href="../index.php" id="contentBackBtn"><i class="fas fa-level-up-alt"></i></a>
+        <a href="../index.php" id="contentBackBtn" class="contentBackBtn">
+            <i class="fas fa-level-up-alt"></i>
+        </a>
     <?php
         $idIndex = strpos($_GET['content'], "_") + 1;
         $contentId = substr($_GET['content'], $idIndex);
@@ -37,28 +39,32 @@
             if($contExt === "mp4"):
         ?>
             <div class="videoContainer">
-                <video controls>
+                <video id="video">
                     <source src="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/{$contentFilename}"; ?>" type="video/mp4">
                 </video>
-                <div class="controls">
-                    <button class="mediaBtn" id="play">
+                <div class="controls row">
+                    <button class="mediaBtn col-1 align-self-center" id="play">
                         <i class="fas fa-play"></i>
                     </button>
-                    <button class="mediaBtn" id="stop">
+                    <button class="mediaBtn col-1 align-self-center" id="stop">
                         <i class="fas fa-stop"></i>
                     </button>
-                    <input type="range" id="progress" class="mediaProgress" min="0" max="100" step="0.1" value="0" />
-                    <span class="mediaTimestamp" id="timestamp">00:00</span>
+                    <input type="range" id="progress" class="mediaProgress align-self-center col-8" min="0" max="100" step="0.1" value="0" />
+                    <span class="mediaTimestamp col-1" id="timestamp">00:00</span>
+                </div>
+                <div class="videoName">
+                    <p><?php echo $contentName; ?></p>
+                    <span><?php echo $subCatName; ?></span>
                 </div>
             </div>
         <?php
             else:
         ?>
-            <div class="thumbAndName">
-                <div class="thumb">
+            <div class="thumbAndName row">
+                <div class="thumb col-4">
                     <img src="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/{$contentThumb}" ?>" alt="thumbnail">
                 </div>
-                <div class="name">
+                <div class="name col-8 align-self-center">
                     <p><?php echo $contentName; ?></p>
                     <span><?php echo $subCatName; ?></span>
                 </div>
@@ -77,7 +83,7 @@
                     <?php
                         while(mysqli_stmt_fetch($stmt)):
                     ?>
-                        <img src="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/screenshots/{$screenshotName}" ?>" alt="">
+                        <img src="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/screenshots/{$screenshotName}" ?>" alt="" draggable="false">
                     <?php
                         endwhile;
                     ?>
@@ -86,18 +92,18 @@
             elseif($contExt === "mp3"):
         ?>
                 <div class="audioControls">
-                    <audio controls>
+                    <audio id="audio">
                         <source src="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/{$contentFilename}"; ?>" type="audio/mp3">
                     </audio>
-                    <div class="controls">
-                        <button class="mediaBtn" id="play">
+                    <div class="controls row">
+                        <button class="mediaBtn col-1 align-self-center" id="play">
                             <i class="fas fa-play"></i>
                         </button>
-                        <button class="mediaBtn" id="stop">
+                        <button class="mediaBtn col-1 align-self-center" id="stop">
                             <i class="fas fa-stop"></i>
                         </button>
-                        <input type="range" id="progress" class="mediaProgress" min="0" max="100" step="0.1" value="0" />
-                        <span class="mediaTimestamp" id="timestamp">00:00</span>
+                        <input type="range" id="progress" class="mediaProgress align-self-center col-8" min="0" max="100" step="0.1" value="0" />
+                        <span class="mediaTimestamp col-1" id="timestamp">00:00</span>
                     </div>
                 </div>
         <?php 
@@ -112,10 +118,10 @@
             <div class="reviewFormContainer">
                 <form id="reviewForm" name="reviewForm">
                     <div class="form-group">
-				        <textarea class="form-control formInputBlue" id="contentReview" rows="7"></textarea>
+				        <textarea class="form-control formInputGreen" id="contentReview" rows="4"></textarea>
                     </div>
                     <div class="form-group text-center">
-                        <button type="button" class="btnContentManageBlue globalBtn" id="addReviewBtn">Add Review</button>
+                        <button type="button" class="btnGreenGradient reviewBtn globalBtn" id="addReviewBtn">Submit Review</button>
                     </div>
                 </form>
             </div>
@@ -143,10 +149,12 @@
         </div>
     </section>
     <section class="downloadContainer">
-        <a href="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/{$contentFilename}"; ?>" class="btnContentManageBlue globalBtn">
-            DOWNLOAD <?php echo $contentFilseSize; ?> mb
+        <a href="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/{$contentFilename}"; ?>" class="btnGreenGradient contDlBtn globalBtn">
+            DOWNLOAD (<?php echo $contentFilseSize; ?> mb)
         </a>
     </section>
 </main>
+
+<script src="../jsscripts/preview.js" defer></script>
 
 <?php include('footer.php') ?>

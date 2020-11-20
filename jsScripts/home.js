@@ -149,7 +149,6 @@ $('document').ready(function(){
             }).on('mouseleave', (e) => {
                 mousedown[ind] = false;
                 scrollToLeft[ind] = 0;
-                this.contentClickEvent();
                 $(e.currentTarget).css({cursor:"grab"})
             }).on('touchstart', (e) => {
                 ind = $(e.currentTarget).parent().index();
@@ -157,7 +156,7 @@ $('document').ready(function(){
                 divPosX[ind] = e.pageX - $(e.currentTarget).offset().left;
                 scrollToLeft[ind] = $(e.currentTarget).scrollLeft();
                 $(e.currentTarget).css({cursor:"grabbing"})
-            }).on('touchend', (e) => {
+            }).on('touchmove', (e) => {
                 if(!mousedown[ind]) return
                 let posX = e.pageX - $(e.currentTarget).offset().left;
                 let walk = (posX - divPosX[ind]) * 2;
