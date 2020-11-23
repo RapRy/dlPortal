@@ -10,6 +10,30 @@
     }
 ?>
 <?php
+	function fetchData($conn, $activityType, $activityDate){
+		$stmtRev = mysqli_stmt_init($conn);
+		$queryRev = "SELECT contentId FROM reviews WHERE reviewType = ? AND reviewDate = ?";
+		mysqli_stmt_prepare($stmtRev, $queryRev);
+		mysqli_stmt_bind_param($stmtRev, "ss", $activityType, $activityDate);
+		mysqli_stmt_execute($stmtRev);
+		mysqli_stmt_store_result($stmtRev);
+		mysqli_stmt_bind_result($stmtRev, $contentId);
+		mysqli_stmt_fetch($stmtRev);
+
+		$stmtContent = mysqli_stmt_init($conn);
+		$queryContent = "SELECT contentName, subCatName, folderName FROM contents WHERE contentId = ?";
+		mysqli_stmt_prepare($stmtContent, $queryContent);
+		mysqli_stmt_bind_param($stmtContent, "i", $contentId);
+		mysqli_stmt_execute($stmtContent);
+		mysqli_stmt_store_result($stmtContent);
+		mysqli_stmt_bind_result($stmtContent, $contentName, $subCatName, $folderName);
+		mysqli_stmt_fetch($stmtContent);
+
+		return ['contentId' => $contentId, 'contentName' => $contentName, 'subCatName' => $subCatName, 'folderName' => $folderName];
+
+	}
+
+
 	$stmt = mysqli_stmt_init($conn);
 	$fetchActivities = "SELECT activityId, userId, activityType, userActivity, userActivityDesc, activityDate FROM userslog WHERE userId=? ORDER BY activityDate DESC";
 	mysqli_stmt_prepare($stmt, $fetchActivities);
@@ -41,7 +65,8 @@
 					"year" => $date['year'],
 					"hour" => date("g", strtotime($activityDate)),
 					"minutes" => ($date['minute'] < 10) ? "0".$date['minute'] : $date['minute'],
-					"ampm" => date("a", strtotime($activityDate))
+					"ampm" => date("a", strtotime($activityDate)),
+					"fullDate" => $activityDate
 				],
 				// reference of date and time
 				"refDate" => $dateMonth[$date['month'] -  1]."-".$date['day']."-".$date['year'],
@@ -147,6 +172,20 @@
 									// user changed receiving update
 							?>
 									<p>You changed receiving updates. You will now be receiving updates via <span class="activityHighlight"><?php echo $data['userActivity']; ?></span>.</p>
+							<?php
+								elseif($data['activityType'] == "review"):
+									$reviewMes = "";
+			
+									if($data['userActivity'] === "mainReview"){
+										$data = fetchData($conn,$data['userActivity'], $data['activityDate']['fullDate']);
+
+										$reviewMes = "You wrote a review about <a class='activityHighlight' href='../preview.php?content={$data['folderName']}_{$data['contentId']}'>{$data['contentName']}</a> in <span class='activityHighlight2'>{$data['subCatName']} Category</span>";
+									}else if($data['userActivity'] === "subReview"){
+										$data = fetchData($conn,$data['userActivity'], $data['activityDate']['fullDate']);
+										$reviewMes = "You wrote a comment about <a class='activityHighlight' href='../preview.php?content={$data['folderName']}_{$data['contentId']}'>{$data['contentName']}</a> in <span class='activityHighlight2'>{$data['subCatName']} Category</span>";
+									}
+							?>
+								<p><?php echo $reviewMes; ?></p>
 							<?php
 								endif;
 							?>

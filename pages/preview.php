@@ -35,6 +35,7 @@
 
         $contExt = pathinfo($contentFilename, PATHINFO_EXTENSION);
     ?>
+    <input type="hidden" id="contentId" value="<?php echo $contentId; ?>" />
         <?php
             if($contExt === "mp4"):
         ?>
@@ -118,33 +119,124 @@
             <div class="reviewFormContainer">
                 <form id="reviewForm" name="reviewForm">
                     <div class="form-group">
-				        <textarea class="form-control formInputGreen" id="contentReview" rows="4"></textarea>
+				        <textarea class="form-control formInputGreen" name="contentReview" id="contentReview" rows="4"></textarea>
                     </div>
                     <div class="form-group text-center">
-                        <button type="button" class="btnGreenGradient reviewBtn globalBtn" id="addReviewBtn">Submit Review</button>
+                        <button type="button" class="btnGreenGradient reviewBtn globalBtn" id="submitReviewBtn">Post Review</button>
                     </div>
                 </form>
             </div>
             <div class="reviewsWrapper">
-                <div class="review">
-                    <div class="reviewMain">
-                        <div class="reviewerThumb">
-                            <img src="" alt="">
-                        </div>
-                        <div class="reviewerDetails">
-                            <h6>Name</h6>
-                            <p>comment</p>
-                            <div>
-                                <span class="reviewDate">date</span>
-                                <span class="reviewTime">time</span>
-                                <button class="replyBtn">
-                                    <i class="fas fa-comment-dots"></i>
-                                    Reply
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                    $fetchReviews = "SELECT reviewId, userId, reviewType, reviewDescription, reviewDate FROM reviews WHERE contentId = ?";
+                    mysqli_stmt_prepare($stmt, $fetchReviews);
+                    mysqli_stmt_bind_param($stmt, "i", $contentId);
+                    mysqli_stmt_execute($stmt);
+                    mysqli_stmt_store_result($stmt);
+                    $resultRevs = mysqli_stmt_num_rows($stmt);
+                    if($resultRevs > 0):
+                        mysqli_stmt_bind_result($stmt, $mainReviewId, $mainUserId, $mainReviewType, $mainReviewDescription, $mainReviewDate);
+
+                        while(mysqli_stmt_fetch($stmt)):
+                            $dateMainReview = date_parse($mainReviewDate);
+                            $dateMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                            $mainHour = date('g', strtotime($mainReviewDate));
+                            $mainMin = ($dateMainReview['minute'] < 10) ? "0".$dateMainReview['minute'] : $dateMainReview['minute'];
+                            $mainAmPm =date("a", strtotime($mainReviewDate));
+
+                            $mainTime = "{$mainHour}:{$mainMin} {$mainAmPm}";
+                            $mainDate = "{$dateMonth[$dateMainReview['month'] - 1]} {$dateMainReview['day']}, {$dateMainReview['year']}";
+                ?>
+                                <!-- review class start -->
+                                <div class="review">
+                <?php
+                            if($mainReviewType === "mainReview"):
+                                $getUser = "SELECT profilePicture, firstName, lastName, mobileNumber FROM users WHERE userId = ?";
+                                $stmtUser = mysqli_stmt_init($conn);
+                                mysqli_stmt_prepare($stmtUser, $getUser);
+                                mysqli_stmt_bind_param($stmtUser, "i", $mainUserId);
+                                mysqli_stmt_execute($stmtUser);
+                                mysqli_stmt_store_result($stmtUser);
+                                mysqli_stmt_bind_result($stmtUser, $profilePicture, $firstName, $lastName, $mobileNumber);
+                                mysqli_stmt_fetch($stmtUser);
+                ?>
+                                    <div class="reviewMain row">
+                                        <input type="hidden" value="<?php echo $mainReviewId; ?>" />
+                                        <div class="reviewerThumb col-3">
+                                            <img src="../uploads/avatars/<?php echo "{$mobileNumber}/{$profilePicture}"; ?>" alt="">
+                                        </div>
+                                        <div class="reviewerDetails col-9">
+                                            <h6><?php echo "{$firstName} {$lastName}"; ?></h6>
+                                            <p><?php echo $mainReviewDescription; ?></p>
+                                            <div>
+                                                <span class="reviewDate"><?php echo $mainDate; ?></span>
+                                                <span class="reviewTime"><?php echo $mainTime; ?></span>
+                                                <button class="commentBtn">
+                                                    <i class="fas fa-comment-dots"></i>
+                                                    Comment
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                <?php
+                            endif;
+                                    $stmtSubRev = mysqli_stmt_init($conn);
+                                    $fetchSubRev = "SELECT reviewId, userId, reviewType, reviewDescription, reviewDate FROM reviews WHERE reviewRef = ?";
+                                    mysqli_stmt_prepare($stmtSubRev, $fetchSubRev);
+                                    mysqli_stmt_bind_param($stmtSubRev, "i", $mainReviewId);
+                                    mysqli_stmt_execute($stmtSubRev);
+                                    mysqli_stmt_store_result($stmtSubRev);
+                                    $resultSubRevs = mysqli_stmt_num_rows($stmtSubRev);
+                                    if($resultSubRevs > 0):
+                ?>
+                                        <div class="reviewSub row justify-content-end">
+                <?php
+                                        mysqli_stmt_bind_result($stmtSubRev, $subReviewId, $subUserId, $subReviewType, $subReviewDescription, $subReviewDate);
+
+                                        while(mysqli_stmt_fetch($stmtSubRev)):
+                                            $dateSubReview = date_parse($subReviewDate);
+
+                                            $subHour = date('g', strtotime($subReviewDate));
+                                            $subMin = ($dateSubReview['minute'] < 10) ? "0".$dateSubReview['minute'] : $dateSubReview['minute'];
+                                            $subAmPm =date("a", strtotime($subReviewDate));
+
+                                            $subTime = "{$subHour}:{$subMin} {$subAmPm}";
+                                            $subDate = "{$dateMonth[$dateSubReview['month'] - 1]} {$dateSubReview['day']}, {$dateSubReview['year']}";
+
+                                            if($subReviewType === "subReview"):
+                                                $getSubUser = "SELECT profilePicture, firstName, lastName, mobileNumber FROM users WHERE userId = ?";
+                                                $stmtSubUser = mysqli_stmt_init($conn);
+                                                mysqli_stmt_prepare($stmtSubUser, $getSubUser);
+                                                mysqli_stmt_bind_param($stmtSubUser, "i", $subUserId);
+                                                mysqli_stmt_execute($stmtSubUser);
+                                                mysqli_stmt_store_result($stmtSubUser);
+                                                mysqli_stmt_bind_result($stmtSubUser, $subProfilePicture, $subFirstName, $subLastName, $subMobileNumber);
+                                                mysqli_stmt_fetch($stmtSubUser);
+                ?>
+                                                    
+                                                        <div class="commentContainer col-9">
+                                                            <h6><?php echo "{$subFirstName} {$subLastName}"; ?></h6>
+                                                            <p><?php echo $subReviewDescription; ?></p>
+                                                            <div>
+                                                                <span class="reviewDate"><?php echo $subDate; ?></span>
+                                                                <span class="reviewTime"><?php echo $subTime; ?></span>
+                                                            </div>
+                                                        </div>       
+                <?php
+                                            endif;
+                                        endwhile;
+                ?>
+                                        </div>
+                <?php
+                                    endif;
+                ?>
+                                <!-- review class end -->
+                                </div>
+                <?php
+                        endwhile;
+                    endif;
+                ?>
             </div>
         </div>
     </section>
@@ -154,6 +246,10 @@
         </a>
     </section>
 </main>
+<?php 
+    mysqli_stmt_close($stmt); 
+    mysqli_close($conn);
+?>
 
 <script src="../jsscripts/preview.js" defer></script>
 
