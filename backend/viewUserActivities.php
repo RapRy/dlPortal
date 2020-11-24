@@ -21,6 +21,7 @@
                 $dateMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 
                 $newData = [
+                    "contentData" => [],
                     "activityId" => $activityId,
                     "userId" => $userId,
                     "activityType" => $activityType,
@@ -32,12 +33,39 @@
                         "year" => $date['year'],
                         "hour" => date("g", strtotime($activityDate)),
                         "minutes" => ($date['minute'] < 10) ? "0".$date['minute'] : $date['minute'],
-                        "ampm" => date("a", strtotime($activityDate))
+                        "ampm" => date("a", strtotime($activityDate)),
+                        "fullDate" => $activityDate
                     ],
                     // reference of date and time
                     "refDate" => $dateMonth[$date['month'] -  1]."-".$date['day']."-".$date['year'],
                     "refTime" => date("g", strtotime($activityDate))."-".$date['minute']."-".date("a", strtotime($activityDate))
                 ];
+
+                if($activityType == "review"){
+                    $stmtRev = mysqli_stmt_init($conn);
+                    $queryRev = "SELECT contentId FROM reviews WHERE reviewType = ? AND reviewDate = ?";
+
+                    mysqli_stmt_prepare($stmtRev, $queryRev);
+                    mysqli_stmt_bind_param($stmtRev, "ss", $userActivity, $activityDate);
+                    mysqli_stmt_execute($stmtRev);
+                    mysqli_stmt_store_result($stmtRev);
+                    mysqli_stmt_bind_result($stmtRev, $contentId);
+                    mysqli_stmt_fetch($stmtRev);
+
+                    $stmtContent = mysqli_stmt_init($conn);
+                    $queryContent = "SELECT contentName, subCatName, folderName FROM contents WHERE contentId = ?";
+                    mysqli_stmt_prepare($stmtContent, $queryContent);
+                    mysqli_stmt_bind_param($stmtContent, "i", $contentId);
+                    mysqli_stmt_execute($stmtContent);
+                    mysqli_stmt_store_result($stmtContent);
+                    mysqli_stmt_bind_result($stmtContent, $contentName, $subCatName, $folderName);
+                    mysqli_stmt_fetch($stmtContent);
+
+                    $contenData = ['contentId' => $contentId, 'contentName' => $contentName, 'subCatName' => $subCatName, 'folderName' => $folderName];
+
+                    $newData['contentData'] = $contenData;
+
+                }
                 
                 array_push($dataContainer, $newData);
             }

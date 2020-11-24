@@ -99,6 +99,9 @@
         .reviewsWrapper{
             .review{
                 margin-bottom:30px;
+                background-color:$gray6;
+                border-radius:5px;
+                padding:10px;
 
                 &:last-child{margin-bottom:0;}
 
@@ -134,13 +137,19 @@
                             margin-bottom:3px !important;
                         }
 
+                        div{margin-top:-8px;}
+
                         span{
                             color:$darkGray;
-                            font-size:.7rem;
+                            font-size:.65rem;
                             font-weight:$r400;
                             display: inline-block;
                             border-right:1px solid $darkGray;
                             padding-right:5px;
+                        }
+
+                        .reviewComment{
+                            background-color:#fff;
                         }
 
                         .commentBtn{
@@ -165,9 +174,13 @@
                 margin-left:0 !important;
 
                 .commentContainer{
-                    padding-left:10px !important;
-                    padding-right:0 !important;
+                    padding-left:7px !important;
+                    padding-right:7px !important;
+                    padding-top:7px;
+                    padding-bottom:7px;
                     margin-bottom:10px;
+                    background-color:#fff;
+                    border-radius: 5px;
 
                     &:last-child{margin-bottom:0;}
 
@@ -184,9 +197,11 @@
                         margin-bottom:3px !important;
                     }
 
+                    div{margin-top:-8px;}
+
                     span{
                         color:$darkGray;
-                        font-size:.7rem;
+                        font-size:.65rem;
                         font-weight:$r400;
                         display: inline-block;
                         border-right:1px solid $darkGray;

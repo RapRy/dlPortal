@@ -226,11 +226,17 @@
                                     .userChangedProfilePic{
                                         color:$blue3;
                                     }
-        
+
                                     .userActivityHighlight{
                                         color:$blue3;
                                         font-weight:$r900;
-                                        line-height:1;
+                                        line-height: 1;
+                                    }
+                    
+                                    .userActivityHighlight2{
+                                        color:$blue3;
+                                        font-weight:$r500;
+                                        line-height: 1;
                                     }
                                 }
                             }

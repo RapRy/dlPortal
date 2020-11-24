@@ -182,7 +182,7 @@
 										$reviewMes = "You wrote a review about <a class='activityHighlight' href='../preview.php?content={$data['folderName']}_{$data['contentId']}'>{$data['contentName']}</a> in <span class='activityHighlight2'>{$data['subCatName']} Category</span>";
 									}else if($data['userActivity'] === "subReview"){
 										$data = fetchData($conn,$data['userActivity'], $data['activityDate']['fullDate']);
-										$reviewMes = "You wrote a comment about <a class='activityHighlight' href='../preview.php?content={$data['folderName']}_{$data['contentId']}'>{$data['contentName']}</a> in <span class='activityHighlight2'>{$data['subCatName']} Category</span>";
+										$reviewMes = "You wrote a comment on a review about <a class='activityHighlight' href='../preview.php?content={$data['folderName']}_{$data['contentId']}'>{$data['contentName']}</a> in <span class='activityHighlight2'>{$data['subCatName']} Category</span>";
 									}
 							?>
 								<p><?php echo $reviewMes; ?></p>

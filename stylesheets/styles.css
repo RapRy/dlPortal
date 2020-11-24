@@ -1434,6 +1434,12 @@ p {
   line-height: 1;
 }
 
+.manageUsers .usersList .userAccountDetails .userDetailsContainer .userDetails .userActivityHistory .userActivityWrap .userActivityDesc p .userActivityHighlight2 {
+  color: #207CE8;
+  font-weight: 500;
+  line-height: 1;
+}
+
 .manageUsers .usersList .userAccountDetails .userDetailsContainer .userCtaBtnsContainer {
   display: -ms-grid;
   display: grid;
@@ -2171,6 +2177,9 @@ p {
 
 .contentContainer .reviewsContainer .reviewsWrapper .review {
   margin-bottom: 30px;
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .review:last-child {
@@ -2211,13 +2220,21 @@ p {
   margin-bottom: 3px !important;
 }
 
+.contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails div {
+  margin-top: -8px;
+}
+
 .contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails span {
   color: #808080;
-  font-size: .7rem;
+  font-size: .65rem;
   font-weight: 400;
   display: inline-block;
   border-right: 1px solid #808080;
   padding-right: 5px;
+}
+
+.contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails .reviewComment {
+  background-color: #fff;
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails .commentBtn {
@@ -2244,9 +2261,13 @@ p {
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer {
-  padding-left: 10px !important;
-  padding-right: 0 !important;
+  padding-left: 7px !important;
+  padding-right: 7px !important;
+  padding-top: 7px;
+  padding-bottom: 7px;
   margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 5px;
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer:last-child {
@@ -2266,9 +2287,13 @@ p {
   margin-bottom: 3px !important;
 }
 
+.contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer div {
+  margin-top: -8px;
+}
+
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer span {
   color: #808080;
-  font-size: .7rem;
+  font-size: .65rem;
   font-weight: 400;
   display: inline-block;
   border-right: 1px solid #808080;

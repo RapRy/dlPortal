@@ -128,7 +128,7 @@
             </div>
             <div class="reviewsWrapper">
                 <?php
-                    $fetchReviews = "SELECT reviewId, userId, reviewType, reviewDescription, reviewDate FROM reviews WHERE contentId = ?";
+                    $fetchReviews = "SELECT reviewId, userId, reviewType, reviewDescription, reviewDate FROM reviews WHERE contentId = ? AND reviewRef = 0";
                     mysqli_stmt_prepare($stmt, $fetchReviews);
                     mysqli_stmt_bind_param($stmt, "i", $contentId);
                     mysqli_stmt_execute($stmt);

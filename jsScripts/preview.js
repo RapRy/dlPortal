@@ -134,7 +134,7 @@ $('document').ready(function(){
                                                 <div>
                                                     <span class="reviewDate">${month} ${day}, ${year}</span>
                                                     <span class="reviewTime">${hour}:${mins} ${ampm}</span>
-                                                    <button>
+                                                    <button class="commentBtn">
                                                         <i class="fas fa-comment-dots"></i>
                                                         Comment
                                                     </button>
@@ -216,7 +216,7 @@ $('document').ready(function(){
                     <div class="commentFormContainer">
                         <form id="commentForm" name="commentForm">
                             <div class="form-group">
-                                <textarea class="form-control formInputGreen" name="reviewComment" id="reviewComment" rows="4"></textarea>
+                                <textarea class="form-control formInputGreen reviewComment" name="reviewComment" id="reviewComment" rows="4"></textarea>
                             </div>
                             <div class="form-group text-right">
                                 <button type="button" class="btnGreenGradient reviewBtn globalBtn" id="submitCommentBtn">Post Comment</button>

@@ -221,8 +221,9 @@ $('document').ready(function(){
                                 `)
 								
 								activity.data.forEach((val) => {
-									const { activityDate, activityType, activityId, userActivity, userActivityDesc, userId } = val;
+									const { activityDate, activityType, activityId, userActivity, userActivityDesc, userId, contentData } = val;
 									const { hour, minutes, ampm } = activityDate;
+									const { contentId, contentName, folderName, subCatName } = contentData;
 
 									let message = "";
 
@@ -248,7 +249,7 @@ $('document').ready(function(){
 									}else if(activityType == "changePassword"){
 										message = "Changed password.";
 									}else if(activityType == "receiveUpdate"){
-										message = `Changed receiving updates. User now be receiving updates via <span class="activityHighlight">${userActivity}</span>.`
+										message = `Changed receiving updates. User now be receiving updates via <span class="userActivityHighlight">${userActivity}</span>.`
 									}else if(activityType == "subscriptionStatus"){
 										if(userActivityDesc == "userUnsubscribed"){
 											message = `<span class="userUnsub">User unsubscribed to our service</span>`;
@@ -256,6 +257,12 @@ $('document').ready(function(){
 											message = `<span class="userUnsub">Admin unsubscribed user to our service</span>`;
 										}
 										
+									}else if(activityType === "review"){
+										if(userActivity === "mainReview"){
+											message = `Wrote a review about <a class="userActivityHighlight" href="../preview.php?content=${folderName}_${contentId}">${contentName}</a> in <span class="userActivityHighlight2">${subCatName} Category</span>`
+										}else if(userActivity === "subReview"){
+											message = `Wrote a comment on a review about <a class="userActivityHighlight" href="../preview.php?content=${folderName}_${contentId}">${contentName}</a> in <span class="userActivityHighlight2">${subCatName} Category</span>`
+										}
 									}
 
 									$(`#userActivityDescWrap${actI}`).append(`
@@ -651,8 +658,6 @@ $('document').ready(function(){
 
 													// arrow back to normal
 													$(elem).prev().find('.arrowDetails').css({transform: "rotate(0deg)"});
-
-													console.log(elem)
 											}
 
                                         })
