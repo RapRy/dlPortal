@@ -96,6 +96,8 @@ $('document').ready(function(){
             this.contentReview = $('#contentReview')
             this.reviewBtn = $('#submitReviewBtn')
             this.commentBtn = $('.commentBtn')
+            this.reviews = $('.review');
+            this.dlButton = $('#dlButton');
         }
 
         submitReview(){
@@ -161,8 +163,6 @@ $('document').ready(function(){
 
                     const review = $(e.currentTarget).parent().parent().parent().parent().parent().parent();
 
-                    console.log(review.find('.reviewSub'))
-
                     $.ajax({
                         type:'POST',
                         url:'../backend/previewFn.php',
@@ -188,7 +188,7 @@ $('document').ready(function(){
 
                                 const { month, day, year, hour, mins, ampm } = date;
 
-                                reviewSub.append(`
+                                const htmlTemplate = `
                                     <div class="commentContainer col-9">
                                         <h6>${firstName} ${lastName}</h6>
                                         <p>${reviewDesc}</p>
@@ -197,7 +197,14 @@ $('document').ready(function(){
                                             <span class="reviewTime">${hour}:${mins} ${ampm}</span>
                                         </div>
                                     </div>
-                                `)
+                                `
+
+                                if($(reviewSub).find('.viewAllComment').length > 0){
+                                    reviewSub.find('.viewAllComment').before(htmlTemplate);
+                                }else{
+                                    reviewSub.append(htmlTemplate);
+                                }
+            
                             }
                         },
                         error: (err) => console.log(err)
@@ -228,6 +235,54 @@ $('document').ready(function(){
                 this.submitComment()
             })
         }
+
+        hideComments(){
+            $.each(this.reviews, (i, review) => {
+                let commentContainer = $(review).find('.reviewSub').children();
+                let reviewSub = $(review).find('.reviewSub');
+
+                if(commentContainer.length > 2){
+                    $(reviewSub).append(`<button type="button" class="viewAllComment">VIEW ALL COMMENTS</button>`)
+
+                    commentContainer.each(function(i){
+                        if(i > 1){
+                            $(this).css({display:"none"});
+                        }
+                    })
+
+                    $('.viewAllComment').on('click', function(){
+                        $(this).css({display:"none"}).parent().children('.commentContainer').css({display:"block"});
+                        
+                    })
+                }
+            })
+        }
+
+        downloadFile(){
+            this.dlButton.on('click', function(e){
+                e.preventDefault();
+
+                const data = new FormData;
+
+                $.ajax({
+                    type:'POST',
+                    url:'../backend/downloadActivity.php',
+                    data:data,
+                    contentType:false,
+                    processData:false,
+                    beforeSend:() => {
+                        data.append('mainCatName', $('#mainCatName').val())
+                        data.append('contentName', $('#contentName').val())
+                    },
+                    success:(data, textStatus, xhr) => {
+                        if(xhr.status === 200){
+                            window.location.href = `../uploads/contents/${$('#mainCatName').val()}/${$('#subCatName').val()}/${$('#folderName').val()}/${$('#contentFilename').val()}`
+                        }
+                    },
+                    error:(err) => console.log(err)
+                })
+            })
+        }
     }
 
     const screenshots = new Screenshots
@@ -238,4 +293,6 @@ $('document').ready(function(){
     mediaPlayer.mediaPlayerFn();
     reviews.submitReview();
     reviews.showCommentForm();
+    reviews.hideComments();
+    reviews.downloadFile();
 })

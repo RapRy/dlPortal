@@ -1979,36 +1979,37 @@ p {
 
 .viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent {
   padding: 10px;
+  position: relative;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainerViewAdmin {
   padding: 7px 10px;
   background: #fff;
   margin: 0 0 10px !important;
   border-radius: 5px;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer:last-child {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainerViewAdmin:last-child {
   margin: 0 !important;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentNameCont {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainerViewAdmin .contentNameCont {
   padding-right: 0px !important;
   padding-left: 0px !important;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentNameCont .contentName {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainerViewAdmin .contentNameCont .contentName {
   color: #403A3A;
   font-size: .85rem;
   font-weight: 700;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentNameCont .contentFilesize {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainerViewAdmin .contentNameCont .contentFilesize {
   color: #999999;
   font-size: .75rem;
 }
 
-.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainer .contentCta {
+.viewContentsWrapper .contentsWrapper .viewContents .viewContentsContent .contentContainerViewAdmin .contentCta {
   padding-right: 0px !important;
   padding-left: 8px !important;
 }
@@ -2302,6 +2303,12 @@ p {
 
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer span:last-child {
   border: none;
+}
+
+.contentContainer .reviewsContainer .reviewsWrapper .reviewSub .viewAllComment {
+  text-decoration: underline;
+  font-weight: 700;
+  font-size: .7rem;
 }
 
 .contentContainer .videoContainer {

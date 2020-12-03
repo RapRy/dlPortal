@@ -21,6 +21,7 @@
                 $dateMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 
                 $newData = [
+                    "downloadData" => [],
                     "contentData" => [],
                     "activityId" => $activityId,
                     "userId" => $userId,
@@ -65,6 +66,19 @@
 
                     $newData['contentData'] = $contenData;
 
+                }else if($activityType == "contentDownload"){
+                    $stmtContentDL = mysqli_stmt_init($conn);
+                    $queryContentDL = "SELECT contentId, subCatName, folderName FROM contents WHERE contentName = ?";
+                    mysqli_stmt_prepare($stmtContentDL, $queryContentDL);
+                    mysqli_stmt_bind_param($stmtContentDL, "s", $userActivity);
+                    mysqli_stmt_execute($stmtContentDL);
+                    mysqli_stmt_store_result($stmtContentDL);
+                    mysqli_stmt_bind_result($stmtContentDL, $contentId, $subCatName, $folderName);
+                    mysqli_stmt_fetch($stmtContentDL);
+
+                    $contenDataDL = ['contentIdDL' => $contentId, 'contentNameDL' => $userActivity, 'subCatNameDL' => $subCatName, 'folderNameDL' => $folderName];
+
+                    $newData['downloadData'] = $contenDataDL;
                 }
                 
                 array_push($dataContainer, $newData);

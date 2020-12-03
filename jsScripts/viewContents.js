@@ -151,11 +151,11 @@ $('document').ready(function(){
                             $(data).each(function(){
                                 const { contentId, contentName, folderName, contentThumb, contentFilename, contentFileSize } = this
                                 $(contentsParent).append(`
-                                    <div class="contentContainer row align-items-center">
+                                    <div class="contentContainerViewAdmin row align-items-center">
                                         <input type="hidden" value="${contentId}" />
                                         <div class="contentNameCont col-7">
                                             <p class="contentName">${contentName}</p>
-                                            <p class="contentFilesize">File Size: ${String(contentFileSize).substring(0, 2)}</p>
+                                            <p class="contentFilesize">File Size: ${contentFileSize}</p>
                                         </div>
                                         <div class="contentCta col-5">
                                             <a href="" class="btnBlueSolid btnLink contentPreviewBtn">
@@ -193,6 +193,8 @@ $('document').ready(function(){
                 const subCatId = $(e.currentTarget).children('input').val();
                 const catName = $(e.currentTarget).parent().prev().children('h6').text();
                 const subCatName = $(e.currentTarget).children('p').text();
+
+                console.log(contentsParent)
 
                 if($(e.currentTarget).hasClass('activeSub')){
                     return;

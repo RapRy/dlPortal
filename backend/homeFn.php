@@ -36,13 +36,25 @@
 
                     while(mysqli_stmt_fetch($stmtCont)){
 
+                        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+
+                        $bytes = max($contentFileSize, 0); 
+                        $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+                        $pow = min($pow, count($units) - 1); 
+
+                        // Uncomment one of the following alternatives
+                        $bytes /= pow(1024, $pow);
+                        // $bytes /= (1 << (10 * $pow)); 
+
+                        $newFileSize = round($bytes, 2) . ' ' . $units[$pow]; 
+
                         array_push($contentList, 
                             [
                                 "contentId" => $contentId,
                                 "contMainCatName" => $mainCatName,
                                 "contentName" => $contentName,
                                 "folderName" => $folderName,
-                                "contentFileSize" => $contentFileSize,
+                                "contentFileSize" => $newFileSize,
                                 "contentThumb" => $contentThumb
                             ]
                         );

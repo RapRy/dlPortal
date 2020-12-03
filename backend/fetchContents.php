@@ -17,6 +17,18 @@
         if($resultData > 0){
             mysqli_stmt_bind_result($stmt, $contentId, $contentName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
 
+            $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+
+            $bytes = max($contentFileSize, 0); 
+            $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+            $pow = min($pow, count($units) - 1); 
+
+            // Uncomment one of the following alternatives
+            $bytes /= pow(1024, $pow);
+            // $bytes /= (1 << (10 * $pow)); 
+
+            $newFileSize = round($bytes, 2) . ' ' . $units[$pow]; 
+
             $dataContainer = [];
 
             while(mysqli_stmt_fetch($stmt)){
@@ -27,7 +39,7 @@
                         "folderName" => $folderName,
                         "contentThumb" => $contentThumb,
                         "contentFilename" => $contentFilename,
-                        "contentFileSize" => $contentFileSize
+                        "contentFileSize" => $newFileSize
                     ]
                 );
             }

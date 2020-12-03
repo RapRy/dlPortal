@@ -235,7 +235,7 @@ $('document').ready(function(){
                                                         </a>
                                                         <div class="contNameWrap">
                                                             <p>${contentName}</p>
-                                                            <span>${String(contentFileSize).substring(0, 2)} mb</span>
+                                                            <span>${contentFileSize}</span>
                                                         </div>
                                                     </div>
                                                 `)

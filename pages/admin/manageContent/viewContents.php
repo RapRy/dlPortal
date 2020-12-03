@@ -107,16 +107,28 @@
                                             mysqli_stmt_bind_result($stmtContent, $contentId, $contentName, $contentSubCatName, $folderName, $contentThumb, $contentFilename, $contentFileSize);
 
                                             while(mysqli_stmt_fetch($stmtContent)):
-                                                $newFileSize = substr($contentFileSize, 0, 2);
+                                                // $newFileSize = substr($contentFileSize, 0, 2);
+                                                $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+
+                                                $bytes = max($contentFileSize, 0); 
+                                                $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+                                                $pow = min($pow, count($units) - 1); 
+
+                                                // Uncomment one of the following alternatives
+                                                $bytes /= pow(1024, $pow);
+                                                // $bytes /= (1 << (10 * $pow)); 
+
+                                                $newFileSize = round($bytes, 2) . ' ' . $units[$pow]; 
+
                                 ?>
-                                                <div class="contentContainer row align-items-center">
+                                                <div class="contentContainerViewAdmin row align-items-center">
                                                     <input type="hidden" value="<?php echo $contentId; ?>" />
                                                     <div class="contentNameCont col-7">
                                                         <p class="contentName"><?php echo $contentName; ?></p>
-                                                        <p class="contentFilesize">File Size: <?php echo $newFileSize; ?> mb</p>
+                                                        <p class="contentFilesize">File Size: <?php echo $newFileSize; ?></p>
                                                     </div>
                                                     <div class="contentCta col-5">
-                                                        <a href="" class="btnBlueSolid btnLink contentPreviewBtn">
+                                                        <a href="../../preview.php?content=<?php echo $folderName; ?>_<?php echo $contentId; ?>" class="btnBlueSolid btnLink contentPreviewBtn">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                         <a href="./editContent.php?cat=<?php echo $mainCatName; ?>&subCat=<?php echo $contentSubCatName; ?>&contId=<?php echo $contentId; ?>" class="btnBlueSolid btnLink editContentBtn">

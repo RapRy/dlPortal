@@ -210,6 +210,12 @@
                         &:last-child{border:none;}
                     }
                 }
+
+                .viewAllComment{
+                    text-decoration: underline;
+                    font-weight: $r700;
+                    font-size:.7rem;
+                }
             }
         }
     }

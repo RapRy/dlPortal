@@ -221,9 +221,10 @@ $('document').ready(function(){
                                 `)
 								
 								activity.data.forEach((val) => {
-									const { activityDate, activityType, activityId, userActivity, userActivityDesc, userId, contentData } = val;
+									const { activityDate, activityType, activityId, userActivity, userActivityDesc, userId, contentData, downloadData } = val;
 									const { hour, minutes, ampm } = activityDate;
 									const { contentId, contentName, folderName, subCatName } = contentData;
+									const { contentIdDL, contentNameDL, folderNameDL, subCatNameDL } = downloadData
 
 									let message = "";
 
@@ -263,6 +264,8 @@ $('document').ready(function(){
 										}else if(userActivity === "subReview"){
 											message = `Wrote a comment on a review about <a class="userActivityHighlight" href="../preview.php?content=${folderName}_${contentId}">${contentName}</a> in <span class="userActivityHighlight2">${subCatName} Category</span>`
 										}
+									}else if(activityType === "contentDownload"){
+										message = `Downloaded <a class="userActivityHighlight" href="../preview.php?content=${folderNameDL}_${contentIdDL}">${contentNameDL}</a> in <span class="userActivityHighlight2">${subCatNameDL} Category</span>`
 									}
 
 									$(`#userActivityDescWrap${actI}`).append(`

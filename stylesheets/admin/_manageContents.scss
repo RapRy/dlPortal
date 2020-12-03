@@ -460,8 +460,9 @@
 
             .viewContentsContent{
                 padding:10px;
+                position: relative;
 
-                .contentContainer{
+                .contentContainerViewAdmin{
                     padding:7px 10px;
                     background:#fff;
                     margin:0 0 10px !important;

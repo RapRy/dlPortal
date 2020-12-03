@@ -27,15 +27,31 @@
         mysqli_stmt_prepare($stmt, $contentDetails);
         mysqli_stmt_bind_param($stmt, "i", $contentId);
         mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $mainCatId, $subCatName, $mainCatName, $contentName, $folderName, $contentDescription, $contentThumb, $contentFilename, $contentFilseSize);
+        mysqli_stmt_bind_result($stmt, $mainCatId, $subCatName, $mainCatName, $contentName, $folderName, $contentDescription, $contentThumb, $contentFilename, $contentFileSize);
         mysqli_stmt_fetch($stmt);
 
         $mainCatName = str_replace(" ", "", $mainCatName);
         $subCatName = str_replace(" ", "", $subCatName);
 
         $contExt = pathinfo($contentFilename, PATHINFO_EXTENSION);
+        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
+
+        $bytes = max($contentFileSize, 0); 
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
+        $pow = min($pow, count($units) - 1); 
+
+        // Uncomment one of the following alternatives
+        $bytes /= pow(1024, $pow);
+        // $bytes /= (1 << (10 * $pow)); 
+
+        $newFileSize = round($bytes, 2) . ' ' . $units[$pow]; 
     ?>
     <input type="hidden" id="contentId" value="<?php echo $contentId; ?>" />
+    <input type="hidden" id="mainCatName" value="<?php echo $mainCatName; ?>" />
+    <input type="hidden" id="subCatName" value="<?php echo $subCatName; ?>" />
+    <input type="hidden" id="folderName" value="<?php echo $folderName; ?>" />
+    <input type="hidden" id="contentFilename" value="<?php echo $contentFilename; ?>" />
+    <input type="hidden" id="contentName" value="<?php echo $contentName; ?>" />
         <?php
             if($contExt === "mp4"):
         ?>
@@ -241,8 +257,8 @@
         </div>
     </section>
     <section class="downloadContainer">
-        <a href="../uploads/contents/<?php echo "{$mainCatName}/{$subCatName}/{$folderName}/{$contentFilename}"; ?>" class="btnGreenGradient contDlBtn globalBtn">
-            DOWNLOAD (<?php echo $contentFilseSize; ?> mb)
+        <a id="dlButton" href="#" class="btnGreenGradient contDlBtn globalBtn">
+            DOWNLOAD (<?php echo $newFileSize; ?>)
         </a>
     </section>
 </main>

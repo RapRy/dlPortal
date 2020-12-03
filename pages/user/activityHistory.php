@@ -33,6 +33,19 @@
 
 	}
 
+	function fetchContentData($conn, $contentName){
+		$stmtContent = mysqli_stmt_init($conn);
+		$queryContent = "SELECT contentId, subCatName, folderName FROM contents WHERE contentName = ?";
+		mysqli_stmt_prepare($stmtContent, $queryContent);
+		mysqli_stmt_bind_param($stmtContent, "s", $contentName);
+		mysqli_stmt_execute($stmtContent);
+		mysqli_stmt_store_result($stmtContent);
+		mysqli_stmt_bind_result($stmtContent, $contentId, $subCatName, $folderName);
+		mysqli_stmt_fetch($stmtContent);
+
+		return ['contentId' => $contentId, 'subCatName' => $subCatName, 'folderName' => $folderName];
+	}
+
 
 	$stmt = mysqli_stmt_init($conn);
 	$fetchActivities = "SELECT activityId, userId, activityType, userActivity, userActivityDesc, activityDate FROM userslog WHERE userId=? ORDER BY activityDate DESC";
@@ -185,7 +198,13 @@
 										$reviewMes = "You wrote a comment on a review about <a class='activityHighlight' href='../preview.php?content={$data['folderName']}_{$data['contentId']}'>{$data['contentName']}</a> in <span class='activityHighlight2'>{$data['subCatName']} Category</span>";
 									}
 							?>
-								<p><?php echo $reviewMes; ?></p>
+									<p><?php echo $reviewMes; ?></p>
+
+							<?php
+								elseif($data['activityType'] == "contentDownload"):
+									$fetchData = fetchContentData($conn, $data['userActivity']);
+							?>
+									<p>You downloaded <a class='activityHighlight' href='../preview.php?content=<?php echo $fetchData['folderName']; ?>_<?php echo $fetchData['contentId']; ?>'><?php echo $data['userActivity']; ?></a> in <span class='activityHighlight2'><?php echo $fetchData['subCatName']; ?></span> Category.</p>
 							<?php
 								endif;
 							?>
