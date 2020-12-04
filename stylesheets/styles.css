@@ -2073,6 +2073,30 @@ p {
 }
 
 /* end edit sub category */
+/* start add content */
+.addBannerHeader {
+  min-height: 175px;
+}
+
+.addBannerHeader .addBannerPageLogo {
+  position: relative;
+  top: 60px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.addBannerWrapper {
+  padding: 70px 20px 20px;
+}
+
+#bannerAddedNotif {
+  font-size: .9rem;
+  font-weight: 700;
+  color: #207CE8;
+}
+
+/* end add content */
 .contentContainer {
   position: absolute;
   left: 10px;

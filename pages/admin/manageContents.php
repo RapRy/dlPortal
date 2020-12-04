@@ -12,11 +12,24 @@
             <h6>Contents</h6>
         </section>
         <section class="contentBody manageContentBody">
-            <a href="manageContent/addContent.php" class="manageContentBlueBtn" id="addContent">
+            <a href="manageContent/addContent.php" class="manageContentBlueBtn">
                 Add Content
             </a>
-            <a href="manageContent/viewContents.php" class="manageContentGreenBtn" id="viewContents">
+            <a href="manageContent/viewContents.php" class="manageContentGreenBtn">
                 View Contents
+            </a>
+        </section>
+    </section>
+    <section class="addBannersWrapper manageContentBG">
+        <section class="contentHeader manageContentHead">
+            <h6>Content Banners</h6>
+        </section>
+        <section class="contentBody manageContentBody">
+            <a href="manageContent/addBanner.php" class="manageContentBlueBtn">
+                Add Banner
+            </a>
+            <a href="manageContent/viewMainCategories.php" class="manageContentGreenBtn">
+                View Banners
             </a>
         </section>
     </section>
@@ -25,10 +38,10 @@
             <h6>Sub Category</h6>
         </section>
         <section class="contentBody manageContentBody">
-            <a href="manageContent/addSubCategory.php" class="manageContentBlueBtn" id="addContent">
+            <a href="manageContent/addSubCategory.php" class="manageContentBlueBtn">
                 Add Sub Category
             </a>
-            <a href="manageContent/viewSubCategories.php" class="manageContentGreenBtn" id="viewContents">
+            <a href="manageContent/viewSubCategories.php" class="manageContentGreenBtn">
                 View Sub Categories
             </a>
         </section>
@@ -38,10 +51,10 @@
             <h6>Main Category</h6>
         </section>
         <section class="contentBody manageContentBody">
-            <a href="manageContent/addMainCategory.php" class="manageContentBlueBtn" id="addContent">
+            <a href="manageContent/addMainCategory.php" class="manageContentBlueBtn">
                 Add Main Category
             </a>
-            <a href="manageContent/viewMainCategories.php" class="manageContentGreenBtn" id="viewContents">
+            <a href="manageContent/viewMainCategories.php" class="manageContentGreenBtn">
                 View Main Categories
             </a>
         </section>

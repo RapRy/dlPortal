@@ -552,3 +552,26 @@
     padding-bottom:10px;
 }
 /* end edit sub category */
+
+/* start add content */
+.addBannerHeader{
+	min-height:175px;
+	
+	.addBannerPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.addBannerWrapper{
+    padding:70px 20px 20px;
+}
+
+#bannerAddedNotif{
+	font-size:.9rem;
+    font-weight:$r700;
+    color:$blue3;
+}
+/* end add content */
