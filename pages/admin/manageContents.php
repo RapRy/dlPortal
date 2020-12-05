@@ -28,7 +28,7 @@
             <a href="manageContent/addBanner.php" class="manageContentBlueBtn">
                 Add Banner
             </a>
-            <a href="manageContent/viewMainCategories.php" class="manageContentGreenBtn">
+            <a href="manageContent/viewBanners.php" class="manageContentGreenBtn">
                 View Banners
             </a>
         </section>
