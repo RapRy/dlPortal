@@ -48,7 +48,7 @@
                 $insertData = "INSERT INTO featured (contentId, contentName, featureDesc, featureImage) VALUES (?, ?, ?, ?)";
 
                 mysqli_stmt_prepare($stmt, $insertData);
-                mysqli_stmt_bind_param($stmt, "isss", $contentId, $contentName, $fileFinalName, $bannerTagline);
+                mysqli_stmt_bind_param($stmt, "isss", $contentId, $contentName, $bannerTagline, $fileFinalName);
 
                 mysqli_stmt_error($stmt);
 

@@ -2097,6 +2097,197 @@ p {
 }
 
 /* end add content */
+/* start view contents */
+.viewBannersHeader {
+  min-height: 175px;
+}
+
+.viewBannersHeader .viewBannersPageLogo {
+  position: relative;
+  top: 60px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.viewBannersWrapper {
+  padding: 10px 20px 20px;
+}
+
+.viewBannersWrapper .bannersWrapper {
+  padding: 30px 0 20px;
+}
+
+.viewBannersWrapper .bannersWrapper .noResult {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #E24545;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners {
+  background: #F2F2F2;
+  border: 1px solid #E0E0E0;
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners h6 {
+  padding: 10px 10px;
+  border-bottom: 1px solid #E0E0E0;
+  font-size: 1.1rem;
+  color: #403A3A;
+  font-weight: 700;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer {
+  background: #fff;
+  width: initial;
+  margin: 0 10px 10px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  border-radius: 5px;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer .bannerDetailsContainer {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 10px 0;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer .bannerDetailsContainer .bannerName {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  color: #403A3A;
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer .bannerDetailsContainer .deleteBannerBtn {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer .bannerImgContainer {
+  position: relative;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer .bannerImgContainer p {
+  position: absolute;
+  bottom: 35px;
+  left: 15px;
+  width: 50%;
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners .bannerContainer .bannerImgContainer img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.viewBannersWrapper .bannersWrapper .viewBanners > p {
+  text-align: center;
+  font-size: .8rem;
+  color: #E24545;
+  margin-bottom: 10px !important;
+}
+
+/* end view sub category */
+.reviews {
+  padding: 75px 10px;
+}
+
+.reviews .reviewWrap {
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.reviews .reviewWrap:last-child {
+  margin-bottom: 0;
+}
+
+.reviews .reviewWrap .reviewDate {
+  background-color: #45D9E2;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
+.reviews .reviewWrap .reviewDate span {
+  display: block;
+}
+
+.reviews .reviewWrap .reviewDate .reviewDateDate {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: -5px;
+  color: #000;
+}
+
+.reviews .reviewWrap .reviewDate .reviewDateMonth {
+  font-size: .8rem;
+  color: #403A3A;
+}
+
+.reviews .reviewWrap .reviewDate .reviewDateYear {
+  font-size: 1.3rem;
+  color: #403A3A;
+  font-weight: 900;
+  margin-top: -5px;
+}
+
+.reviews .reviewWrap .reviewDesc {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 1px solid #999999;
+}
+
+.reviews .reviewWrap .reviewDesc:first-child {
+  padding-top: 0;
+}
+
+.reviews .reviewWrap .reviewDesc:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.reviews .reviewWrap .reviewDesc .reviewTime {
+  color: #808080;
+  font-size: .7rem;
+}
+
+.reviews .reviewWrap .reviewDesc p {
+  margin: 0;
+  font-size: .8rem;
+  color: #403A3A;
+}
+
+.reviews .reviewWrap .reviewDesc p:last-child {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-style: italic;
+  font-size: .85rem;
+}
+
+.reviews .reviewWrap .reviewDesc p .activityHighlight {
+  color: #207CE8;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.reviews .reviewWrap .reviewDesc p .activityHighlight2 {
+  color: #207CE8;
+  font-weight: 500;
+  line-height: 1;
+}
+
 .contentContainer {
   position: absolute;
   left: 10px;

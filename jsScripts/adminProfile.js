@@ -597,7 +597,8 @@ $('document').ready(function(){
                 // convert first letter to lowercase
                 let spanValue = acctBtnSpan.charAt(0).toLowerCase() + acctBtnSpan.replace(acctBtnSpan.charAt(0), "");
                 // fetch html elements
-                // use the name of the menu as filename of php files
+				// use the name of the menu as filename of php files
+				
                 $.ajax({
                     type:"POST",
                     dataType:"html",

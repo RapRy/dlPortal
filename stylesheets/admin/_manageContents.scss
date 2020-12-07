@@ -575,3 +575,103 @@
     color:$blue3;
 }
 /* end add content */
+
+/* start view contents */
+.viewBannersHeader{
+	min-height:175px;
+	
+	.viewBannersPageLogo{
+		position: relative;
+        top:60px;
+        left:50%;
+        transform: translateX(-50%);
+	}
+}
+
+.viewBannersWrapper{
+    padding:10px 20px 20px;
+
+    .bannersWrapper{
+        padding:30px 0 20px;
+
+        .noResult{
+            text-align: center;
+            font-size:1.3rem;
+            color:$red;
+        }
+
+        .viewBanners{
+            background:$gray6;
+            border:$borderGray5;
+            border-radius:$borderRadius5;
+            box-shadow:$shadowBlack;
+            margin-bottom:20px;
+
+            h6{
+                padding:10px 10px;
+                border-bottom:$borderGray5;
+                font-size:1.1rem;
+                color:$lightBlack;
+                font-weight:$r700;
+            }
+
+            .bannerContainer{
+                background:#fff;
+                width:initial;
+                margin:0 10px 10px !important;
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+                border-radius:$borderRadius5;
+
+                .bannerDetailsContainer{
+                    margin-left: 0 !important;
+                    margin-right: 0 !important;
+                    padding:10px 0;
+
+                    .bannerName{
+                        padding-left:0 !important;
+                        padding-right:0 !important;
+                        color: #403A3A;
+                        font-size: .85rem;
+                        font-weight: 700;
+                    }
+
+                    .deleteBannerBtn{
+                        padding-left:0 !important;
+                        padding-right:0 !important;
+                    }
+                }
+
+                .bannerImgContainer{
+                    position: relative;
+
+                    p{
+                        position: absolute;
+                        bottom:35px;
+                        left:15px;
+                        width:50%;
+                        color: #fff;
+                        font-size: .85rem;
+                        font-weight: 700;
+                        z-index: 2;
+                    }
+
+                    img{
+                        position: absolute;
+                        top:0;
+                        left:0;
+                    }
+                }
+            }
+
+            & > p{
+                text-align: center;
+                font-size:.8rem;
+                color:$red;
+                margin-bottom: 10px !important;
+            }
+        }
+    }
+}
+
+/* end view sub category */
