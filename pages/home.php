@@ -14,7 +14,27 @@
     </section>
     <section class="homeWrapper">
 		<section class="featuredWrapper">
+			<h2>FEATURED</h2>
+			<div class="featuredSlide" id="featuredSlide">
+				<?php
+					$stmtFeatured = mysqli_stmt_init($conn);
+					$fetchFeatured = "SELECT * FROM featured";
 
+					mysqli_stmt_prepare($stmtFeatured, $fetchFeatured);
+					mysqli_stmt_execute($stmtFeatured);
+
+					mysqli_stmt_bind_result($stmtFeatured, $featuredId, $contentId, $contentName, $featureDesc, $featureImage);
+
+					while(mysqli_stmt_fetch($stmtFeatured)):
+				?>
+						<a draggable="false" href="pages/preview.php?content=<?php echo substr($featureImage, 0, strpos($featureImage, "_"))."_".$contentId; ?>" class="featuredImgCont">
+							<p><?php echo $featureDesc; ?></p>
+							<img draggable="false" src="uploads/banners/<?php echo $featureImage; ?>" alt="">
+						</a>
+				<?php
+					endwhile;
+				?>
+			</div>
 		</section>
 		<section class="menuCategoryWrapper container">
 			<?php

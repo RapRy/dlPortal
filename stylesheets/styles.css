@@ -692,9 +692,40 @@ p {
 
 .featuredWrapper {
   width: 100%;
-  height: 200px;
-  background-color: red;
   margin-top: 20px;
+}
+
+.featuredWrapper h2 {
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.featuredWrapper .featuredSlide {
+  padding: 0 20px;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.featuredWrapper .featuredSlide .featuredImgCont {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.featuredWrapper .featuredSlide .featuredImgCont:last-child {
+  margin-right: 0;
+}
+
+.featuredWrapper .featuredSlide .featuredImgCont p {
+  width: 50%;
+  white-space: normal;
+  position: absolute;
+  bottom: 35px;
+  left: 10px;
+  font-size: .8rem;
+  color: #fff;
+  font-weight: 700;
 }
 
 .menuCategoryWrapper {

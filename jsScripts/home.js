@@ -230,7 +230,7 @@ $('document').ready(function(){
                                                 $('.contentsWrap').eq(iSub).append(`
                                                     <div class="content">
                                                         <input type="hidden" value="${contentId}" />
-                                                        <a href="pages/preview.php?content=${folderName}_${contentId}" class="contThumbWrap">
+                                                        <a draggable="false" href="pages/preview.php?content=${folderName}_${contentId}" class="contThumbWrap">
                                                             <img draggable="false" src="uploads/contents/${contMainCatName.replace(" ", "")}/${subCatName.replace(" ", "")}/${folderName}/${contentThumb}" />
                                                         </a>
                                                         <div class="contNameWrap">
@@ -334,7 +334,56 @@ $('document').ready(function(){
         }
     }
 
-    const categories = new Categories;
+    class Featured{
 
+        scrollXEvents(){
+            let mousedown = false;
+            let divPosX = 0;
+            let scrollToLeft = 0;
+
+            $('#featuredSlide').on('mousedown', (e) => {
+                mousedown = true;
+                divPosX = e.pageX - $(e.currentTarget).offset().left;
+                scrollToLeft = $(e.currentTarget).scrollLeft();
+                $(e.currentTarget).css({cursor:"grabbing"})
+
+            }).on('mousemove', (e) => {
+                if(!mousedown) return
+                let posX = e.pageX - $(e.currentTarget).offset().left;
+                let walk = (posX - divPosX) * 2;
+                $(e.currentTarget).scrollLeft(scrollToLeft - walk);
+            }).on('mouseup', (e) => {
+                mousedown = false;
+                scrollToLeft = 0;
+            }).on('mouseleave', (e) => {
+                mousedown = false;
+                scrollToLeft = 0;
+                $(e.currentTarget).css({cursor:"grab"})
+            }).on('touchstart', (e) => {
+                mousedown = true;
+                divPosX = e.pageX - $(e.currentTarget).offset().left;
+                scrollToLeft = $(e.currentTarget).scrollLeft();
+                $(e.currentTarget).css({cursor:"grabbing"})
+            }).on('touchmove', (e) => {
+                if(!mousedown) return
+                let posX = e.pageX - $(e.currentTarget).offset().left;
+                let walk = (posX - divPosX) * 2;
+                $(e.currentTarget).scrollLeft(scrollToLeft - walk);
+            }).on('touchend', (e) => {
+                mousedown = false;
+                scrollToLeft = 0;
+                $(e.currentTarget).css({cursor:"grab"})
+            }).on('touchcancel', (e) => {
+                mousedown = false;
+                scrollToLeft = 0;
+                $(e.currentTarget).css({cursor:"grab"})
+            })
+        }
+    }
+
+    const categories = new Categories;
+    const featured = new Featured;
+
+    featured.scrollXEvents();
     categories.events();
 })
