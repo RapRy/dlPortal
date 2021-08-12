@@ -2326,7 +2326,7 @@ p {
   top: 999px;
   background-color: #fff;
   border-radius: 10px;
-  padding: 10px 20px 20px;
+  padding: 10px 20px 100px;
   -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
           box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
   -webkit-animation: animateContentContainer 500ms ease-in-out 200ms forwards;
@@ -2373,7 +2373,7 @@ p {
 .contentContainer .thumbAndName .name span {
   color: #808080;
   font-weight: 400;
-  font-size: .8rem;
+  font-size: 0.8rem;
   display: block;
 }
 
@@ -2401,20 +2401,20 @@ p {
 
 .contentContainer .description h5 {
   color: #403A3A;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
 .contentContainer .description p {
   font-weight: 300;
-  font-size: .8rem;
+  font-size: 0.8rem;
   line-height: 14px;
   color: #403A3A;
 }
 
 .contentContainer .reviewsContainer h5 {
   color: #403A3A;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
@@ -2455,13 +2455,13 @@ p {
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails h6 {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 700;
   margin-bottom: 5px;
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails p {
-  font-size: .8rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   font-weight: 400;
   margin-bottom: 3px !important;
@@ -2473,7 +2473,7 @@ p {
 
 .contentContainer .reviewsContainer .reviewsWrapper .review .reviewMain .reviewerDetails span {
   color: #808080;
-  font-size: .65rem;
+  font-size: 0.65rem;
   font-weight: 400;
   display: inline-block;
   border-right: 1px solid #808080;
@@ -2488,7 +2488,7 @@ p {
   font-weight: 700;
   background: transparent;
   cursor: pointer;
-  font-size: .7rem;
+  font-size: 0.7rem;
   color: #403A3A;
   margin-right: 3px;
 }
@@ -2522,13 +2522,13 @@ p {
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer h6 {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 700;
   margin-bottom: 5px;
 }
 
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer p {
-  font-size: .8rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   font-weight: 400;
   margin-bottom: 3px !important;
@@ -2540,7 +2540,7 @@ p {
 
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .commentContainer span {
   color: #808080;
-  font-size: .65rem;
+  font-size: 0.65rem;
   font-weight: 400;
   display: inline-block;
   border-right: 1px solid #808080;
@@ -2554,7 +2554,7 @@ p {
 .contentContainer .reviewsContainer .reviewsWrapper .reviewSub .viewAllComment {
   text-decoration: underline;
   font-weight: 700;
-  font-size: .7rem;
+  font-size: 0.7rem;
 }
 
 .contentContainer .videoContainer {
@@ -2578,7 +2578,7 @@ p {
 .contentContainer .videoContainer .videoName span {
   color: #808080;
   font-weight: 400;
-  font-size: .8rem;
+  font-size: 0.8rem;
   display: block;
 }
 
@@ -2602,7 +2602,8 @@ p {
   padding-left: 0;
 }
 
-.contentContainer .controls .fa-play, .contentContainer .controls .fa-pause {
+.contentContainer .controls .fa-play,
+.contentContainer .controls .fa-pause {
   color: #207CE8;
 }
 
@@ -2684,7 +2685,7 @@ p {
 .contentContainer .controls .mediaTimestamp {
   padding-right: 0;
   padding-left: 0;
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #403A3A;
 }
