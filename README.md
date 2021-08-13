@@ -1,5 +1,7 @@
 ### Download Portal
-> This is a project proposal that I been working but it's never been presented and implemented. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend. You can check the video demo and other details below.
+> This is a project proposal that I been working but it's never been presented and implemented. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend. I also developed a react js version of this website. You can check the video demo and other details below.
+
+**React Js Version: [Repository](https://github.com/RapRy/downloadStore-react)**
 
 
 **Demo:** [![](https://i.ibb.co/xStj9Fz/demo-Dl-Portal.jpg)](https://youtu.be/gdCzWNi_GbA)
