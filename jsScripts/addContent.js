@@ -540,7 +540,7 @@ $('document').ready(function(){
                         img.onload = function(){
                             if((this.height > 75 && this.width > 75) || (this.height < 75 && this.width < 75)){
                                 // check image if height and width is not equal to 45px
-                                Notification.domValidate('#contentIcon', "Content icon dimension must be 45x45px", errors, "contentIcon");
+                                Notification.domValidate('#contentIcon', "Content icon dimension must be 75x75px", errors, "contentIcon");
                                 // return the error or return 1
                                 resolve(errors);
                             }else{
