@@ -2,7 +2,7 @@
 > This is a project proposal that I been working but it's never been presented and implemented. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend. You can check the video demo and other details below.
 
 
-**Demo:** [![](https://i.ibb.co/xStj9Fz/demo-Dl-Portal.jpg)](https://drive.google.com/file/d/1m5E2e-VDyT496C_l3So_EspFVLg7wGg2/view?usp=sharing)
+**Demo:** [![](https://i.ibb.co/xStj9Fz/demo-Dl-Portal.jpg)](https://youtu.be/gdCzWNi_GbA)
 
 
 **Database Schema:**
