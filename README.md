@@ -1,5 +1,5 @@
 ### Download Portal
-> This project is only a proposal that is never been presented that is why it's only hosted locally including the database. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend. I created a demo video of this project and I also developed a react version, you can check the link for the demo and the react js version below.
+> This project is only a proposal that is never been presented that is why it's only hosted locally including the database. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend and it is not fully responsive, only has one layout which is mobile. I created a demo video of this project and I also developed a react version, you can check the link for the demo and the react js version below.
 
 #### Demo and Links
 
