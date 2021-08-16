@@ -1,5 +1,5 @@
 ### Download Portal
-> This is a project proposal that I been working but it's never been presented and implemented. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend. I also developed a react js version of this website. You can check the video demo and other details below.
+> This project is only a proposal that is never been presented that is why it's only hosted locally including the database. I built this project using Html5, Sass, and JQuery for the frontend, and PHP, MySql for the backend. I created a demo video of this project and I also developed a react version, you can check the link for the demo and the react js version below.
 
 #### Demo and Links
 
