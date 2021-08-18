@@ -3,7 +3,9 @@
 
 #### Demo and Links
 
-**React Js Version: [Repository](https://github.com/RapRy/downloadStore-react)**
+React Js Version:
+- **[Repo](https://github.com/RapRy/downloadStore-react)**
+- **[Demo](https://downloadstore.netlify.app)**
 
 
 **Demo:** [![](https://i.ibb.co/xStj9Fz/demo-Dl-Portal.jpg)](https://youtu.be/gdCzWNi_GbA)
